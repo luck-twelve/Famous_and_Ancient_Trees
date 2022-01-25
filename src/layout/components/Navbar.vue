@@ -30,7 +30,6 @@ import SkinSelect from '@/components/SkinSelect/index.vue'
 
 import Breadcrumb from './Breadcrumb'
 import Hamburger from './Hamburger'
-import HeaderMenu from './HeaderMenu'
 import UserCard from './UserCard'
 
 import { computed } from 'vue'
