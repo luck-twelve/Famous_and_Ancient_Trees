@@ -1,8 +1,7 @@
 <template>
-  <div class="dashboard-container scroll-y">
-    <Admin v-if="roles.includes('admin')" />
-    <Editor v-else />
-  </div>
+  <!-- <Admin v-if="roles.includes('admin')" />
+  <Editor v-else /> -->
+  <Editor />
 </template>
 
 <script setup>

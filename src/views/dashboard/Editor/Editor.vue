@@ -10,9 +10,7 @@
         <span style="font-size: 20px; padding-top: 20px; display: inline-block">Editor's Dashboard</span>
       </div>
     </div>
-    <div>
-      <img :src="emptyGif" class="emptyGif" />
-    </div>
+    <img :src="emptyGif" class="emptyGif" />
   </div>
 </template>
 
@@ -26,7 +24,7 @@ const state = reactive({
 
 const store = useStore()
 const name = computed(() => {
-  return store.state.user.name
+  return store.state.user.username
 })
 const avatar = computed(() => {
   return store.state.user.avatar

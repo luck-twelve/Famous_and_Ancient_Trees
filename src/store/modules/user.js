@@ -18,10 +18,10 @@ const mutations = {
   },
   M_roles: (state, roles) => {
     state.roles = roles
+  },
+  SET_AVATAR: (state, avatar) => {
+    state.avatar = avatar
   }
-  // SET_AVATAR: (state, avatar) => {
-  //   state.avatar = avatar
-  // }
 }
 
 const actions = {
@@ -49,8 +49,9 @@ const actions = {
     return new Promise((resolve, reject) => {
       getInfoReq()
         .then((response) => {
-          const { data } = response
-          if (!data) {
+          const resData = response.data
+          const { data } = resData
+          if (!resData.flag) {
             return reject('Verification failed, please Login again.')
           }
           //此处模拟数据
@@ -61,10 +62,10 @@ const actions = {
             data.roles = ['admin']
             localStorage.setItem('roles', JSON.stringify(data.roles))
           }
-          const { roles, username } = data
+          const { roles, username, avatar } = data
           commit('M_username', username)
           commit('M_roles', roles)
-          // commit('SET_AVATAR', avatar)
+          commit('SET_AVATAR', avatar)
           resolve(data)
         })
         .catch((error) => {

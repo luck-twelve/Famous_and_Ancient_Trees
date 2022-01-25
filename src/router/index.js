@@ -31,6 +31,7 @@ export const constantRoutes = [
     component: () => import('@/views/error-page/401.vue'),
     hidden: true
   },
+  chartsRouter,
   {
     path: '/',
     component: Layout,
@@ -63,6 +64,7 @@ export const constantRoutes = [
     component: Layout,
     meta: { title: 'Writing Demo', icon: 'eye-open' },
     alwaysShow: true,
+    redirect: 'noRedirect',
     children: [
       {
         path: 'hook',
@@ -75,18 +77,6 @@ export const constantRoutes = [
         component: () => import('@/views/example/vuex-use/VuexUse.vue'),
         name: 'VuexUse',
         meta: { title: 'Vuex-Demo' }
-      },
-      {
-        path: 'mock-test',
-        component: () => import('@/views/example/mock-test/MockTest.vue'),
-        name: 'MockTest',
-        meta: { title: 'Mock-Demo' }
-      },
-      {
-        path: 'svg-icon',
-        component: () => import('@/views/example/svg-icon/SvgIcon.vue'),
-        name: 'SvgIcon',
-        meta: { title: 'Svg-Demo' }
       },
       {
         path: 'parent-children',

@@ -1,6 +1,6 @@
 <template>
   <div :style="{ zIndex: zIndex, height: height, width: width }" class="pan-item">
-    <div class="pan-info">
+    <div class="pan-info rowCE">
       <div class="pan-info-roles-container">
         <slot />
       </div>
@@ -58,7 +58,7 @@ export default {
   border-radius: 50%;
   overflow: hidden;
   position: absolute;
-  transform-origin: 95% 40%;
+  transform-origin: 15% 40%;
   transition: all 0.3s ease-in-out;
 }
 
@@ -132,7 +132,7 @@ export default {
 }
 
 .pan-item:hover .pan-thumb {
-  transform: rotate(-110deg);
+  transform: rotate(-60deg);
 }
 
 .pan-item:hover .pan-info p a {

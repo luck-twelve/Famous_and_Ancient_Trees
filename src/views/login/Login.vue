@@ -116,13 +116,13 @@ let handleLogin = () => {
   let refloginForm = ''
   proxy.$refs['refloginForm'].validate((valid) => {
     if (valid) {
-      titanLoginReq()
+      fatLoginReq()
     } else {
       return false
     }
   })
 }
-let titanLoginReq = () => {
+let fatLoginReq = () => {
   loading.value = true
   let formData = new FormData()
   for (let item in formInline) {
@@ -130,12 +130,12 @@ let titanLoginReq = () => {
   }
   store
     .dispatch('user/login', formData)
-    .then((res) => {
+    .then(() => {
       proxy.$router.push({ path: state.redirect || '/', query: state.otherQuery })
       ElMessage({ message: '登录成功', type: 'success' })
     })
-    .catch((res) => {
-      tipMessage.value = res.msg
+    .catch((error) => {
+      tipMessage.value = error.msg
       proxy.sleepMixin(30).then(() => {
         loading.value = false
       })
