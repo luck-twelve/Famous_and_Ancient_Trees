@@ -2,73 +2,18 @@ export default {
   route: {
     Dashboard: '首页',
 
-    Titan: '泰坦',
-    'Project Management': '项目管理',
-    'Project List': '项目列表',
-    'Vendor Management': '厂商管理',
-    'Asset Management': '资产管理',
-    'Subdomain Name': '子域名',
-    IP: 'IP',
-    Port: '端口',
-    URL: 'URL',
-    'Fingerprint / Vulnerability': '指纹/漏洞',
-    'Gadgets': '小工具',
-    'Segment C / Fofa Query': 'C段/FOFA查询',
-    'Address reverse query IP segment': '地址反查IP段',
-    'Asset Sorting': '资产分拣',
-    'System Management': '系统管理',
-    'Task List': '任务列表',
+    'FA Trees': '名木古树',
     'Operation Log': '操作日志',
     'Change Password': '修改密码',
 
-    'Data Center': '数据中心',
-    'Vulnerability History / Fingerprint Query': '历史漏洞/指纹搜索',
-    'Data Center URL': 'URL',
-    'Data Packet': '数据包',
-
-    EZ: 'EZ',
-    'Client Download': '客户端下载',
-    'Certificate Management': '证书管理',
-    'Use Manual': '使用手册',
-
-    'Community': '社区',
-    'Contribution List': '贡献榜',
-    'Reward Mechanism': '奖励机制',
-    'Contribution Ranking': '贡献排行',
-    'Fingerprint Management': '指纹管理',
-    'Fingerprint Submit': '提交指纹',
-    'Fingerprint List': '指纹列表',
-    'POC Management': 'POC管理',
-    'POC Submit': 'POC提交',
-    'POC List': 'POC列表',
-    'POC Template': 'POC模板',
-
     'Setting Switch': '设置文件测试',
-    ErrorLog: '错误日志',
-    'ErrorLog Test': '错误日志测试',
     Example: '例子',
-    Nested: '路由嵌套',
-    Menu1: '菜单1',
-    'Menu1-1': '菜单 1-1',
-    'Menu1-2': '菜单 1-2',
-    'Menu1-2-1': '菜单 1-2-1',
-    'Menu1-2-2': '菜单 1-2-2',
-    'Menu1-3': '菜单 1-3',
-    menu2: '菜单 2',
-    Table: '表格',
-
-    ExternalLink: '外链',
-
     Charts: '图表',
     'Keyboard Chart': '键盘图表',
     'Line Chart': '折线图',
     'Mix Chart': '混合图表',
     'Echarts Demo': '综合实例',
 
-    CRUD: '增删改查',
-    'CRUD-Demo': '增删改查例子',
-    'Import Export': '导入导出文件',
-    'ImgAdd Pack': '图片上传',
     'Writing Demo': '写法案例',
     'Hook-Demo': 'hooks例子',
     'Vuex-Demo': 'Vuex例子',
@@ -79,15 +24,7 @@ export default {
     'RouterDemo-F': '路由跳转页面1',
     'RouterDemo-S': '路由跳转页面2',
     'Use Example': '使用例子',
-    Tinymce: 'Tinymce富文本',
-    'I18n-Demo': 'i18n例子',
-
-    Permission: '权限',
-    'Role Index': '角色权限',
-    'Page Permission': '角色权限页面',
-    'Directive Permission': '角色指令权限',
-    'Code Index': 'codeArr权限',
-    'Code Page': 'codeArr权限页面'
+    Tinymce: 'Tinymce富文本'
   },
   navbar: {
     dashboard: '首页',
@@ -95,7 +32,7 @@ export default {
     theme: '换肤',
     size: '布局大小',
     changePassword: '修改密码',
-    logOut: '退出登录',
+    logOut: '退出登录'
   },
   'size-menu': {
     default: '大',
@@ -111,27 +48,6 @@ export default {
     any: '随便填',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
-  },
-  tags: {
-    'refresh': '刷新',
-    'close': '关闭',
-    'close-others': '关闭其他',
-    'close-all': '关闭全部'
-  },
-  documentation: {
-    documentation: '文档',
-    github: 'Github 地址'
-  },
-  permission: {
-    addRole: '新增角色',
-    editPermission: '编辑权限',
-    roles: '你的权限',
-    switchRoles: '切换权限',
-    tips:
-      '在某些情况下，不适合使用 v-permission。例如：Element-UI 的 el-tab 或 el-table-column 以及其它动态渲染 dom 的场景。你只能通过手动设置 v-if 来实现。',
-    delete: '删除',
-    confirm: '确定',
-    cancel: '取消'
   },
   guide: {
     description: '引导页对于一些第一次进入项目的人很有用，你可以简单介绍下项目的功能。本 Demo 是基于',
@@ -194,9 +110,6 @@ export default {
   zip: {
     export: '导出',
     placeholder: '请输入文件名(默认file)'
-  },
-  pdf: {
-    tips: '这里使用   window.print() 来实现下载pdf的功能'
   },
   theme: {
     change: '换肤',

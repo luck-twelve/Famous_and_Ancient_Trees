@@ -2,69 +2,18 @@ export default {
   route: {
     Dashboard: 'Dashboard',
 
-    Titan: 'Titan',
-    'Project Management': 'Project Management',
-    'Project List': 'Project List',
-    'Vendor Management': 'Vendor Management',
-    'Asset Management': 'Asset Management',
-    'Subdomain Name': 'Subdomain Name',
-    IP: 'IP',
-    Port: 'Port',
-    'URL': 'URL',
-    'Fingerprint / Vulnerability': 'Fingerprint / Vulnerability',
-    'Gadgets': 'Gadgets',
-    'Segment C / Fofa Query': 'Segment C / Fofa Query',
-    'Address reverse query IP segment': 'Address reverse query IP segment',
-    'Asset Sorting': 'Asset Sorting',
-    'System Management': 'System Management',
-    'Task List': 'Task List',
+    'FA Trees': 'FA Trees',
     'Operation Log': 'Operation Log',
     'Change Password': 'Change Password',
 
-    'Data Center': 'Data Center',
-    'Vulnerability History / Fingerprint Query': 'Vulnerability History / Fingerprint Query',
-    'Data Center URL': 'Data Center URL',
-    'Data Packet': 'Data Packet',
-
-    EZ: 'EZ',
-    'Client Download': 'Client Download',
-    'Certificate Management': 'Certificate Management',
-    'Use Manual': 'Use Manual',
-
-    'Community': 'Community',
-    'Contribution List': 'Contribution List',
-    'Reward Mechanism': 'Reward Mechanism',
-    'Contribution Ranking': 'Contribution Ranking',
-    'Fingerprint Management': 'Fingerprint Managemen',
-    'Fingerprint Submit': 'Fingerprint Submit',
-    'Fingerprint List': 'Fingerprint List',
-    'POC Management': 'POC Management',
-    'POC Submit': 'POC Submit',
-    'POC List': 'POC List',
-    'POC Template': 'POC Template',
-
     'Setting Switch': 'Setting Switch',
-    'Error Log': 'Error Log',
-    'ErrorLog Test': 'ErrorLog Test',
     Example: 'Example',
-    Nested: 'Nested Routes',
-    Menu1: 'Menu1',
-    'Menu1-1': 'Menu 1-1',
-    'Menu1-2': 'Menu 1-2',
-    'Menu1-2-1': 'Menu 1-2-1',
-    'Menu1-2-2': 'Menu 1-2-2',
-    Menu2: 'Menu 2',
-    Table: 'Table',
     Charts: 'Charts',
     'Keyboard Chart': 'Keyboard Chart',
     'Line Chart': 'Line Chart',
     'Mix Chart': 'Mix Chart',
     'Echarts Demo': 'Echarts Demo',
-    ExternalLink: 'External Link',
-    CRUD: 'CRUD',
-    'CRUD-Demo': 'CRUD-Demo',
-    ImportExport: 'Import Export',
-    ImgAddPack: 'ImgAdd Pack',
+
     WritingDemo: 'Writing Demo',
     'Hook-Demo': 'Hook-Demo',
     'Vuex-Demo': 'Vuex-Demo',
@@ -75,14 +24,7 @@ export default {
     'RouterDemo-F': 'RouterDemo-F',
     'RouterDemo-S': 'RouterDemo-S',
     'Use Example': 'Use Example',
-    Tinymce: 'Tinymce',
-    'I18n-Demo': 'I18n Demo',
-    Permission: 'Permission',
-    'Role Index': 'Role Index',
-    'Page Permission': 'Page Permission',
-    'Directive Permission': 'Directive Permission',
-    'Code Index': 'Code Index',
-    'Code Page': 'Code Page'
+    Tinymce: 'Tinymce'
   },
   navbar: {
     dashboard: 'Dashboard',
@@ -106,27 +48,6 @@ export default {
     any: 'any',
     thirdparty: 'Or connect with',
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
-  },
-  tags: {
-    'refresh': 'Refresh',
-    'close': 'Close',
-    'close-others': 'Close Others',
-    'close-all': 'Close All'
-  },
-  documentation: {
-    documentation: 'Documentation',
-    github: 'Github Repository'
-  },
-  permission: {
-    addRole: 'New Role',
-    editPermission: 'Edit',
-    roles: 'Your roles',
-    switchRoles: 'Switch roles',
-    tips:
-      'In some cases, using v-permission will have no effect. For example: Element-UI  el-tab or el-table-column and other scenes that dynamically render dom. You can only do this with v-if.',
-    delete: 'Delete',
-    confirm: 'Confirm',
-    cancel: 'Cancel'
   },
   guide: {
     description:
@@ -191,9 +112,6 @@ export default {
   zip: {
     export: 'Export',
     placeholder: 'Please enter the file name (default file)'
-  },
-  pdf: {
-    tips: 'Here we use window.print() to implement the feature of downloading PDF.'
   },
   theme: {
     change: 'Change Theme',

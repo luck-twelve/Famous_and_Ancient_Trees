@@ -15,11 +15,14 @@
             :closable="false"
           />
           <el-divider content-position="center">顶栏</el-divider>
-          <!-- <el-form-item label="面包屑">
-            <el-switch v-model="store.state.app.settings.showBreadcrumb" />
-          </el-form-item> -->
           <el-form-item label="标题">
             <el-switch v-model="store.state.app.settings.showNavbarTitle" />
+          </el-form-item>
+          <el-form-item label="面包屑">
+            <el-switch v-model="store.state.app.settings.showBreadcrumb" />
+          </el-form-item>
+          <el-form-item label="菜单收回展开按钮">
+            <el-switch v-model="store.state.app.settings.showHamburger" />
           </el-form-item>
           <el-divider content-position="center">侧边栏</el-divider>
           <el-form-item label="Logo">
@@ -27,9 +30,6 @@
           </el-form-item>
           <el-form-item label="菜单">
             <el-switch v-model="store.state.app.settings.showLeftMenu" />
-          </el-form-item>
-          <el-form-item label="菜单展开按钮">
-            <el-switch v-model="store.state.app.settings.showHamburger" />
           </el-form-item>
           <el-divider content-position="center">功能按钮</el-divider>
           <el-form-item label="全屏按钮">

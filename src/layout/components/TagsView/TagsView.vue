@@ -17,10 +17,12 @@
       </router-link>
     </div>
     <ul v-show="visible" :style="{ left: left + 'px', top: top + 'px' }" class="contextmenu">
-      <li @click="refreshSelectedTag(selectedTag)">{{ getI18nName('tags', 'refresh') }}</li>
-      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">{{ getI18nName('tags', 'close') }}</li>
-      <li @click="closeOthersTags">{{ getI18nName('tags', 'close-others') }}</li>
-      <li @click="closeAllTags(selectedTag)">{{ getI18nName('tags', 'close-all') }}</li>
+      <li @click="refreshSelectedTag(selectedTag)">{{ getI18nName('tagsView', 'refresh') }}</li>
+      <li v-if="!isAffix(selectedTag)" @click="closeSelectedTag(selectedTag)">
+        {{ getI18nName('tagsView', 'close') }}
+      </li>
+      <li @click="closeOthersTags">{{ getI18nName('tagsView', 'closeOthers') }}</li>
+      <li @click="closeAllTags(selectedTag)">{{ getI18nName('tagsView', 'closeAll') }}</li>
     </ul>
   </div>
 </template>
