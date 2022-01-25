@@ -9,22 +9,7 @@
 import { computed, onBeforeMount, watch } from 'vue'
 import packageJson from '../package.json'
 import { useStore } from 'vuex'
-import { useRoute, useRouter } from 'vue-router'
 const store = useStore()
-const route = useRoute()
-const router = useRouter()
-watch(
-  route,
-  (val) => {
-    if (val.path == '/') {
-      router.replace({ path: '/dashboard' })
-      return
-    }
-    if (!val.meta.parent) return
-    store.dispatch('permission/setActiveMenu', val.meta.parent)
-  },
-  { deep: true }
-)
 let settings = computed(() => {
   return store.state.app.settings
 })

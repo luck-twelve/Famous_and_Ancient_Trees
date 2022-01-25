@@ -41,7 +41,7 @@ const setting = {
    * @type {boolean} true | false
    * @description Whether show Breadcrumb
    */
-  showBreadcrumb: false,
+  showBreadcrumb: true,
   /**
    * @type {boolean} true | false
    * @description Whether show the settings header-menu

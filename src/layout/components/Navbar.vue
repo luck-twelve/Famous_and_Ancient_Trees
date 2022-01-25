@@ -8,7 +8,7 @@
         @toggle-click="toggleSideBar"
       />
       <breadcrumb v-if="settings.showBreadcrumb" class="breadcrumb-container" />
-      <header-menu v-if="settings.showHeaderMenu" />
+      <!-- <header-menu v-if="settings.showHeaderMenu" /> -->
     </div>
     <!--nav title-->
     <div v-if="settings.showNavbarTitle" class="heardCenterTitle">{{ settings.title }}</div>

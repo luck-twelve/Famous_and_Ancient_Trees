@@ -20,17 +20,9 @@ export default {
 
 <script setup>
 import { Sidebar, Navbar, AppMain, TagsView } from './components'
-import { onBeforeMount, computed } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 const store = useStore()
-
-// get menu
-import { getMenuList } from '@/api/menu'
-onBeforeMount(() => {
-  getMenuList().then(({ data }) => {
-    store.dispatch('permission/setTopMenu', data.data['menuInfo'])
-  })
-})
 
 let opened = computed(() => {
   return store.state.app.sidebar.opened

@@ -15,14 +15,14 @@
         :active-text-color="scssJson.menuActiveText"
         mode="vertical"
       >
-        <sidebar-item v-for="item in leftMenu" :key="item.path" :item="item" :base-path="item.path" />
+        <sidebar-item v-for="item in routes" :key="item.path" :item="item" :base-path="item.path" />
       </el-menu>
     </el-scrollbar>
   </div>
 </template>
 
 <script setup>
-import { computed, watch } from 'vue'
+import { computed } from 'vue'
 import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
 //导入配置文件
@@ -30,8 +30,8 @@ import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 const store = useStore()
 const route = useRoute()
-let leftMenu = computed(() => {
-  return store.state.permission.leftMenu
+let routes = computed(() => {
+  return store.state.permission.routes
 })
 const isCollapse = computed(() => {
   return store.state.app.sidebar.opened

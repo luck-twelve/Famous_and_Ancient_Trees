@@ -69,31 +69,10 @@ export function filterAsyncRoutes(routes, roles) {
 const state = {
   isGetUserInfo: false, // get userInfo
   routes: [], //将过滤后的异步路由和静态路由集合
-  topMenu: [], //顶栏菜单
-  leftMenu: [], //侧栏菜单
-  activeMenu: '', //已选中菜单
   addRoutes: [] //过滤后的异步路由
 }
 
 const actions = {
-  // 切换顶栏菜单
-  setActiveMenu({ commit }, data) {
-    commit('M_activeMenu', data)
-    const children = state.topMenu.find(item => item.name == data)?.child || []
-    commit('M_leftMenu', children)
-  },
-  // 设置顶栏菜单
-  setTopMenu({ commit }, data) {
-    commit('M_topMenu', data)
-    let children = []
-    if (!state.activeMenu) {
-      commit('M_activeMenu', data[0].name)
-      children = data.find(item => item.name == data[0].name)?.child
-    } else {
-      children = data.find(items => items.name == state.activeMenu)?.child
-    }
-    commit('M_leftMenu', children)
-  },
   generateRoutes({ commit }, roles) {
     return new Promise(async (resolve) => {
       let accessedRoutes
@@ -122,15 +101,6 @@ const actions = {
 }
 
 const mutations = {
-  M_activeMenu: (state, data) => {
-    state.activeMenu = data
-  },
-  M_topMenu: (state, routes) => {
-    state.topMenu = routes
-  },
-  M_leftMenu: (state, data) => {
-    state.leftMenu = data
-  },
   M_routes: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)

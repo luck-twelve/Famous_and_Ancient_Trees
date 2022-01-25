@@ -6,10 +6,6 @@
         <transition v-if="settings.mainNeedAnimation" name="fade-transform" mode="out-in">
           <keep-alive :include="cachedViews">
             <div class="app-main-scroll">
-              <!-- <h2 style="text-align: center">
-                <b>{{ getI18nName('route', route.meta.title) }}</b>
-              </h2>
-              <el-divider></el-divider> -->
               <component :is="Component" :key="key" />
             </div>
           </keep-alive>
@@ -17,10 +13,6 @@
         <!-- no transition -->
         <keep-alive v-else :include="cachedViews">
           <div class="app-main-scroll">
-            <!-- <h2 style="text-align: center">
-              <b>{{ getI18nName('route', route.meta.title) }}</b>
-            </h2>
-            <el-divider></el-divider> -->
             <component :is="Component" :key="key" />
           </div>
         </keep-alive>
@@ -38,9 +30,6 @@ let route = useRoute()
 let settings = computed(() => {
   return store.state.app.settings
 })
-
-import useI18n from '@/hooks/useI18n'
-const { getI18nName } = useI18n()
 
 // cachePage: is true, keep-alive this Page
 // leaveRmCachePage: is true, keep-alive remote when page leave

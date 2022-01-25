@@ -57,7 +57,8 @@
     "tests/**/*.tsx",
     "src/settings.ts",
     "src/store/modules/app.js",
-    "src/router/modules/*"
+    "src/router/modules/*",
+    "src/router/index.js"
   ],
   "exclude": ["node_modules"]
 }
