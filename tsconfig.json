@@ -56,7 +56,13 @@
     "tests/**/*.ts",
     "tests/**/*.tsx",
     "src/settings.ts",
-    "src/store/modules/app.js",
+
+    "src/mixins/elementMixin.js",
+    "src/mixins/routerMixin.js",
+    "src/mixins/websocketMixin.js",
+
+    "src/store/modules/*",
+
     "src/router/modules/*",
     "src/router/index.js"
   ],

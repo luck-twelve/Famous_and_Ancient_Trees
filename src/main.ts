@@ -29,8 +29,6 @@ app.use(i18n)
 //global mixin
 import elementMixin from '@/mixins/elementMixin'
 app.mixin(elementMixin)
-import commonMixin from '@/mixins/commonMixin'
-app.mixin(commonMixin)
 import routerMixin from '@/mixins/routerMixin'
 app.mixin(routerMixin)
 //import axios req

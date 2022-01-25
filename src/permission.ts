@@ -8,7 +8,7 @@ import 'nprogress/nprogress.css'
 import getPageTitle from '@/utils/getPageTitle'
 
 const whiteList = ['/login', '/404', '/401'] // no redirect whitelist
-router.beforeEach(async (to, from, next) => {
+router.beforeEach(async (to: any, from, next) => {
   // start progress bar
   if (settings.isNeedNprogress) NProgress.start()
   // set page title
