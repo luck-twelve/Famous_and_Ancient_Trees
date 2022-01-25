@@ -8,7 +8,7 @@
         <el-form label-position="left" label-width="220px" style="margin-right: 20px">
           <!-- <h3>系统布局配置</h3> -->
           <el-alert
-            title="欢迎使用Titan(泰坦)平台"
+            title="欢迎使用FA Trees名木古树管理系统"
             description="本平台仅限使用于已授权项目，否则一切后果自负。
           建议使用火狐浏览器，避免证书错误。"
             type="error"

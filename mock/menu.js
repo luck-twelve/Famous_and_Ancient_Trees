@@ -8,15 +8,6 @@ export default [
             return {
                 code: 20000,
                 data: {
-                    // homeInfo: {
-                    //     href: "welcome",
-                    //     title: "\u9996\u9875"
-                    // },
-                    // logoInfo: {
-                    //     href: "#",
-                    //     image: "/static/images/favicon.jpg",
-                    //     title: "Titan"
-                    // },
                     menuInfo: [
                         {
                             name: "Titan",

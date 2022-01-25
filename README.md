@@ -1,4 +1,4 @@
-# Titan Plus
+# Famous and Ancient Trees
 
 **English** | [中文](./README-zh_CN.md)
 

@@ -21,10 +21,10 @@ export default ({ command, mode }) => {
   * */
   return {
     /*
-     * "/Titan" nginx deploy folder
+     * "/FA Trees" nginx deploy folder
      * detail to look https://vitejs.cn/config/#base
-     * how to config, such as http://117.107.131.20/Titan/#/dashboard
-     * "/Titan/" --> config to base is you need
+     * how to config, such as http://117.107.131.20/FA Trees/#/dashboard
+     * "/FA Trees/" --> config to base is you need
      * http://117.107.131.20 --> if you config "/" , you can visit attached  to http://117.107.131.20
      * */
     base: setting.viteBasePath,
