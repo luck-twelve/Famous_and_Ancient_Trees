@@ -1,0 +1,7 @@
+*.d.ts
+package-lock*
+dist
+public
+node_modules
+.husky
+.history

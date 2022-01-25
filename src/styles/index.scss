@@ -1,0 +1,34 @@
+@import './variables.scss';
+@import './transition.scss';
+@import './scss-suger.scss';
+@import './reset-style.scss';
+@import './elemenet-style-overflow.scss';
+
+//scroll
+@mixin main-show-wh() {
+  /* css 声明 */
+  height: calc(100vh - #{$navBarHeight} - #{$tagViewHeight} - #{$appMainPadding * 2});
+  width: 100%;
+}
+.scroll-y {
+  @include main-show-wh();
+  overflow-y: auto;
+}
+.scroll-x {
+  @include main-show-wh();
+  overflow-x: auto;
+}
+.scroll-xy {
+  @include main-show-wh();
+  overflow: auto;
+}
+
+.nav-svg-icon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.nav-svg-icon:hover {
+  transform: scale(1.2);
+  transition: all 0.1s;
+}
