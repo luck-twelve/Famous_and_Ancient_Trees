@@ -4,6 +4,7 @@
  * Module dependencies.
  */
 
+/* eslint-disable @typescript-eslint/no-var-requires */
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
@@ -81,7 +82,7 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-const open = require('opn');
+// const open = require('opn');
 function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
@@ -90,5 +91,5 @@ function onListening() {
   debug('Listening on ' + bind);
   console.log(`\nYour server port is localhost:${port}\n`);
   // open(`http://localhost:${port}`);
-  open(`http://localhost:5001`);
+  // open(`http://localhost:5001`);
 }
