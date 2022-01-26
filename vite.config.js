@@ -23,7 +23,7 @@ export default ({ command, mode }) => {
     /*
      * "/FA Trees" nginx deploy folder
      * detail to look https://vitejs.cn/config/#base
-     * how to config, such as http://117.107.131.20/FA Trees/#/dashboard
+     * how to config, such as http://117.107.131.20/FATrees/#/dashboard
      * "/FA Trees/" --> config to base is you need
      * http://117.107.131.20 --> if you config "/" , you can visit attached  to http://117.107.131.20
      * */
@@ -45,13 +45,13 @@ export default ({ command, mode }) => {
       open: false, // 类型： boolean | string在服务器启动时自动在浏览器中打开应用程序；
       cors: true, // 类型： boolean | CorsOptions 为开发服务器配置 CORS。默认启用并允许任何源
       //proxy look for https://vitejs.cn/config/#server-proxy
-      // proxy: {
-      //   '/api': {
-      //     target: loadEnv(mode, process.cwd()).VITE_APP_PROXY_URL,
-      //     changeOrigin: true,
-      //     rewrite: (path) => path.replace(/^\/api/, '')
-      //   }
-      // }
+      proxy: {
+        '/api': {
+          target: loadEnv(mode, process.cwd()).VITE_APP_PROXY_URL,
+          changeOrigin: true,
+          rewrite: (path) => path.replace(/^\/api/, '')
+        }
+      }
     },
     plugins: [
       vue(),
@@ -67,17 +67,17 @@ export default ({ command, mode }) => {
         symbolId: 'icon-[dir]-[name]'
       }),
       // https://github.com/anncwb/vite-plugin-mock/blob/HEAD/README.zh_CN.md
-      viteMockServe({
-        supportTs: true,
-        mockPath: 'mock',
-        localEnabled: command === 'serve',
-        prodEnabled: prodMock,
-        injectCode: `
-          import { setupProdMockServer } from './mockProdServer';
-          setupProdMockServer();
-        `,
-        logger: true
-      })
+      // viteMockServe({
+      //   supportTs: true,
+      //   mockPath: 'mock',
+      //   localEnabled: command === 'serve',
+      //   prodEnabled: prodMock,
+      //   injectCode: `
+      //     import { setupProdMockServer } from './mockProdServer';
+      //     setupProdMockServer();
+      //   `,
+      //   logger: true
+      // })
     ],
     build: {
       minify: 'terser',

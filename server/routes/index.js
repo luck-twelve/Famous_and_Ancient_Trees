@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 var express = require('express');
 var router = express.Router();
-var models = require('../db') //引入数据库配置
+var models = require('../config/mysql') //引入数据库配置
 var mysql = require('mysql') //引入mysql
 
 // 连接数据库

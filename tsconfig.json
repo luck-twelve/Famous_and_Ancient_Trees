@@ -64,7 +64,8 @@
     "src/store/modules/*",
 
     "src/router/modules/*",
-    "src/router/index.js"
+    "src/router/index.js",
+    "src/mixins/commonMixin.js"
   ],
   "exclude": ["node_modules"]
 }
