@@ -14,5 +14,13 @@
     "morgan": "~1.9.1",
     "mysql": "^2.18.1",
     "opn": "^6.0.0"
+  },
+  "apidoc": {
+    "name": "example",
+    "version": "1.0.0",
+    "description": "FA Trees API文档",
+    "title": "Famous and Ancient Trees Server API",
+    "url": "https://localhost:3000",
+    "forceLanguage": "zh-cn"
   }
 }

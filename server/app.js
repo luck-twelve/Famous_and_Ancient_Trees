@@ -5,15 +5,10 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-// var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
-// app.use('/', indexRouter);
-// app.use('/users', usersRouter);
-
 var app = express();
 
 // 页面路由
-app.use('/api', require('./routes/index'))
+app.use('/', require('./routes/index'))
 
 //设置跨域访问
 app.all('*', function (req, res, next) {
