@@ -17,7 +17,7 @@
       <SizeSelect v-if="settings.ShowSizeSelect" />
       <LangSelect v-if="settings.ShowLangSelect" />
       <user-card v-if="settings.ShowDropDown"></user-card>
-      <SkinSelect />
+      <LayoutSettings />
     </div>
   </div>
 </template>
@@ -26,7 +26,7 @@
 import SizeSelect from '@/components/SizeSelect/index.vue'
 import LangSelect from '@/components/LangSelect/index.vue'
 import ScreenFull from '@/components/ScreenFull/index.vue'
-import SkinSelect from '@/components/SkinSelect/index.vue'
+import LayoutSettings from '@/components/LayoutSettings/index.vue'
 
 import Breadcrumb from './Breadcrumb'
 import Hamburger from './Hamburger'
