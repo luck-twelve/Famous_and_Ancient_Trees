@@ -9,15 +9,19 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="changePassword">{{ getI18nName('navbar', 'changePassword') }}</el-dropdown-item>
+        <el-dropdown-item @click="dialog.dialogVisible = true">
+          {{ getI18nName('navbar', 'changePassword') }}
+        </el-dropdown-item>
         <el-dropdown-item divided @click="logOut">{{ getI18nName('navbar', 'logOut') }}</el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
+  <sub-pass :dialog-visible="dialog.dialogVisible" @close="closeDialog"></sub-pass>
 </template>
 
 <script setup>
 import { CaretBottom } from '@element-plus/icons-vue'
+import SubPass from './SubPass.vue'
 
 import useI18n from '@/hooks/useI18n'
 const { getI18nName } = useI18n()
@@ -28,13 +32,16 @@ import { useStore } from 'vuex'
 const store = useStore()
 let { proxy } = getCurrentInstance()
 
+import { reactive } from 'vue'
+
 /**
- * 修改密码
+ * 修改密码弹窗
  */
-const changePassword = () => {
-  proxy.$router.replace({
-    path: '/redirect/changePassword'
-  })
+let dialog = reactive({
+  dialogVisible: false
+})
+const closeDialog = () => {
+  dialog.dialogVisible = false
 }
 
 /*

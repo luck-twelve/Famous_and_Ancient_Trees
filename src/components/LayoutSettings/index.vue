@@ -44,6 +44,12 @@
           <el-form-item label="个人信息卡片">
             <el-switch v-model="store.state.app.settings.ShowDropDown" />
           </el-form-item>
+          <el-form-item label="是否显示版本信息">
+            <el-switch v-model="store.state.app.settings.showVersionInfo" />
+          </el-form-item>
+          <el-form-item label="是否显示加载进度条">
+            <el-switch v-model="store.state.app.settings.isNeedNprogress" />
+          </el-form-item>
         </el-form>
       </el-scrollbar>
     </el-drawer>

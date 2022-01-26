@@ -48,20 +48,9 @@ export const constantRoutes = [
     ]
   },
   {
-    path: '/setting-switch',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/setting-switch'),
-        name: 'SettingSwitch',
-        meta: { title: 'Setting Switch', icon: 'example' }
-      }
-    ]
-  },
-  {
     path: '/writing-demo',
     component: Layout,
+    hidden: true,
     meta: { title: 'Writing Demo', icon: 'eye-open' },
     alwaysShow: true,
     redirect: 'noRedirect',

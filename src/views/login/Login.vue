@@ -35,14 +35,6 @@
           </span>
         </div>
       </el-form-item>
-      <el-form-item prop="login_token" :rules="formRulesMixin.isNotNull">
-        <div class="rowSC">
-          <span class="svg-container">
-            <svg-icon icon-class="password" />
-          </span>
-          <el-input v-model="formInline.login_token" type="password" placeholder="Token" @keyup.enter="handleLogin" />
-        </div>
-      </el-form-item>
       <div class="tip-message">{{ tipMessage }}</div>
       <el-button :loading="loading" type="primary" class="login-btn" size="medium" @click.prevent="handleLogin">
         {{ getI18nName('login', 'logIn') }}
@@ -72,10 +64,8 @@ const { getI18nName } = useI18n()
 let { proxy } = getCurrentInstance()
 //form
 let formInline = reactive({
-  username: 'qinrui',
-  password: 'qinrui@kEft04TG',
-  csrf_token: 'qZ2c3ZA2wL',
-  login_token: '945128'
+  username: 'admin',
+  password: '123456'
 })
 let state = reactive({
   otherQuery: {},

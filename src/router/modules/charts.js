@@ -7,6 +7,7 @@ const chartsRouter = {
   component: Layout,
   redirect: 'noRedirect',
   name: 'Charts',
+  hidden: true,
   meta: {
     title: 'Charts',
     icon: 'chart'

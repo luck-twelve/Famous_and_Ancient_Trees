@@ -111,7 +111,7 @@ const setting = {
   /*
    * show the version info
    * */
-  showVersionInfo: true,
+  showVersionInfo: false,
   /*
    * i18n setting default language
    * en/zh
