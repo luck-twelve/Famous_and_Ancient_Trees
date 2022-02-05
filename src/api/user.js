@@ -2,7 +2,7 @@ import request from 'axios'
 
 export function loginReq(data) {
   return request({
-    url: '/user/login',
+    url: '/api/user/login',
     data,
     method: 'post',
     isFormData: true,

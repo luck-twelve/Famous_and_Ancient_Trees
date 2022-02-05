@@ -119,7 +119,7 @@ let fatLoginReq = () => {
     formData.append(item, formInline[item])
   }
   store
-    .dispatch('user/login', formData)
+    .dispatch('/api/user/login', formData)
     .then(() => {
       proxy.$router.push({ path: state.redirect || '/', query: state.otherQuery })
       ElMessage({ message: '登录成功', type: 'success' })
