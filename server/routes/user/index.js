@@ -1,41 +1,53 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-var mysql = require('mysql'); // 引入mysql
-var mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
-var pool = mysql.createPool(mysqlconfig);
-//响应JSON数据
-var responseJSON = function (res, result) {
-    if (typeof result == 'undefined') {
-        res.json({
-            code: "-200",
-            msg: "操作失败"
-        });
-    } else {
-        res.json(result);
-    }
-};
-var userControll = {
-    add: function (req, res, next) {
-        console.log('add')
-    },
-    update: function (req, res, next) {
-        console.log('update')
-    },
-    delete: function (req, res, next) {
-        console.log('delete')
-    },
-    queryById: function (req, res, next) {
-        console.log('queryById')
-    },
-    queryAll: function (req, res, next) {
-        pool.getConnection(function (err, connection) {
-            var params = req.query || req.params; //前端传的参数（暂时写这里，在这个例子中没用）
-            connection.query('SELECT * FROM user', function (err, result) {
-                //将结果以json形式返回到前台
-                responseJSON(res, result);
-                //释放链接
-                connection.release();
-            })
-        })
-    }
-};
-module.exports = userControll;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const userControll = require('./config');
+
+const userApi = (router) => {
+    /* user controller */
+    /**
+     * @api {post} /api/user/login 登录
+     * @apiDescription 登录
+     * @apiName login
+     * @apiGroup User
+     * @apiParam {string} username 用户名
+     * @apiParam {string} password 密码
+     * @apiSuccess {json} result
+     * @apiSuccessExample {json} Success-Response:
+     *  {
+     *      "success" : "true",
+     *      "result" : {
+     *          "username" : "username",
+     *          "password" : "password"
+     *      }
+     *  }
+     * @apiSampleRequest http://localhost:3000/api/user/login
+     * @apiVersion 1.0.0
+     */
+    router.post('/user/login', function (req, res, next) {
+        userControll.queryAll(req, res, next)
+    })
+
+    /**
+     * @api {get} /api/user/getUsers 获取全部用户
+     * @apiDescription 获取全部用户
+     * @apiName getUsers
+     * @apiGroup User
+     * @apiParam {string} username 用户名
+     * @apiParam {string} password 密码
+     * @apiSuccess {json} result
+     * @apiSuccessExample {json} Success-Response:
+     *  {
+     *      "success" : "true",
+     *      "result" : {
+     *          "username" : "username",
+     *          "password" : "password"
+     *      }
+     *  }
+     * @apiSampleRequest http://localhost:3000/api/user/getUsers
+     * @apiVersion 1.0.0
+     */
+    router.get('/user/getUsers', function (req, res, next) {
+        userControll.queryAll(req, res, next)
+    })
+}
+
+module.exports = userApi;
