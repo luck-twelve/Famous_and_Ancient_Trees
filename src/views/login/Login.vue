@@ -114,18 +114,22 @@ let handleLogin = () => {
 }
 let fatLoginReq = () => {
   loading.value = true
-  let formData = new FormData()
-  for (let item in formInline) {
-    formData.append(item, formInline[item])
-  }
+  // let formData = new FormData()
+  // for (let item in formInline) {
+  //   formData.append(item, formInline[item])
+  // }
   store
-    .dispatch('user/login', formData)
+    .dispatch('user/login', formInline)
     .then(() => {
       proxy.$router.push({ path: state.redirect || '/', query: state.otherQuery })
       ElMessage({ message: '登录成功', type: 'success' })
     })
     .catch((error) => {
-      tipMessage.value = error.msg
+      if (error.code === 403) {
+        tipMessage.value = error.msg
+      } else {
+        ElMessage({ message: error.msg, type: 'error' })
+      }
       proxy.sleepMixin(30).then(() => {
         loading.value = false
       })

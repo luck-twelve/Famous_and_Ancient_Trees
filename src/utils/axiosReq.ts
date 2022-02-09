@@ -1,5 +1,6 @@
 import store from '@/store'
 import axios from 'axios'
+import qs from 'qs'
 import { ElLoading, ElMessage, ElMessageBox } from 'element-plus'
 import { getToken, setToken } from '@/utils/auth'
 let reqConfig: any
@@ -150,7 +151,7 @@ export default function axiosReq({
   return service({
     url: url,
     method: method ?? 'get',
-    data: data ?? {},
+    data: qs.stringify(data) ?? {},
     isParams: isParams ?? false,
     bfLoading: bfLoading ?? true,
     afHLoading: afHLoading ?? true,

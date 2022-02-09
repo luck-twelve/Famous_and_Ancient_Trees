@@ -5,7 +5,7 @@ export function loginReq(data) {
     url: '/api/user/login',
     data,
     method: 'post',
-    isFormData: true,
+    // isFormData: false,
     bfLoading: false,
     isAlertErrorMsg: false
   })
@@ -13,15 +13,15 @@ export function loginReq(data) {
 
 export function getInfoReq() {
   return request({
-    url: '/user/getUserInfo',
+    url: '/api/user/getUserInfo',
     bfLoading: false,
-    method: 'post'
+    method: 'get'
   })
 }
 
 export function logoutReq() {
   return request({
-    url: '/user/loginOut',
+    url: '/api/user/logout',
     method: 'post'
   })
 }

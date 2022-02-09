@@ -27,13 +27,13 @@ const mutations = {
 const actions = {
   // user login
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  login({ commit }, data) {
+  login({ commit }, params) {
     return new Promise((resolve, reject) => {
-      loginReq(data)
+      loginReq(params)
         .then(({ data }) => {
-          if (data.code === 20000) {
+          if (data.code === 200) {
             //commit('SET_Token', res.data?.jwtToken)
-            setToken(data.data?.jwtToken)
+            setToken(data.jwtToken)
             resolve()
           } else {
             reject(data)
@@ -51,6 +51,7 @@ const actions = {
         .then((response) => {
           const resData = response.data
           const { data } = resData
+          console.log(data)
           if (!resData.flag) {
             return reject('Verification failed, please Login again.')
           }
