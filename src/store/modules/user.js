@@ -51,18 +51,10 @@ const actions = {
         .then((response) => {
           const resData = response.data
           const { data } = resData
-          console.log(data)
           if (!resData.flag) {
             return reject('Verification failed, please Login again.')
           }
-          //此处模拟数据
-          const rolesArr = localStorage.getItem('roles')
-          if (rolesArr) {
-            data.roles = JSON.parse(rolesArr)
-          } else {
-            data.roles = ['admin']
-            localStorage.setItem('roles', JSON.stringify(data.roles))
-          }
+          data.roles = [data.roles]
           const { roles, username, avatar } = data
           commit('M_username', username)
           commit('M_roles', roles)

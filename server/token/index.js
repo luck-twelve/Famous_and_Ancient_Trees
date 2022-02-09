@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 var jwt = require('jsonwebtoken');
-var jwtScrect = 'zgs_first_token';  //签名
+var jwtScrect = 'famous_and_ancient_trees_token';  //签名
 
 //登录接口 生成token的方法
 var setToken = function (username, uid) {
@@ -21,7 +21,7 @@ var getToken = function (token) {
             })
         } else {
             //第二种  改版后的
-            var info = jwt.verify(token.split(' ')[1], jwtScrect);
+            var info = jwt.verify(token, jwtScrect);
             resolve(info);  //解析返回的值（sign 传入的值）
         }
     })

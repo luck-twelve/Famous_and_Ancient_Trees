@@ -1,9 +1,9 @@
 <template>
   <el-dropdown size="medium" class="ml-2">
     <div class="avatar-wrapper">
-      <img src="@/assets/layout/avatar2.png" class="user-avatar" />
+      <img :src="store.state.user.avatar" class="user-avatar" />
       <div class="user-name">
-        <span>admin</span>
+        <span>{{ store.state.user.username }}</span>
         <CaretBottom class="caret-bottom" />
       </div>
     </div>

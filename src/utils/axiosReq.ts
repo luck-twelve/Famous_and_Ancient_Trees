@@ -72,7 +72,7 @@ service.interceptors.response.use(
     const successCode = '0,200,20000'
     if (successCode.indexOf(code) !== -1) {
       //业务成功处理
-      return res.data
+      return res
     } else {
       //业务失败处理
       if (code === 403) {
@@ -160,6 +160,6 @@ export default function axiosReq({
     isDownLoadFile: isDownLoadFile ?? false,
     isAlertErrorMsg: isAlertErrorMsg ?? true,
     baseURL: baseURL ?? import.meta.env.VITE_APP_BASE_URL, // 设置基本基础url
-    timeout: timeout ?? 15000 // 配置默认超时时间
+    timeout: timeout ?? 10000 // 配置默认超时时间
   })
 }

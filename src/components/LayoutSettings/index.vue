@@ -3,9 +3,9 @@
     <svg-icon class="nav-svg-icon" icon-class="setting" @click="drawer = true" />
   </div>
   <div class="drawer-wrap">
-    <el-drawer v-model="drawer" title="系统布局配置" size="300px">
+    <el-drawer v-model="drawer" title="系统布局配置" size="350px">
       <el-scrollbar>
-        <el-form label-position="left" label-width="220px" style="margin-right: 20px">
+        <el-form label-position="left" label-width="260px" style="margin-right: 20px">
           <!-- <h3>系统布局配置</h3> -->
           <el-alert
             title="欢迎使用FA Trees名木古树管理系统"

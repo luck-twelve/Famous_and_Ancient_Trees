@@ -4,7 +4,7 @@ const userControll = require('./config');
 const userApi = (router) => {
     /* user controller */
     /**
-     * @api {post} /api/user/login 登录
+     * @api {post} /user/login 登录
      * @apiDescription 登录
      * @apiName login
      * @apiGroup User
@@ -27,7 +27,7 @@ const userApi = (router) => {
     })
 
     /**
-     * @api {get} /api/user/getUserInfo 获取用户详细信息
+     * @api {get} /user/getUserInfo 获取用户详细信息
      * @apiDescription 获取用户详细信息
      * @apiName getUserInfo
      * @apiGroup User
@@ -48,7 +48,7 @@ const userApi = (router) => {
     })
 
     /**
-     * @api {get} /api/user/logout 退出登录
+     * @api {post} /user/logout 退出登录
      * @apiDescription 退出登录
      * @apiName logout
      * @apiGroup User
@@ -56,7 +56,7 @@ const userApi = (router) => {
      * @apiSampleRequest http://localhost:3000/api/user/logout
      * @apiVersion 1.0.0
      */
-    router.get('/user/logout', function (req, res, next) {
+    router.post('/user/logout', function (req, res, next) {
         userControll.logout(req, res, next)
     })
 }

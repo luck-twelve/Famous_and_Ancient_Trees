@@ -1,7 +1,6 @@
 <template>
-  <!-- <Admin v-if="roles.includes('admin')" />
-  <Editor v-else /> -->
-  <Editor />
+  <Admin v-if="roles.includes('admin')" />
+  <Editor v-else />
 </template>
 
 <script setup>

@@ -44,7 +44,7 @@ var userControll = {
                         })
                     } else {
                         if (result.length != 0) {
-                            console.log(result)
+                            console.log('登录成功,信息:' + result)
                             //调用生成token的方法
                             vertoken.setToken(result[0].username, result[0].uid).then(token => {
                                 return res.json({
@@ -91,15 +91,16 @@ var userControll = {
         }
     },
     getUserInfo: function (req, res, next) {
-        // console.log(vertoken.getToken())
         pool.getConnection(function (err, connection) {
-            connection.query(sql.queryAll, function (err, result) {
-                //将结果以json形式返回到前台
-                return res.json({
-                    code: 200,
-                    data: result,
-                    msg: "操作成功",
-                    flag: true
+            vertoken.getToken(req.headers['authorize_token']).then(params => {
+                connection.query(sql.getUserInfo, params.uid, function (err, result) {
+                    //将结果以json形式返回到前台
+                    return res.json({
+                        code: 200,
+                        data: result ? result[0] : '',
+                        msg: "操作成功",
+                        flag: true
+                    })
                 })
             })
         })

@@ -1,6 +1,7 @@
 // SQL语句封裝
 var userSqls = {
     login: 'SELECT username,uid FROM user WHERE username=? and password=?',
+    getUserInfo: 'SELECT username,avatar,roles FROM user WHERE uid=?',
     queryAll: 'SELECT * FROM user',
     queryById: 'SELECT * FROM user WHERE uid=?',
     queryByUsername: 'SELECT username FROM user WHERE username=?',

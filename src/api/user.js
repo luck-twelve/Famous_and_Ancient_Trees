@@ -1,8 +1,8 @@
-import request from 'axios'
+import request from '../utils/axiosReq'
 
 export function loginReq(data) {
   return request({
-    url: '/api/user/login',
+    url: '/user/login',
     data,
     method: 'post',
     // isFormData: false,
@@ -13,7 +13,7 @@ export function loginReq(data) {
 
 export function getInfoReq() {
   return request({
-    url: '/api/user/getUserInfo',
+    url: '/user/getUserInfo',
     bfLoading: false,
     method: 'get'
   })
@@ -21,7 +21,7 @@ export function getInfoReq() {
 
 export function logoutReq() {
   return request({
-    url: '/api/user/logout',
+    url: '/user/logout',
     method: 'post'
   })
 }
