@@ -53,7 +53,7 @@ const logOut = () => {
     //record the back point
     proxy.$router.push(`/login?redirect=${proxy.$route.fullPath}`)
     //此处reload清空路由和重置部分状态
-    // location.reload()
+    location.reload()
   })
 }
 </script>

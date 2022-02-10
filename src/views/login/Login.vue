@@ -64,7 +64,7 @@ const { getI18nName } = useI18n()
 let { proxy } = getCurrentInstance()
 //form
 let formInline = reactive({
-  username: 'admin',
+  username: 'Admin',
   password: '123456'
 })
 let state = reactive({
@@ -101,9 +101,7 @@ watch(
 let loading = ref(false)
 let tipMessage = ref('')
 const store = useStore()
-import { loginReq } from '@/api/user'
 let handleLogin = () => {
-  let refloginForm = ''
   proxy.$refs['refloginForm'].validate((valid) => {
     if (valid) {
       fatLoginReq()

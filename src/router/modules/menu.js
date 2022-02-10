@@ -9,13 +9,13 @@ const menuRouter = {
     redirect: 'noRedirect',
     hidden: false,
     alwaysShow: true,
-    meta: { title: 'User', icon: 'user', roles: ['editor'] },
+    meta: { title: 'User', icon: 'user', roles: ['admin'] },
     children: [
         {
             name: 'UserList',
             path: 'user-list',
             component: () => import('@/views/charts/keyboard.vue'),
-            meta: { title: 'User List', icon: 'peoples', noCache: true, roles: ['editor'] }
+            meta: { title: 'User List', icon: 'peoples', noCache: true, roles: ['admin'] }
         }
     ]
 }

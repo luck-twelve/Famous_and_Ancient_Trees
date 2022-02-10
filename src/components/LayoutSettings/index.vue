@@ -8,9 +8,8 @@
         <el-form label-position="left" label-width="260px" style="margin-right: 20px">
           <!-- <h3>系统布局配置</h3> -->
           <el-alert
-            title="欢迎使用FA Trees名木古树管理系统"
-            description="本平台仅限使用于已授权项目，否则一切后果自负。
-          建议使谷歌浏览器，避免证书错误。"
+            title="欢迎使用 FA Trees 名木古树管理系统"
+            description="本平台仅限使用于已授权项目，否则一切后果自负，推荐使用谷歌浏览器。"
             type="error"
             :closable="false"
           />
