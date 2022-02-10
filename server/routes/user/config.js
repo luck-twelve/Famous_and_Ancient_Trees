@@ -45,7 +45,7 @@ var userControll = {
                     } else {
                         if (result.length != 0) {
                             //调用生成token的方法
-                            vertoken.setToken(result[0].username, result[0].uid).then(token => {
+                            vertoken.setToken(result[0].uid, result[0].username).then(token => {
                                 return res.json({
                                     code: 200,
                                     msg: '登录成功',

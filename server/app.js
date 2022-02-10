@@ -38,7 +38,7 @@ app.use(expressJwt({
   secret: 'famous_and_ancient_trees_token', //加密token 校验token时使用
   algorithms: ['HS256']
 }).unless({
-  path: ['/user/register', '/user/login', '/user/logout']  // token验证接口白名单
+  path: ['/user/register', '/user/login']  // token验证接口白名单
 }))
 //设置托管静态目录; 项目根目录+ public.可直接访问public文件下的文件eg:http://localhost:3000/images/url.jpg
 app.use(express.static(path.join(__dirname, 'public')));
