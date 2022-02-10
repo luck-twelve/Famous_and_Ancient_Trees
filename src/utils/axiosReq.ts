@@ -61,10 +61,10 @@ service.interceptors.response.use(
       loadingE.close()
     }
     // direct return, when download file
-    if (reqConfig.isDownLoadFile) {
+    if (reqConfig.isDownLoadFile || !res || !res.data) {
       return res
     }
-    const { flag, msg, code, isNeedUpdateToken, updateToken } = res.data
+    const { flag, msg, code, isNeedUpdateToken, updateToken } = res?.data
     //update token
     if (isNeedUpdateToken) {
       setToken(updateToken)

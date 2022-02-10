@@ -2,13 +2,13 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Layout from '@/layout'
 
 /* Router Modules */
-import chartsRouter from './modules/charts'
+import menuRouter from './modules/menu'
 
 export const constantRoutes = [
   {
     path: '/redirect',
-    component: Layout,
     hidden: true,
+    component: Layout,
     children: [
       {
         path: '/redirect/:path(.*)',
@@ -18,20 +18,19 @@ export const constantRoutes = [
   },
   {
     path: '/login',
-    component: () => import('@/views/login/Login.vue'),
-    hidden: true
+    hidden: true,
+    component: () => import('@/views/login/Login.vue')
   },
   {
     path: '/404',
-    component: () => import('@/views/error-page/404.vue'),
-    hidden: true
+    hidden: true,
+    component: () => import('@/views/error-page/404.vue')
   },
   {
     path: '/401',
-    component: () => import('@/views/error-page/401.vue'),
-    hidden: true
+    hidden: true,
+    component: () => import('@/views/error-page/401.vue')
   },
-  chartsRouter,
   {
     path: '/',
     component: Layout,
@@ -39,61 +38,60 @@ export const constantRoutes = [
     hidden: true,
     children: [
       {
-        path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/index.vue'),
-        //using el svg icon, the elSvgIcon first when at the same time using elSvgIcon and icon
-        meta: { title: 'Dashboard', elSvgIcon: 'Fold', affix: true }
+        path: 'dashboard',
+        meta: { title: 'Dashboard', elSvgIcon: 'Fold', affix: true },
+        component: () => import('@/views/dashboard/index.vue')
       }
     ]
   },
   {
     path: '/writing-demo',
+    meta: { title: 'Writing Demo', icon: 'eye-open' },
     component: Layout,
     hidden: true,
-    meta: { title: 'Writing Demo', icon: 'eye-open' },
     alwaysShow: true,
     redirect: 'noRedirect',
     children: [
       {
-        path: 'hook',
-        component: () => import('@/views/example/hook/Hook.vue'),
         name: 'Hook',
-        meta: { title: 'Hook-Demo' }
+        path: 'hook',
+        meta: { title: 'Hook-Demo' },
+        component: () => import('@/views/example/hook/Hook.vue')
       },
       {
-        path: 'vuex-use',
-        component: () => import('@/views/example/vuex-use/VuexUse.vue'),
         name: 'VuexUse',
-        meta: { title: 'Vuex-Demo' }
+        path: 'vuex-use',
+        meta: { title: 'Vuex-Demo' },
+        component: () => import('@/views/example/vuex-use/VuexUse.vue')
       },
       {
-        path: 'parent-children',
-        component: () => import('@/views/example/parent-children/Parent.vue'),
         name: 'Parent',
-        meta: { title: 'Parent-Children' }
+        path: 'parent-children',
+        meta: { title: 'Parent-Children' },
+        component: () => import('@/views/example/parent-children/Parent.vue')
       },
       {
-        path: 'keep-alive',
-        component: () => import('@/views/example/keep-alive'),
         name: 'KeepAlive',
+        path: 'keep-alive',
         //cachePage: cachePage when page enter, default false
         //leaveRmCachePage: remove cachePage when page leave, default false
-        meta: { title: 'Keep-Alive', cachePage: true, leaveRmCachePage: false }
+        meta: { title: 'Keep-Alive', cachePage: true, leaveRmCachePage: false },
+        component: () => import('@/views/example/keep-alive')
       },
       {
-        path: 'router-demo-f',
         name: 'routerDemoF',
+        path: 'router-demo-f',
+        meta: { title: 'RouterDemo-F', activeMenu: '/writing-demo/keep-alive' },
         hidden: true,
-        component: () => import('@/views/example/keep-alive/RouterDemoF.vue'),
-        meta: { title: 'RouterDemo-F', activeMenu: '/writing-demo/keep-alive' }
+        component: () => import('@/views/example/keep-alive/RouterDemoF.vue')
       },
       {
-        path: 'router-demo-s',
         name: 'routerDemoS',
+        path: 'router-demo-s',
+        meta: { title: 'RouterDemo-S', activeMenu: '/writing-demo/keep-alive' },
         hidden: true,
-        component: () => import('@/views/example/keep-alive/RouterDemoS.vue'),
-        meta: { title: 'RouterDemo-S', activeMenu: '/writing-demo/keep-alive' }
+        component: () => import('@/views/example/keep-alive/RouterDemoS.vue')
       }
     ]
   },
@@ -104,6 +102,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
+  menuRouter,
   { path: '/:pathMatch(.*)', redirect: '/404', hidden: true }
 ]
 

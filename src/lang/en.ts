@@ -6,6 +6,9 @@ export default {
     'Operation Log': 'Operation Log',
     'Change Password': 'Change Password',
 
+    User: 'User',
+    'User List': 'User List',
+
     'Setting Switch': 'Setting Switch',
     Example: 'Example',
     Charts: 'Charts',

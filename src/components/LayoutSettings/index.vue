@@ -10,7 +10,7 @@
           <el-alert
             title="欢迎使用FA Trees名木古树管理系统"
             description="本平台仅限使用于已授权项目，否则一切后果自负。
-          建议使用火狐浏览器，避免证书错误。"
+          建议使谷歌浏览器，避免证书错误。"
             type="error"
             :closable="false"
           />

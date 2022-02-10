@@ -125,10 +125,15 @@ let fatLoginReq = () => {
       ElMessage({ message: '登录成功', type: 'success' })
     })
     .catch((error) => {
-      if (error.code === 403) {
-        tipMessage.value = error.msg
-      } else {
-        ElMessage({ message: error.msg, type: 'error' })
+      if (typeof error !== Object) {
+        error = JSON.parse(error)
+      }
+      if (error.code) {
+        if (error.code === 403) {
+          tipMessage.value = error.msg
+        } else {
+          ElMessage({ message: error.msg, type: 'error' })
+        }
       }
       proxy.sleepMixin(30).then(() => {
         loading.value = false
