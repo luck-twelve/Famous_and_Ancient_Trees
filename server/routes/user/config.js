@@ -85,7 +85,6 @@ var userControll = {
                         }
                     }
                 })
-                connection.release();
             })
         }
     },
@@ -128,8 +127,6 @@ var userControll = {
             connection.query('SELECT * FROM user', function (err, result) {
                 //将结果以json形式返回到前台
                 responseJSON(res, result);
-                //释放链接
-                connection.release();
             })
         })
     },

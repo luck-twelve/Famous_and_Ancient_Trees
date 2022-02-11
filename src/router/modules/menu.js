@@ -15,7 +15,7 @@ const asyncMenus = [
             {
                 name: 'UserList',
                 path: 'user-list',
-                component: () => import('@/views/charts/keyboard.vue'),
+                component: () => import('@/views/mainpages/user/user-list.vue'),
                 meta: { title: 'User List', icon: 'peoples', noCache: true, roles: ['admin'] }
             }
         ]
@@ -32,7 +32,7 @@ const asyncMenus = [
             {
                 name: 'DeclareList',
                 path: 'declare-list',
-                component: () => import('@/views/charts/keyboard.vue'),
+                component: () => import('@/views/mainpages/declare/declare-list.vue'),
                 meta: { title: 'Declare List', icon: 'peoples', noCache: true, roles: ['worker'] }
             }
         ]
@@ -49,7 +49,7 @@ const asyncMenus = [
             {
                 name: 'ArchivesList',
                 path: 'archives-list',
-                component: () => import('@/views/charts/keyboard.vue'),
+                component: () => import('@/views/mainpages/archives/archives-list.vue'),
                 meta: { title: 'Archives List', icon: 'peoples', noCache: true, roles: ['worker'] }
             }
         ]
@@ -66,7 +66,7 @@ const asyncMenus = [
             {
                 name: 'CuringList',
                 path: 'curing-list',
-                component: () => import('@/views/charts/keyboard.vue'),
+                component: () => import('@/views/mainpages/curing/curing-list.vue'),
                 meta: { title: 'Curing List', icon: 'peoples', noCache: true, roles: ['worker', 'people'] }
             }
         ]
@@ -78,7 +78,7 @@ const asyncMenus = [
             {
                 name: 'Abnormal',
                 path: '/abnormal',
-                component: () => import('@/views/charts/keyboard.vue'),
+                component: () => import('@/views/mainpages/abnormal/index.vue'),
                 meta: { title: 'Abnormal', icon: 'peoples', noCache: true, roles: ['worker', 'people'] }
             }
         ]
