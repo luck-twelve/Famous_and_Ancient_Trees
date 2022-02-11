@@ -2,22 +2,88 @@
 
 import Layout from '@/layout'
 
-const menuRouter = {
-    name: 'User',
-    path: '/user',
-    component: Layout,
-    redirect: 'noRedirect',
-    hidden: false,
-    alwaysShow: true,
-    meta: { title: 'User', icon: 'user', roles: ['admin'] },
-    children: [
-        {
-            name: 'UserList',
-            path: 'user-list',
-            component: () => import('@/views/charts/keyboard.vue'),
-            meta: { title: 'User List', icon: 'peoples', noCache: true, roles: ['admin'] }
-        }
-    ]
-}
+const asyncMenus = [
+    {
+        name: 'User',
+        path: '/user',
+        component: Layout,
+        redirect: 'noRedirect',
+        hidden: false,
+        alwaysShow: true,
+        meta: { title: 'User', icon: 'user', roles: ['admin'] },
+        children: [
+            {
+                name: 'UserList',
+                path: 'user-list',
+                component: () => import('@/views/charts/keyboard.vue'),
+                meta: { title: 'User List', icon: 'peoples', noCache: true, roles: ['admin'] }
+            }
+        ]
+    },
+    {
+        name: 'Declare',
+        path: '/declare',
+        component: Layout,
+        redirect: 'noRedirect',
+        hidden: false,
+        alwaysShow: true,
+        meta: { title: 'Declare', icon: 'user', roles: ['worker'] },
+        children: [
+            {
+                name: 'DeclareList',
+                path: 'declare-list',
+                component: () => import('@/views/charts/keyboard.vue'),
+                meta: { title: 'Declare List', icon: 'peoples', noCache: true, roles: ['worker'] }
+            }
+        ]
+    },
+    {
+        name: 'Archives',
+        path: '/archives',
+        component: Layout,
+        redirect: 'noRedirect',
+        hidden: false,
+        alwaysShow: true,
+        meta: { title: 'Archives', icon: 'user', roles: ['worker'] },
+        children: [
+            {
+                name: 'ArchivesList',
+                path: 'archives-list',
+                component: () => import('@/views/charts/keyboard.vue'),
+                meta: { title: 'Archives List', icon: 'peoples', noCache: true, roles: ['worker'] }
+            }
+        ]
+    },
+    {
+        name: 'Curing',
+        path: '/curing',
+        component: Layout,
+        redirect: 'noRedirect',
+        hidden: false,
+        alwaysShow: true,
+        meta: { title: 'Curing', icon: 'user', roles: ['worker', 'people'] },
+        children: [
+            {
+                name: 'CuringList',
+                path: 'curing-list',
+                component: () => import('@/views/charts/keyboard.vue'),
+                meta: { title: 'Curing List', icon: 'peoples', noCache: true, roles: ['worker', 'people'] }
+            }
+        ]
+    },
+    {
+        title: 'Abnormal',
+        component: Layout,
+        children: [
+            {
+                name: 'Abnormal',
+                path: '/abnormal',
+                component: () => import('@/views/charts/keyboard.vue'),
+                meta: { title: 'Abnormal', icon: 'peoples', noCache: true, roles: ['worker', 'people'] }
+            }
+        ]
+    }
 
-export default menuRouter
+]
+
+export default asyncMenus

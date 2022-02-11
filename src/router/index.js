@@ -2,7 +2,7 @@ import { createRouter, createWebHashHistory } from 'vue-router'
 import Layout from '@/layout'
 
 /* Router Modules */
-import menuRouter from './modules/menu'
+import asyncMenus from './modules/menu'
 
 export const constantRoutes = [
   {
@@ -102,7 +102,7 @@ export const constantRoutes = [
  * the routes that need to be dynamically loaded based on user roles
  */
 export const asyncRoutes = [
-  menuRouter,
+  ...asyncMenus,
   { path: '/:pathMatch(.*)', redirect: '/404', hidden: true }
 ]
 

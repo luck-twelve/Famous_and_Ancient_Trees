@@ -37,13 +37,25 @@ var vertoken = require('../../token')
 var menuControll = {
     getAllMenu: function (req, res, next) {
         pool.getConnection(function (err, connection) {
+            connection.query(sql.getAllMenu, function (err, result) {
+                //将结果以json形式返回到前台
+                responseJSON(res, result);
+                //释放链接
+                connection.release();
+            })
+        })
+    },
+    getMenus: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
             vertoken.getToken(req.headers['authorize_token']).then(token => {
                 connection.query(sql.getUserInfo, token.uid, function (err, info) {
                     connection.query(sql.getAllMenu, function (err, result) {
-                        //将结果以json形式返回到前台
-                        responseJSON(res, toTrees(result, info[0].roles));
-                        //释放链接
-                        connection.release();
+                        return res.json({
+                            code: 200,
+                            msg: '操作成功',
+                            data: toTrees(result, info?.[0].roles),
+                            flag: true
+                        })
                     })
                 })
             })

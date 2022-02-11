@@ -8,6 +8,13 @@ export default {
 
     User: 'User',
     'User List': 'User List',
+    Declare: 'Declare',
+    'Declare List': 'Declare List',
+    Archives: 'Archives',
+    'Archives List': 'Archives List',
+    Curing: 'Curing',
+    'Curing List': 'Curing List',
+    Abnormal: 'Abnormal',
 
     'Setting Switch': 'Setting Switch',
     Example: 'Example',

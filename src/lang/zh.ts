@@ -8,6 +8,13 @@ export default {
 
     User: '用户管理',
     'User List': '用户列表',
+    Declare: '申报管理',
+    'Declare List': '申报列表',
+    Archives: '档案管理',
+    'Archives List': '档案列表',
+    Curing: '养护上报',
+    'Curing List': '养护列表',
+    Abnormal: '异常上报',
 
     'Setting Switch': '设置文件测试',
     Example: '例子',
