@@ -37,7 +37,7 @@ import { reactive } from 'vue'
 /**
  * 修改密码弹窗
  */
-let dialog = reactive({
+const dialog = reactive({
   dialogVisible: false
 })
 const closeDialog = () => {

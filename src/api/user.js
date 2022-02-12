@@ -19,6 +19,14 @@ export function getInfoReq() {
   })
 }
 
+export function passChangeReq() {
+  return request({
+    url: '/user/updateUserPassword',
+    bfLoading: false,
+    method: 'post'
+  })
+}
+
 export function logoutReq() {
   return request({
     url: '/user/logout',
