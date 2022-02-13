@@ -21,23 +21,6 @@ const asyncMenus = [
         ]
     },
     {
-        name: 'Declare',
-        path: '/declare',
-        component: Layout,
-        redirect: 'noRedirect',
-        hidden: false,
-        alwaysShow: true,
-        meta: { title: 'Declare', icon: 'declare', roles: ['worker'] },
-        children: [
-            {
-                name: 'DeclareList',
-                path: 'declare-list',
-                component: () => import('@/views/mainpages/declare/declare-list.vue'),
-                meta: { title: 'Declare List', noCache: true, roles: ['worker'] }
-            }
-        ]
-    },
-    {
         name: 'Archives',
         path: '/archives',
         component: Layout,
@@ -51,6 +34,23 @@ const asyncMenus = [
                 path: 'archives-list',
                 component: () => import('@/views/mainpages/archives/archives-list.vue'),
                 meta: { title: 'Archives List', noCache: true, roles: ['worker'] }
+            }
+        ]
+    },
+    {
+        name: 'Declare',
+        path: '/declare',
+        component: Layout,
+        redirect: 'noRedirect',
+        hidden: false,
+        alwaysShow: true,
+        meta: { title: 'Declare', icon: 'declare', roles: ['worker'] },
+        children: [
+            {
+                name: 'DeclareList',
+                path: 'declare-list',
+                component: () => import('@/views/mainpages/declare/declare-list.vue'),
+                meta: { title: 'Declare List', noCache: true, roles: ['worker'] }
             }
         ]
     },

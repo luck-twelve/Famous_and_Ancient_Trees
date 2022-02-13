@@ -3,17 +3,7 @@ const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
 var pool = mysql.createPool(mysqlconfig);
-//响应JSON数据
-var responseJSON = function (res, result) {
-    if (typeof result == 'undefined') {
-        res.json({
-            code: "-200",
-            msg: "操作失败"
-        });
-    } else {
-        res.json(result);
-    }
-};
+
 //引入token 
 var vertoken = require('../../token')
 var userControll = {
@@ -92,7 +82,6 @@ var userControll = {
         pool.getConnection(function (err, connection) {
             vertoken.getToken(req.headers['authorize_token']).then(params => {
                 connection.query(sql.getUserInfo, params.uid, function (err, result) {
-                    //将结果以json形式返回到前台
                     return res.json({
                         code: 200,
                         data: result ? result[0] : '',
@@ -110,25 +99,37 @@ var userControll = {
             flag: true
         })
     },
-    add: function (req, res, next) {
-        console.log('add')
-    },
-    update: function (req, res, next) {
-        console.log('update')
-    },
-    delete: function (req, res, next) {
-        console.log('delete')
-    },
-    queryById: function (req, res, next) {
-        console.log('queryById')
-    },
-    queryAll: function (req, res, next) {
+    getUserList: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            connection.query('SELECT * FROM user', function (err, result) {
-                //将结果以json形式返回到前台
-                responseJSON(res, result);
+            let reqsql = ''
+            let params = []
+            if (req.body.username && req.body.roles) {
+                reqsql = sql.getUsersByNR
+                params = [req.body.username, req.body.roles]
+            } else if (req.body.username && !req.body.roles) {
+                reqsql = sql.getUsersByName
+                params = [req.body.username]
+            } else if (!req.body.username && req.body.roles) {
+                reqsql = sql.getUsersByRoles
+                params = [req.body.roles]
+            } else {
+                reqsql = sql.getUsers
+            }
+            connection.query(reqsql, params, function (err, result) {
+                console.log('|---------------------------------------')
+                console.log('|-url: ' + 'getUserList')
+                console.log('|-sql: ' + reqsql)
+                console.log('|-params: ' + JSON.stringify(params))
+                console.log('|-result: ' + JSON.stringify(result))
+                console.log('|---------------------------------------')
+                return res.json({
+                    code: 200,
+                    data: result,
+                    msg: "操作成功",
+                    flag: true
+                })
             })
         })
-    },
+    }
 };
 module.exports = userControll;

@@ -33,3 +33,11 @@ export function logoutReq() {
     method: 'post'
   })
 }
+
+export function getUserListReq(data) {
+  return request({
+    url: '/user/getUserList',
+    method: 'post',
+    data,
+  })
+}

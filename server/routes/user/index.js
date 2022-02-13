@@ -44,6 +44,19 @@ const userApi = (router) => {
     router.post('/user/logout', function (req, res, next) {
         userControll.logout(req, res, next)
     })
+
+    /**
+         * @api {post} /api/user/getUserList 用户列表
+         * @apiDescription 用户列表
+         * @apiName getUserList
+         * @apiGroup User
+         * @apiSampleRequest http://localhost:3000/api/user/getUserList
+         * @apiVersion 1.0.0
+         */
+    router.post('/user/getUserList', function (req, res, next) {
+        userControll.getUserList(req, res, next)
+    })
+
 }
 
 module.exports = userApi;
