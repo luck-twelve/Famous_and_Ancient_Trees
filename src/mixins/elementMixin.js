@@ -63,10 +63,10 @@ const mixin = {
           { required: true, message: '该字段不能为空', trigger: 'blur' },
           { min: 17, max: 17, message: '长度为17个字符', trigger: 'blur' }
         ],
-        desc: [{ validator: validatePass, trigger: 'blur' }],
+        desc: [{ required: true, validator: validatePass, trigger: 'blur' }],
         upZeroInt: [{ validator: upZeroInt, trigger: 'blur' }],
         upZeroIntCanNull: [{ validator: upZeroIntCanNull, trigger: 'blur' }],
-        passwordValid: [{ validator: passwordValid, trigger: 'blur' }]
+        passwordValid: [{ validator: passwordValid, trigger: 'change' }]
       },
       /* 时间packing相关*/
       datePickerOptions: {
@@ -176,7 +176,7 @@ const mixin = {
         cancelButtonText: '取消',
         showCancelButton: false,
         type: 'warning'
-      }).catch(() => {})
+      }).catch(() => { })
     },
     /*
      * 确认弹框

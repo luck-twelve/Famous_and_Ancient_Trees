@@ -34,6 +34,7 @@ var archivesControll = {
                 return res.json({
                     code: 200,
                     data: result,
+                    total: result.length,
                     msg: "操作成功",
                     flag: true
                 })

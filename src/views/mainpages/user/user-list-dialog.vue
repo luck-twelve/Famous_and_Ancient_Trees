@@ -17,8 +17,8 @@
       <el-form-item prop="username" label="用户名" :rules="formRulesMixin.isNotNull">
         <el-input v-model="form.username" placeholder="用户名" maxlength="12" show-word-limit clearable />
       </el-form-item>
-      <el-form-item prop="password" label="密码" :rules="formRulesMixin.isNotNull">
-        <el-input v-model="form.password" type="password" placeholder="密码" maxlength="12" show-password clearable />
+      <el-form-item prop="password" label="密码" :rules="[...formRulesMixin.desc, ...formRulesMixin.passwordValid]">
+        <el-input v-model="form.password" type="password" placeholder="密码" maxlength="18" show-password clearable />
       </el-form-item>
       <el-form-item prop="avatar" label="头像">
         <!-- action="http://localhost:3000/api/file/setAvatar" -->

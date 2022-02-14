@@ -44,7 +44,7 @@ const getBreadcrumb = () => {
   const first = matched[0]
   if (!isDashboard(first)) {
     //it can replace the first page if not exits
-    matched = [{ path: '/', meta: { title: 'Dashboard' } }].concat(matched)
+    matched = [{ path: '/dashboard', meta: { title: 'Dashboard' } }].concat(matched)
   }
   levelList.value = matched.filter((item) => item.meta && item.meta.title && item.meta.breadcrumb !== false)
 }

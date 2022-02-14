@@ -51,7 +51,8 @@ const logOut = () => {
   store.dispatch('user/logout').then(() => {
     ElMessage({ message: '退出登录成功', type: 'success' })
     //record the back point
-    proxy.$router.push(`/login?redirect=${proxy.$route.fullPath}`)
+    // proxy.$router.push(`/login?redirect=${proxy.$route.fullPath}`)
+    proxy.$router.push('/login')
     //此处reload清空路由和重置部分状态
     location.reload()
   })

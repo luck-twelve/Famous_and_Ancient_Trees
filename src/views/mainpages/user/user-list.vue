@@ -7,9 +7,7 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="roles">
-        <el-input v-model="formInline.roles" clearable>
-          <template #prepend>用户权限</template>
-        </el-input>
+        <tt-select v-model="formInline.roles" label="用户权限" :options="rolesOptions"></tt-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
@@ -48,6 +46,7 @@
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount } from 'vue'
 import { getUserListReq, deleteUserReq } from '@/api/user'
+import TtSelect from '@/components/tt-components/select'
 import TtTable from '@/components/tt-components/table'
 import UserListDialog from './user-list-dialog.vue'
 
@@ -58,6 +57,11 @@ const formInline = reactive({
   username: '',
   roles: ''
 })
+const rolesOptions = [
+  { label: '管理员', value: 'admin' },
+  { label: '工作人员', value: 'worker' },
+  { label: '普通用户', value: 'people' }
+]
 const handleSearch = () => {
   fetchData(formInline)
 }
