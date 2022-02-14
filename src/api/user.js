@@ -41,3 +41,11 @@ export function getUserListReq(data) {
     method: 'post',
   })
 }
+
+export function addUserReq(data) {
+  return request({
+    url: '/user/addUser',
+    data,
+    method: 'post',
+  })
+}

@@ -132,6 +132,23 @@ var userControll = {
                 })
             })
         })
+    },
+    addUser: function (req, res, next) {
+        const params = [];
+        params[0] = req.body.username
+        params[1] = req.body.password
+        params[2] = req.body.avatar
+        params[3] = req.body.roles
+        pool.getConnection(function (err, connection) {
+            connection.query(sql.addUser, params, function (err, result) {
+                console.log(result)
+                return res.json({
+                    code: 200,
+                    msg: "操作成功",
+                    flag: true
+                })
+            })
+        })
     }
 };
 module.exports = userControll;

@@ -57,6 +57,17 @@ const userApi = (router) => {
         userControll.getUserList(req, res, next)
     })
 
+    /**
+         * @api {post} /api/user/addUser 新增用户
+         * @apiDescription 新增用户
+         * @apiName addUser
+         * @apiGroup User
+         * @apiSampleRequest http://localhost:3000/api/user/addUser
+         * @apiVersion 1.0.0
+         */
+    router.post('/user/addUser', function (req, res, next) {
+        userControll.addUser(req, res, next)
+    })
 }
 
 module.exports = userApi;

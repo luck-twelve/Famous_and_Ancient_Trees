@@ -1,6 +1,6 @@
 <template>
   <el-dialog v-if="visable" v-model="visable" title="新增用户" width="400px" :before-close="handleClose">
-    <el-form v-if="visable" :model="form" :rules="formRulesMixin" label-width="80px">
+    <el-form v-if="visable" ref="dialogForm" :model="form" :rules="formRulesMixin" label-width="80px">
       <el-form-item prop="username" label="用户名" :rules="formRulesMixin.isNotNull">
         <div class="rowSC">
           <el-input v-model="form.username" placeholder="用户名" />
@@ -37,8 +37,6 @@
             <el-option label="工作人员" value="worker"></el-option>
             <el-option label="群众" value="people"></el-option>
           </el-select>
-          <!--占位-->
-          <div class="show-pwd" />
         </div>
       </el-form-item>
     </el-form>
@@ -55,6 +53,7 @@
 import { reactive, ref, toRefs, watch, getCurrentInstance } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { addUserReq } from '@/api/user'
 let { proxy } = getCurrentInstance()
 const props = defineProps({
   dialogVisible: {
@@ -84,8 +83,14 @@ const handleClose = () => {
   emit('update:dialogVisible', false)
 }
 const handleCommit = () => {
-  console.log(form)
-  handleClose()
+  proxy.$refs['dialogForm'].validate((valid) => {
+    if (valid) {
+      addUserReq(form)
+      handleClose()
+    } else {
+      return false
+    }
+  })
 }
 
 /**
@@ -94,7 +99,7 @@ const handleCommit = () => {
 const form = reactive({
   username: '',
   password: '',
-  avatar: '',
+  avatar: 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg',
   roles: 'people'
 })
 let pwdType = ref('password')
