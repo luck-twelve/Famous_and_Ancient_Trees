@@ -47,7 +47,7 @@ export default {
   'size-menu': {
     default: 'Large',
     medium: 'Medium',
-    small: 'Default',
+    small: 'Small',
     mini: 'Mini'
   },
   login: {

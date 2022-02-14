@@ -47,7 +47,7 @@ export default {
   'size-menu': {
     default: '大',
     medium: '中',
-    small: '默认',
+    small: '小',
     mini: '超小'
   },
   login: {

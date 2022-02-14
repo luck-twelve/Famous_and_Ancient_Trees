@@ -46,7 +46,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(function (err, req, res, next) {
   // status === 401
   if (err.name === 'UnauthorizedError') {
-    return res.status(401).send('当前token已失效');
+    return res.status(401).send({
+      code: 401,
+      msg: '当前token已失效'
+    });
   }
 });
 

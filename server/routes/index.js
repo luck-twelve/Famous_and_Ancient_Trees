@@ -9,8 +9,10 @@ router.get('/', function (req, res, next) {
 
 const userApi = require('./user')
 const menuApi = require('./menu')
+const archivesApi = require('./archives')
 
-userApi(router);
-menuApi(router);
+userApi(router)
+menuApi(router)
+archivesApi(router)
 
 module.exports = router;

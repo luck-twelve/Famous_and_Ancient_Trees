@@ -116,12 +116,13 @@ var userControll = {
                 reqsql = sql.getUsers
             }
             connection.query(reqsql, params, function (err, result) {
-                console.log('|---------------------------------------')
+                console.log('----------------------------------------')
                 console.log('|-url: ' + 'getUserList')
                 console.log('|-sql: ' + reqsql)
                 console.log('|-params: ' + JSON.stringify(params))
                 console.log('|-result: ' + JSON.stringify(result))
-                console.log('|---------------------------------------')
+                console.log('---------------------------------------')
+                console.log('')
                 return res.json({
                     code: 200,
                     data: result,

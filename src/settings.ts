@@ -121,7 +121,7 @@ const setting = {
    * i18n setting default language
    * en/zh
    * */
-  defaultSize: 'small',
+  defaultSize: 'medium',
   /*
    * vite.config.js base config
    * such as

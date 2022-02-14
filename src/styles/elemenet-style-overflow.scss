@@ -171,3 +171,7 @@
 .el-card__body .el-pagination.is-background .el-pager li {
   background-color: #fff;
 }
+
+.cell .el-button [class*='el-icon'] + span {
+  margin-left: 1px;
+}
