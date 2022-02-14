@@ -1,27 +1,30 @@
 <template>
-  <el-dialog v-if="visable" v-model="visable" title="新增用户" width="400px" :before-close="handleClose">
-    <el-form v-if="visable" ref="dialogForm" :model="form" :rules="formRulesMixin" label-width="80px">
+  <el-dialog
+    v-if="visable"
+    v-model="visable"
+    :title="dialogType === 'add' ? '新增用户' : '编辑信息'"
+    width="450px"
+    :before-close="handleClose"
+  >
+    <el-form
+      v-if="visable"
+      ref="dialogForm"
+      :model="form"
+      :rules="formRulesMixin"
+      label-width="80px"
+      style="padding-right: 20px"
+    >
       <el-form-item prop="username" label="用户名" :rules="formRulesMixin.isNotNull">
-        <div class="rowSC">
-          <el-input v-model="form.username" placeholder="用户名" />
-          <!--占位-->
-          <div class="show-pwd" />
-        </div>
+        <el-input v-model="form.username" placeholder="用户名" maxlength="12" show-word-limit clearable />
       </el-form-item>
       <el-form-item prop="password" label="密码" :rules="formRulesMixin.isNotNull">
-        <div class="rowSC">
-          <el-input ref="pwdRef" v-model="form.password" :type="pwdType" placeholder="密码" />
-          <!--占位-->
-          <span class="show-pwd" @click="showPwd">
-            <svg-icon :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'" />
-          </span>
-        </div>
+        <el-input v-model="form.password" type="password" placeholder="密码" maxlength="12" show-password clearable />
       </el-form-item>
       <el-form-item prop="avatar" label="头像">
+        <!-- action="http://localhost:3000/api/file/setAvatar" -->
         <el-upload
           class="avatar-uploader"
-          action="http://localhost:3000/api/file/setAvatar"
-          thumbnail-mode="true"
+          :thumbnail-mode="true"
           :show-file-list="false"
           :on-success="handleAvatarSuccess"
           :before-upload="beforeAvatarUpload"
@@ -31,13 +34,11 @@
         </el-upload>
       </el-form-item>
       <el-form-item prop="roles" label="用户权限" :rules="formRulesMixin.isNotNull">
-        <div class="rowSC">
-          <el-select v-model="form.roles" placeholder="请选择">
-            <el-option label="管理员" value="admin"></el-option>
-            <el-option label="工作人员" value="worker"></el-option>
-            <el-option label="群众" value="people"></el-option>
-          </el-select>
-        </div>
+        <el-select v-model="form.roles" placeholder="请选择">
+          <el-option label="管理员" value="admin"></el-option>
+          <el-option label="工作人员" value="worker"></el-option>
+          <el-option label="普通用户" value="people"></el-option>
+        </el-select>
       </el-form-item>
     </el-form>
     <template #footer>
@@ -53,40 +54,72 @@
 import { reactive, ref, toRefs, watch, getCurrentInstance } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { addUserReq } from '@/api/user'
+import { addUserReq, updateUserReq } from '@/api/user'
 let { proxy } = getCurrentInstance()
 const props = defineProps({
   dialogVisible: {
     require: true,
     default: false,
     type: Boolean
+  },
+  dialogType: {
+    require: true,
+    default: 'add', // add-edit
+    type: String
+  },
+  dialogData: {
+    default: () => {},
+    type: Object
   }
 })
-const { dialogVisible } = toRefs(props)
+const { dialogVisible, dialogType, dialogData } = toRefs(props)
 const state = reactive({
   visable: dialogVisible.value
 })
-let { visable } = toRefs(state)
 watch(
   dialogVisible,
   (val) => {
     state.visable = val
+    if (val && dialogData.value) {
+      const { uid, username, password, avatar, roles } = dialogData.value
+      form.uid = uid
+      form.username = username
+      form.password = password
+      form.avatar = avatar
+      form.roles = roles
+      imageUrl.value = avatar
+    }
   },
   { immediate: true }
 )
-const emit = defineEmits(['update:dialogVisible'])
+let { visable } = toRefs(state)
+
+const emit = defineEmits(['update:dialogVisible', 'success'])
 const handleClose = () => {
+  form.uid = ''
   form.username = ''
   form.password = ''
   form.avatar = 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg'
   form.roles = 'people'
+  imageUrl.value = ''
   emit('update:dialogVisible', false)
 }
 const handleCommit = () => {
   proxy.$refs['dialogForm'].validate((valid) => {
     if (valid) {
-      addUserReq(form)
-      handleClose()
+      let action = addUserReq
+      if (dialogType.value === 'edit') {
+        action = updateUserReq
+      }
+      action(form).then(({ data }) => {
+        if (data.code === 200) {
+          ElMessage({ message: data.msg, type: 'success' })
+          emit('success')
+          handleClose()
+        } else {
+          ElMessage({ message: data.msg, type: 'error' })
+        }
+      })
     } else {
       return false
     }
@@ -97,6 +130,7 @@ const handleCommit = () => {
  * form表单
  */
 const form = reactive({
+  uid: '',
   username: '',
   password: '',
   avatar: 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg',
@@ -116,9 +150,11 @@ let showPwd = () => {
  */
 const imageUrl = ref('')
 const handleAvatarSuccess = (res, file) => {
-  imageUrl.value = URL.createObjectURL(file.raw)
+  // imageUrl.value = URL.createObjectURL(file.raw)
+  imageUrl.value = 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg'
 }
 const beforeAvatarUpload = (file) => {
+  imageUrl.value = 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg'
   const isJPG = file.type === 'image/jpeg'
   const isLt2M = file.size / 1024 / 1024 < 2
 
@@ -132,18 +168,6 @@ const beforeAvatarUpload = (file) => {
 }
 </script>
 
-<style lang="scss" scoped>
-$bg: #2d3a4b;
-$dark_gray: #889aa4;
-$light_gray: #eee;
-.show-pwd {
-  width: 50px;
-  font-size: 16px;
-  color: $dark_gray;
-  cursor: pointer;
-  text-align: center;
-}
-</style>
 <style>
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;

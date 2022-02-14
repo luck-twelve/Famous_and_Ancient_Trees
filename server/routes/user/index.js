@@ -68,6 +68,30 @@ const userApi = (router) => {
     router.post('/user/addUser', function (req, res, next) {
         userControll.addUser(req, res, next)
     })
+
+    /**
+         * @api {put} /api/user/updateUser 编辑用户
+         * @apiDescription 编辑用户
+         * @apiName updateUser
+         * @apiGroup User
+         * @apiSampleRequest http://localhost:3000/api/user/updateUser
+         * @apiVersion 1.0.0
+         */
+    router.put('/user/updateUser', function (req, res, next) {
+        userControll.updateUser(req, res, next)
+    })
+
+    /**
+         * @api {delete} /api/user/deleteUser 删除用户
+         * @apiDescription 删除用户
+         * @apiName deleteUser
+         * @apiGroup User
+         * @apiSampleRequest http://localhost:3000/api/user/deleteUser
+         * @apiVersion 1.0.0
+         */
+    router.delete('/user/deleteUser', function (req, res, next) {
+        userControll.deleteUser(req, res, next)
+    })
 }
 
 module.exports = userApi;

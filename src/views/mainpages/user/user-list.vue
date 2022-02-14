@@ -21,19 +21,33 @@
       </template>
       <el-table-column label="操作" width="160px" align="center">
         <template #default="{ row }">
-          <el-button type="text" :icon="Edit" @click="handleControll(row)">编辑</el-button>
-          <el-button type="text" :icon="Delete" style="color: red" @click="handleControll(row)">删除</el-button>
+          <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
+          <el-popconfirm
+            :icon="InfoFilled"
+            placement="left"
+            title="删除后将无法恢复，是否确认删除?"
+            @confirm="handleDelete(row)"
+          >
+            <template #reference>
+              <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </tt-table>
   </div>
-  <user-list-dialog v-model:dialogVisible="dialogVisible"></user-list-dialog>
+  <user-list-dialog
+    v-model:dialogVisible="dialogVisible"
+    :dialog-type="dialogType"
+    :dialog-data="dialogData"
+    @success="fetchData"
+  ></user-list-dialog>
 </template>
 
 <script setup>
-import { Search, Plus, Edit, Delete } from '@element-plus/icons-vue'
+import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount } from 'vue'
-import { getUserListReq } from '@/api/user'
+import { getUserListReq, deleteUserReq } from '@/api/user'
 import TtTable from '@/components/tt-components/table'
 import UserListDialog from './user-list-dialog.vue'
 
@@ -62,24 +76,42 @@ const state = reactive({
   listLoading: true
 })
 
-/**
- * 新增弹窗
- */
+// 弹窗
 const dialog = reactive({
-  dialogVisible: false
+  dialogType: 'add',
+  dialogVisible: false,
+  dialogData: {}
 })
-const handleAdd = () => {
-  dialog.dialogVisible = true
-}
-let { dialogVisible } = toRefs(dialog)
 
 /**
- * 操作
+ * 新增
  */
-const handleControll = (row) => {
-  console.log(row.name)
+const handleAdd = () => {
+  dialog.dialogType = 'add'
+  dialog.dialogVisible = true
+  dialog.dialogData = ''
 }
 
+/**
+ * 编辑
+ */
+const handleEdit = (row) => {
+  dialog.dialogType = 'edit'
+  dialog.dialogVisible = true
+  dialog.dialogData = row
+}
+
+/**
+ * 删除
+ */
+const handleDelete = (row) => {
+  deleteUserReq(row.uid).then((res) => {
+    console.log(res)
+    fetchData()
+  })
+}
+
+// 初始化
 onBeforeMount(() => {
   fetchData()
 })
@@ -93,6 +125,7 @@ const fetchData = (params = {}) => {
 }
 
 //导出属性到页面中使用
+let { dialogVisible, dialogType, dialogData } = toRefs(dialog)
 let { list, listLoading, tableColumn } = toRefs(state)
 </script>
 

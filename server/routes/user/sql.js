@@ -7,8 +7,7 @@ var userSqls = {
     getUsersByRoles: 'SELECT uid,username,avatar,roles FROM user WHERE roles=?',
     getUsersByNR: 'SELECT uid,username,avatar,roles FROM user WHERE username=?,roles=?',
     addUser: 'INSERT INTO user(username, password, avatar, roles) VALUES(?,?,?,?)',
-    // insert: 'INSERT INTO user(uid, username, password) VALUES(?,?,?)',
-    // update: 'UPDATE user SET username=?, password=? WHERE uid=?',
-    // delete: 'DELETE FROM user WHERE uid=?'
+    updateUser: 'UPDATE user SET username=?, password=?, avatar=?, roles=? WHERE uid=?',
+    deleteUser: 'DELETE FROM user WHERE uid=?'
 };
 module.exports = userSqls;

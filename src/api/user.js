@@ -49,3 +49,18 @@ export function addUserReq(data) {
     method: 'post',
   })
 }
+
+export function updateUserReq(data) {
+  return request({
+    url: '/user/updateUser',
+    data,
+    method: 'put',
+  })
+}
+
+export function deleteUserReq(data) {
+  return request({
+    url: `/user/deleteUser?uid=${data}`,
+    method: 'delete',
+  })
+}

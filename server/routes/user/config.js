@@ -149,6 +149,49 @@ var userControll = {
                 })
             })
         })
+    },
+    updateUser: function (req, res, next) {
+        const params = [];
+        params[0] = req.body.username
+        params[1] = req.body.password
+        params[2] = req.body.avatar
+        params[3] = req.body.roles
+        params[4] = req.body.uid
+        pool.getConnection(function (err, connection) {
+            connection.query(sql.updateUser, params, function (err, result) {
+                console.log('----------------------------------------')
+                console.log('|-url: ' + 'updateUser')
+                console.log('|-sql: ' + sql.updateUser)
+                console.log('|-params: ' + JSON.stringify(params))
+                console.log('|-result: ' + JSON.stringify(result))
+                console.log('---------------------------------------')
+                console.log('')
+                return res.json({
+                    code: result.changedRows > 0 ? 200 : -200,
+                    msg: result.changedRows > 0 ? "操作成功" : '操作成功',
+                    flag: result.changedRows > 0
+                })
+            })
+        })
+    },
+    deleteUser: function (req, res, next) {
+        const params = [req.query.uid];
+        pool.getConnection(function (err, connection) {
+            connection.query(sql.deleteUser, params, function (err, result) {
+                console.log('----------------------------------------')
+                console.log('|-url: ' + 'deleteUser')
+                console.log('|-sql: ' + sql.deleteUser)
+                console.log('|-params: ' + JSON.stringify(params))
+                console.log('|-result: ' + JSON.stringify(result))
+                console.log('---------------------------------------')
+                console.log('')
+                return res.json({
+                    code: 200,
+                    msg: "操作成功",
+                    flag: true
+                })
+            })
+        })
     }
 };
 module.exports = userControll;
