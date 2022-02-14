@@ -37,7 +37,7 @@ export function logoutReq() {
 export function getUserListReq(data) {
   return request({
     url: '/user/getUserList',
-    method: 'post',
     data,
+    method: 'post',
   })
 }

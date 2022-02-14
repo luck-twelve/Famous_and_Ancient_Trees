@@ -10,9 +10,11 @@ router.get('/', function (req, res, next) {
 const userApi = require('./user')
 const menuApi = require('./menu')
 const archivesApi = require('./archives')
+const fileApi = require('./files')
 
 userApi(router)
 menuApi(router)
 archivesApi(router)
+fileApi(router)
 
 module.exports = router;

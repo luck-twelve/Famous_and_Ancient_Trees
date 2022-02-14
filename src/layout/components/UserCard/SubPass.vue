@@ -51,7 +51,7 @@
   </el-dialog>
 </template>
 
-<script lang="ts" setup>
+<script setup>
 import { reactive, toRefs, ref, getCurrentInstance } from 'vue'
 let { proxy } = getCurrentInstance()
 
@@ -76,8 +76,8 @@ const form = reactive({
 })
 let oldPassType = ref('password')
 let newPassType = ref('password')
-const oldPassRef: any = ref(null)
-const newPassRef: any = ref(null)
+const oldPassRef = ref(null)
+const newPassRef = ref(null)
 let showOldPass = () => {
   oldPassType.value = oldPassType.value === 'password' ? '' : 'password'
   proxy.$nextTick(() => {
