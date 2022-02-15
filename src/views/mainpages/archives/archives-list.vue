@@ -39,8 +39,8 @@ import TtTable from '@/components/tt-components/table'
  * 搜索
  */
 const formInline = reactive({
-  treeName: '树龄',
-  treeType: '树种'
+  treeName: '',
+  treeType: ''
 })
 const handleSearch = () => {
   fetchData(formInline)

@@ -162,7 +162,7 @@ const refreshTable = () => {
  */
 const paginData = reactive({
   pageNum: 1,
-  pageSize: 5
+  pageSize: 10
 })
 const handleSizeChange = (val) => {
   paginData.pageSize = val

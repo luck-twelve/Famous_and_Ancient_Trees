@@ -126,7 +126,7 @@ var userControll = {
                 reqsql = sql.getUsers
             }
             let pageStart = ((req.body.pageNum - 1) * req.body.pageSize) || 0
-            let pageEnd = (req.body.pageNum * req.body.pageSize) || 5
+            let pageEnd = (req.body.pageNum * req.body.pageSize) || 10
             params = params.concat([pageStart, pageEnd])
             connection.query(reqsql + ' limit ?,?', params, function (err, result) {
                 console.log('----------------------------------------')
