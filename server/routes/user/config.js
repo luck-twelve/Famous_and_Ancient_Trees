@@ -4,6 +4,16 @@ const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
 var pool = mysql.createPool(mysqlconfig);
 
+const getTotal = (reqsql, params) => {
+    return new Promise((resolve, reject) => {
+        pool.getConnection(function (err, connection) {
+            connection.query(reqsql, params, function (err, result) {
+                resolve(result.length)
+            })
+        })
+    })
+}
+
 //引入token 
 var vertoken = require('../../token')
 var userControll = {
@@ -115,7 +125,10 @@ var userControll = {
             } else {
                 reqsql = sql.getUsers
             }
-            connection.query(reqsql, params, function (err, result) {
+            let pageStart = ((req.body.pageNum - 1) * req.body.pageSize) || 0
+            let pageEnd = (req.body.pageNum * req.body.pageSize) || 5
+            params = params.concat([pageStart, pageEnd])
+            connection.query(reqsql + ' limit ?,?', params, function (err, result) {
                 console.log('----------------------------------------')
                 console.log('|-url: ' + 'getUserList')
                 console.log('|-sql: ' + reqsql)
@@ -123,12 +136,14 @@ var userControll = {
                 console.log('|-result: ' + JSON.stringify(result))
                 console.log('---------------------------------------')
                 console.log('')
-                return res.json({
-                    code: 200,
-                    data: result,
-                    total: result.length,
-                    msg: "操作成功",
-                    flag: true
+                getTotal(reqsql, params).then(total => {
+                    return res.json({
+                        code: 200,
+                        data: result,
+                        total: total,
+                        msg: "操作成功",
+                        flag: true
+                    })
                 })
             })
         })

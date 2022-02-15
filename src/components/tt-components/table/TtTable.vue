@@ -34,7 +34,8 @@
       </div>
     </template>
 
-    <el-table v-loading="loading" :data="list.data" border stripe>
+    <!-- v-loading="loading" -->
+    <el-table :data="list.data" border stripe>
       <el-table-column v-if="multiple" type="selection" width="35" />
       <template v-for="item in formThead" :key="item.prop">
         <el-table-column
@@ -50,11 +51,12 @@
     </el-table>
     <el-pagination
       background
+      style="margin-top: 20px"
       layout="total, sizes, prev, pager, next, jumper"
-      :page-sizes="[10, 30, 100, 500, 1000]"
-      :page-size="10"
-      :total="list.count"
-      :current-page="currentPage"
+      :current-page="paginData.pageNum"
+      :page-size="paginData.pageSize"
+      :page-sizes="[5, 10, 20, 50, 200]"
+      :total="list.count || list.total"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     ></el-pagination>
@@ -63,8 +65,9 @@
 
 <script setup>
 import { Refresh, Filter, Sort } from '@element-plus/icons-vue'
-import { ref, reactive, toRefs, getCurrentInstance } from 'vue'
+import { reactive, toRefs, ref, getCurrentInstance, onMounted } from 'vue'
 let { proxy } = getCurrentInstance()
+const emit = defineEmits(['update:list'])
 
 const props = defineProps({
   noHeader: {
@@ -81,21 +84,15 @@ const props = defineProps({
   },
   list: {
     require: true,
+    type: Object,
     default: () => {
       return {
         data: {
-          default: () => {
-            return []
-          },
+          default: () => [],
           type: Array
-        },
-        count: {
-          default: 0,
-          type: Number
         }
       }
-    },
-    type: Object
+    }
   },
   // 表头
   column: {
@@ -107,6 +104,14 @@ const props = defineProps({
   loading: {
     default: false,
     type: Boolean
+  },
+  pagination: {
+    type: Function,
+    default: function () {}
+  },
+  searchData: {
+    type: Object,
+    default: () => {}
   }
 })
 
@@ -139,7 +144,6 @@ const change = (checked, item) => {
     }
   }
 }
-const { formThead, checkboxVal } = toRefs(state)
 
 /**
  * 刷新
@@ -156,13 +160,24 @@ const refreshTable = () => {
 /**
  * 分页
  */
-const currentPage = ref(1)
+const paginData = reactive({
+  pageNum: 1,
+  pageSize: 5
+})
 const handleSizeChange = (val) => {
-  console.log(`${val} items per page`)
+  paginData.pageSize = val
+  getList()
 }
 const handleCurrentChange = (val) => {
-  console.log(`current page: ${val}`)
+  paginData.pageNum = val
+  getList()
 }
+const getList = () => {
+  props.pagination(Object.assign(props.searchData, paginData)).then(({ data }) => {
+    emit('update:list', data)
+  })
+}
+const { formThead, checkboxVal } = toRefs(state)
 </script>
 
 <style scoped lang="scss">
