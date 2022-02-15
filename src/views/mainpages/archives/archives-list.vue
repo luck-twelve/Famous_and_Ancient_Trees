@@ -1,14 +1,14 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" :model="formInline" class="demo-form-inline">
-      <el-form-item prop="username">
-        <el-input v-model="formInline.username" clearable>
-          <template #prepend>用户名</template>
+      <el-form-item prop="treeName">
+        <el-input v-model="formInline.treeName" clearable>
+          <template #prepend>树名</template>
         </el-input>
       </el-form-item>
-      <el-form-item prop="roles">
-        <el-input v-model="formInline.roles" clearable>
-          <template #prepend>用户权限</template>
+      <el-form-item prop="treeType">
+        <el-input v-model="formInline.treeType" clearable>
+          <template #prepend>树种</template>
         </el-input>
       </el-form-item>
       <el-form-item>
@@ -19,7 +19,7 @@
       <template #header>
         <el-button type="primary" :icon="Plus">新增</el-button>
       </template>
-      <el-table-column label="操作" width="160px" align="center">
+      <el-table-column label="操作" width="140px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleControll(row)">编辑</el-button>
           <el-button type="text" :icon="Delete" style="color: red" @click="handleControll(row)">删除</el-button>
@@ -39,8 +39,8 @@ import TtTable from '@/components/tt-components/table'
  * 搜索
  */
 const formInline = reactive({
-  username: '',
-  roles: ''
+  treeName: '树龄',
+  treeType: '树种'
 })
 const handleSearch = () => {
   fetchData(formInline)
@@ -54,11 +54,11 @@ const state = reactive({
   tableColumn: [
     { label: 'ID', prop: 'tree_id', width: '80px', align: 'center', sortable: true },
     { label: '树名', prop: 'treeName', width: '140px' },
-    { label: '树种', prop: 'treeType', width: '140px' },
-    { label: '树龄', prop: 'treeAge', width: '100px' },
-    { label: '地理位置', prop: 'treeLocation', width: '220px' },
-    { label: '责任单位', prop: 'treeAdminister', width: '180px' },
-    { label: '历史传说', prop: 'treeHistoryLegend' }
+    { label: '树种', prop: 'treeType', width: '140px', sortable: true },
+    { label: '树龄', prop: 'treeAge', width: '120px', sortable: true },
+    { label: '地理位置', prop: 'treeLocation', minWidth: '220px' },
+    { label: '责任单位', prop: 'treeAdminister', minWidth: '220px' }
+    // { label: '历史传说', prop: 'treeHistoryLegend', minWidth: '300px' }
   ],
   listLoading: true
 })

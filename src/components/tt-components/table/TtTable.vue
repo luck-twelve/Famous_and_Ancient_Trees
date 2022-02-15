@@ -4,10 +4,10 @@
       <div class="card-header">
         <div>
           <slot name="header" />
-          <el-button v-if="refresh" :icon="Refresh" @click="refreshTable">刷新表格</el-button>
         </div>
         <div>
-          <el-dropdown trigger="click" placement="bottom-end" :hide-on-click="false">
+          <el-button v-if="!refresh" :icon="Refresh" @click="refreshTable">刷新</el-button>
+          <el-dropdown trigger="click" placement="bottom-end" :hide-on-click="false" class="ml-1">
             <el-button :icon="Filter"></el-button>
             <template #dropdown>
               <el-dropdown-menu>
@@ -42,6 +42,7 @@
           :property="item.prop"
           :sortable="item.sortable"
           :width="item.width"
+          :min-width="item.minWidth"
           :align="item.align || 'left'"
         ></el-table-column>
       </template>
