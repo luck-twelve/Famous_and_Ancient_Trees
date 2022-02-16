@@ -52,7 +52,6 @@
 <script setup>
 import { reactive, ref, toRefs, watch, getCurrentInstance } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { addArchivesReq, updateArchivesReq } from '@/api/archives'
 let { proxy } = getCurrentInstance()
 
@@ -127,12 +126,9 @@ const handleCommit = () => {
         action = updateArchivesReq
       }
       action(form).then(({ data }) => {
-        if (data.code === 200) {
-          ElMessage({ message: data.msg, type: 'success' })
+        if (data.flag) {
           emit('success')
           handleClose()
-        } else {
-          ElMessage({ message: data.msg, type: 'error' })
         }
       })
     } else {

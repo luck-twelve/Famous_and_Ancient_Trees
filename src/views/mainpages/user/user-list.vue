@@ -17,8 +17,8 @@
       v-model:list="list"
       :loading="listLoading"
       :column="tableColumn"
-      :pagination="getUserListReq"
       :search-data="formData"
+      @pagination="getList"
     >
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
@@ -99,7 +99,7 @@ const dialog = reactive({
 const handleAdd = () => {
   dialog.dialogType = 'add'
   dialog.dialogVisible = true
-  dialog.dialogData = ''
+  dialog.dialogData = {}
 }
 
 /**

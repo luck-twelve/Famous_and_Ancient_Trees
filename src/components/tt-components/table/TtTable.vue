@@ -67,7 +67,7 @@
 import { Refresh, Filter, Sort } from '@element-plus/icons-vue'
 import { reactive, toRefs, ref, getCurrentInstance, onMounted } from 'vue'
 let { proxy } = getCurrentInstance()
-const emit = defineEmits(['update:list'])
+const emit = defineEmits(['pagination'])
 
 const props = defineProps({
   noHeader: {
@@ -173,9 +173,7 @@ const handleCurrentChange = (val) => {
   getList()
 }
 const getList = () => {
-  props.pagination(Object.assign(props.searchData, paginData)).then(({ data }) => {
-    emit('update:list', data)
-  })
+  emit('pagination', Object.assign(props.searchData, paginData))
 }
 const { formThead, checkboxVal } = toRefs(state)
 </script>

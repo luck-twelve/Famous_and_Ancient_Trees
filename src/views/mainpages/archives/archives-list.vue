@@ -15,14 +15,23 @@
         <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
       </el-form-item>
     </el-form>
-    <tt-table :list="list" :loading="listLoading" :column="tableColumn" @pagination="getUserListReq">
+    <tt-table :list="list" :loading="listLoading" :column="tableColumn" :search-data="formData" @pagination="getList">
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </template>
       <el-table-column label="操作" width="140px" align="center" fixed="right">
         <template #default="{ row }">
-          <el-button type="text" :icon="Edit" @click="handleControll(row)">编辑</el-button>
-          <el-button type="text" :icon="Delete" style="color: red" @click="handleControll(row)">删除</el-button>
+          <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
+          <el-popconfirm
+            :icon="InfoFilled"
+            placement="left"
+            title="删除后将无法恢复，是否确认删除?"
+            @confirm="handleDelete(row)"
+          >
+            <template #reference>
+              <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
+            </template>
+          </el-popconfirm>
         </template>
       </el-table-column>
     </tt-table>
@@ -36,9 +45,9 @@
 </template>
 
 <script setup>
-import { Search, Plus, Edit, Delete } from '@element-plus/icons-vue'
+import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount } from 'vue'
-import { getArchivesListReq } from '@/api/archives'
+import { getArchivesListReq, deleteArchivesReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
 
@@ -83,14 +92,25 @@ const dialog = reactive({
 const handleAdd = () => {
   dialog.dialogType = 'add'
   dialog.dialogVisible = true
-  dialog.dialogData = ''
+  dialog.dialogData = {}
 }
 
 /**
- * 操作
+ * 编辑
  */
-const handleControll = (row) => {
-  console.log(row.name)
+const handleEdit = (row) => {
+  dialog.dialogType = 'edit'
+  dialog.dialogVisible = true
+  dialog.dialogData = row
+}
+
+/**
+ * 删除
+ */
+const handleDelete = (row) => {
+  deleteArchivesReq(row.tree_id).then(({ data }) => {
+    getList()
+  })
 }
 
 // 初始化

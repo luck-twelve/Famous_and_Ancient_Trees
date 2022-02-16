@@ -96,8 +96,9 @@ var userControll = {
     logout: function (req, res, next) {
         return res.json({
             code: 200,
-            msg: "操作成功",
-            flag: true
+            msg: "退出登录成功",
+            flag: true,
+            showFlag: true
         })
     },
     getUserList: function (req, res, next) {
@@ -127,7 +128,8 @@ var userControll = {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
-                    flag: result?.affectedRows > 0
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
                 })
             })
         })
@@ -144,19 +146,20 @@ var userControll = {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
-                    flag: result?.affectedRows > 0
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
                 })
             })
         })
     },
     deleteUser: function (req, res, next) {
-        const params = [req.query.uid];
         pool.getConnection(function (err, connection) {
-            query(connection, sql.deleteUser, params, function (err, result) {
+            query(connection, sql.deleteUser, [req.query.uid], function (err, result) {
                 return res.json({
-                    code: 200,
-                    msg: "操作成功",
-                    flag: true
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
                 })
             })
         })

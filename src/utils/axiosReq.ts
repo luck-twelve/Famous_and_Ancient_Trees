@@ -64,14 +64,16 @@ service.interceptors.response.use(
     if (reqConfig.isDownLoadFile || !res || !res.data) {
       return res
     }
-    const { flag, msg, code, isNeedUpdateToken, updateToken } = res?.data
+    const { flag, showFlag, msg, code, isNeedUpdateToken, updateToken } = res?.data
     //update token
     if (isNeedUpdateToken) {
       setToken(updateToken)
     }
-    const successCode = '0,200,20000'
-    if (successCode.indexOf(code) !== -1) {
+    if (flag) {
       //业务成功处理
+      if (showFlag) {
+        ElMessage({ message: msg, type: 'success' })
+      }
       return res
     } else {
       //业务失败处理

@@ -26,7 +26,7 @@ export function updateArchivesReq(data) {
 
 export function deleteArchivesReq(data) {
     return request({
-        url: `/archives/deleteArchives?uid=${data}`,
+        url: `/archives/deleteArchives?tree_id=${data}`,
         method: 'delete',
     })
 }

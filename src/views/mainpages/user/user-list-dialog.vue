@@ -105,12 +105,9 @@ const handleCommit = () => {
         action = updateUserReq
       }
       action(form).then(({ data }) => {
-        if (data.code === 200) {
-          ElMessage({ message: data.msg, type: 'success' })
+        if (data.flag) {
           emit('success')
           handleClose()
-        } else {
-          ElMessage({ message: data.msg, type: 'error' })
         }
       })
     } else {
