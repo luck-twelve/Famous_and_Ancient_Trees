@@ -2,17 +2,8 @@
 const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
+const { query, getFiltersql, getTotal } = require('../functions'); // 引入sql过滤函数
 var pool = mysql.createPool(mysqlconfig);
-
-const getTotal = (reqsql, params) => {
-    return new Promise((resolve, reject) => {
-        pool.getConnection(function (err, connection) {
-            connection.query(reqsql, params, function (err, result) {
-                resolve(result.length)
-            })
-        })
-    })
-}
 
 //引入token 
 var vertoken = require('../../token')
@@ -36,7 +27,7 @@ var userControll = {
         } else {
             pool.getConnection(function (err, connection) {
                 // 查询数据是否存在数据库中(user表没有设置索引)
-                connection.query(sql.login, params, function (err, result) {
+                query(connection, sql.login, params, function (result, err) {
                     if (err) {
                         return res.json({
                             code: 500,
@@ -58,7 +49,7 @@ var userControll = {
                         } else {
                             //通过用户名查询
                             let login_params = [req.body.username]
-                            connection.query(sql.queryByUsername, login_params, function (err, data) {
+                            query(connection, sql.queryByUsername, login_params, (data, err) => {
                                 if (err) {
                                     throw err;
                                 } else {
@@ -111,32 +102,9 @@ var userControll = {
     },
     getUserList: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            let reqsql = ''
-            let params = []
-            if (req.body.username && req.body.roles) {
-                reqsql = sql.getUsersByNR
-                params = [req.body.username, req.body.roles]
-            } else if (req.body.username && !req.body.roles) {
-                reqsql = sql.getUsersByName
-                params = [req.body.username]
-            } else if (!req.body.username && req.body.roles) {
-                reqsql = sql.getUsersByRoles
-                params = [req.body.roles]
-            } else {
-                reqsql = sql.getUsers
-            }
-            let pageStart = ((req.body.pageNum - 1) * req.body.pageSize) || 0
-            let pageEnd = (req.body.pageNum * req.body.pageSize) || 10
-            params = params.concat([pageStart, pageEnd])
-            connection.query(reqsql + ' limit ?,?', params, function (err, result) {
-                console.log('----------------------------------------')
-                console.log('|-url: ' + 'getUserList')
-                console.log('|-sql: ' + reqsql)
-                console.log('|-params: ' + JSON.stringify(params))
-                console.log('|-result: ' + JSON.stringify(result))
-                console.log('---------------------------------------')
-                console.log('')
-                getTotal(reqsql, params).then(total => {
+            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getUsers, req.body)
+            query(connection, reqSql, reqParams, result => {
+                getTotal(noLimitSql, pool).then(total => {
                     return res.json({
                         code: 200,
                         data: result,
@@ -155,12 +123,11 @@ var userControll = {
         params[2] = req.body.avatar
         params[3] = req.body.roles
         pool.getConnection(function (err, connection) {
-            connection.query(sql.addUser, params, function (err, result) {
-                console.log(result)
+            query(connection, sql.addUser, params, result => {
                 return res.json({
-                    code: 200,
-                    msg: "操作成功",
-                    flag: true
+                    code: result.affectedRows > 0 ? 200 : -200,
+                    msg: result.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result.affectedRows > 0
                 })
             })
         })
@@ -173,18 +140,11 @@ var userControll = {
         params[3] = req.body.roles
         params[4] = req.body.uid
         pool.getConnection(function (err, connection) {
-            connection.query(sql.updateUser, params, function (err, result) {
-                console.log('----------------------------------------')
-                console.log('|-url: ' + 'updateUser')
-                console.log('|-sql: ' + sql.updateUser)
-                console.log('|-params: ' + JSON.stringify(params))
-                console.log('|-result: ' + JSON.stringify(result))
-                console.log('---------------------------------------')
-                console.log('')
+            query(connection, sql.updateUser, params, result => {
                 return res.json({
-                    code: result.changedRows > 0 ? 200 : -200,
-                    msg: result.changedRows > 0 ? "操作成功" : '操作成功',
-                    flag: result.changedRows > 0
+                    code: result.affectedRows > 0 ? 200 : -200,
+                    msg: result.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result.affectedRows > 0
                 })
             })
         })
@@ -192,14 +152,7 @@ var userControll = {
     deleteUser: function (req, res, next) {
         const params = [req.query.uid];
         pool.getConnection(function (err, connection) {
-            connection.query(sql.deleteUser, params, function (err, result) {
-                console.log('----------------------------------------')
-                console.log('|-url: ' + 'deleteUser')
-                console.log('|-sql: ' + sql.deleteUser)
-                console.log('|-params: ' + JSON.stringify(params))
-                console.log('|-result: ' + JSON.stringify(result))
-                console.log('---------------------------------------')
-                console.log('')
+            query(connection, sql.deleteUser, params, function (err, result) {
                 return res.json({
                     code: 200,
                     msg: "操作成功",

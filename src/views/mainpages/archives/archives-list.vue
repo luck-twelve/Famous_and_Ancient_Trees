@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
-    <el-form :inline="true" :model="formInline" class="demo-form-inline">
+    <el-form :inline="true" :model="formData" class="demo-form-inline">
       <el-form-item prop="treeName">
-        <el-input v-model="formInline.treeName" clearable>
+        <el-input v-model="formData.treeName" clearable>
           <template #prepend>树名</template>
         </el-input>
       </el-form-item>
       <el-form-item prop="treeType">
-        <el-input v-model="formInline.treeType" clearable>
+        <el-input v-model="formData.treeType" clearable>
           <template #prepend>树种</template>
         </el-input>
       </el-form-item>
@@ -17,7 +17,7 @@
     </el-form>
     <tt-table :list="list" :loading="listLoading" :column="tableColumn" @pagination="getUserListReq">
       <template #header>
-        <el-button type="primary" :icon="Plus">新增</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </template>
       <el-table-column label="操作" width="140px" align="center" fixed="right">
         <template #default="{ row }">
@@ -27,6 +27,12 @@
       </el-table-column>
     </tt-table>
   </div>
+  <archives-list-dialog
+    v-model:dialogVisible="dialogVisible"
+    :dialog-type="dialogType"
+    :dialog-data="dialogData"
+    @success="getList"
+  ></archives-list-dialog>
 </template>
 
 <script setup>
@@ -34,16 +40,17 @@ import { Search, Plus, Edit, Delete } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount } from 'vue'
 import { getArchivesListReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
+import ArchivesListDialog from './archives-list-dialog.vue'
 
 /**
  * 搜索
  */
-const formInline = reactive({
+const formData = reactive({
   treeName: '',
   treeType: ''
 })
 const handleSearch = () => {
-  fetchData(formInline)
+  getList(formData)
 }
 
 /**
@@ -63,6 +70,22 @@ const state = reactive({
   listLoading: true
 })
 
+// 弹窗
+const dialog = reactive({
+  dialogType: 'add',
+  dialogVisible: false,
+  dialogData: {}
+})
+
+/**
+ * 新增
+ */
+const handleAdd = () => {
+  dialog.dialogType = 'add'
+  dialog.dialogVisible = true
+  dialog.dialogData = ''
+}
+
 /**
  * 操作
  */
@@ -70,11 +93,12 @@ const handleControll = (row) => {
   console.log(row.name)
 }
 
+// 初始化
 onBeforeMount(() => {
-  fetchData()
+  getList()
 })
 
-const fetchData = (params = {}) => {
+const getList = (params = {}) => {
   state.listLoading = true
   getArchivesListReq(params).then(({ data }) => {
     state.list = data
@@ -83,6 +107,7 @@ const fetchData = (params = {}) => {
 }
 
 //导出属性到页面中使用
+let { dialogVisible, dialogType, dialogData } = toRefs(dialog)
 let { list, listLoading, tableColumn } = toRefs(state)
 </script>
 

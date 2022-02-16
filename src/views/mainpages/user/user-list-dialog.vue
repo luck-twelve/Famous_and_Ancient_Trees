@@ -6,19 +6,12 @@
     width="450px"
     :before-close="handleClose"
   >
-    <el-form
-      v-if="visable"
-      ref="dialogForm"
-      :model="form"
-      :rules="formRulesMixin"
-      label-width="80px"
-      style="padding-right: 20px"
-    >
+    <el-form v-if="visable" ref="dialogForm" :model="form" label-width="80px" style="padding-right: 20px">
       <el-form-item prop="username" label="用户名" :rules="formRulesMixin.isNotNull">
-        <el-input v-model="form.username" placeholder="用户名" maxlength="12" show-word-limit clearable />
+        <el-input v-model="form.username" maxlength="12" show-word-limit clearable />
       </el-form-item>
       <el-form-item prop="password" label="密码" :rules="[...formRulesMixin.desc, ...formRulesMixin.passwordValid]">
-        <el-input v-model="form.password" type="password" placeholder="密码" maxlength="18" show-password clearable />
+        <el-input v-model="form.password" type="password" maxlength="18" show-password clearable />
       </el-form-item>
       <el-form-item prop="avatar" label="头像">
         <!-- action="http://localhost:3000/api/file/setAvatar" -->
