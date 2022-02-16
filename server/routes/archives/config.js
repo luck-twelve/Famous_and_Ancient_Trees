@@ -25,20 +25,19 @@ var archivesControll = {
         })
     },
     addArchives: function (req, res, next) {
-        const params = {
-            treeName: req.body.treeName,
-            treeType: req.body.treeType,
-            treeAge: req.body.treeAge,
-            treeLocation: req.body.treeLocation,
-            treeAdminister: req.body.treeAdminister,
-            treeHistoryLegend: req.body.treeHistoryLegend,
-        };
+        const params = [];
+        params[0] = req.body.treeName
+        params[1] = req.body.treeType
+        params[2] = req.body.treeAge
+        params[3] = req.body.treeLocation
+        params[4] = req.body.treeAdminister
+        params[5] = req.body.treeHistoryLegend
         pool.getConnection(function (err, connection) {
             query(connection, sql.addArchives, params, result => {
                 return res.json({
-                    code: 200,
-                    msg: "操作成功",
-                    flag: true
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0
                 })
             })
         })

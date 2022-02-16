@@ -10,32 +10,32 @@
       <el-row>
         <el-col :span="12">
           <el-form-item prop="treeName" label="树名" :rules="formRulesMixin.isNotNull">
-            <el-input v-model="form.treeName" maxlength="20" clearable />
+            <el-input v-model="form.treeName" maxlength="50" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="treeType" label="树种" :rules="formRulesMixin.isNotNull">
-            <el-input v-model="form.treeType" maxlength="50" clearable />
+            <el-input v-model="form.treeType" maxlength="20" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="treeAge" label="树龄" :rules="formRulesMixin.isNotNull">
-            <el-input v-model="form.treeAge" maxlength="5" clearable />
+            <el-input v-model="form.treeAge" maxlength="10" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="12">
           <el-form-item prop="treeLocation" label="地理位置" :rules="formRulesMixin.isNotNull">
-            <el-input v-model="form.treeLocation" maxlength="250" clearable />
+            <el-input v-model="form.treeLocation" maxlength="255" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item prop="treeAdminister" label="责任单位" :rules="formRulesMixin.isNotNull">
-            <el-input v-model="form.treeAdminister" maxlength="250" clearable />
+            <el-input v-model="form.treeAdminister" maxlength="255" clearable />
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item prop="treeHistoryLegend" label="历史传说" :rules="formRulesMixin.isNotNull">
-            <el-input v-model="form.treeHistoryLegend" maxlength="250" clearable />
+            <el-input v-model="form.treeHistoryLegend" maxlength="255" clearable />
           </el-form-item>
         </el-col>
       </el-row>

@@ -125,9 +125,9 @@ var userControll = {
         pool.getConnection(function (err, connection) {
             query(connection, sql.addUser, params, result => {
                 return res.json({
-                    code: result.affectedRows > 0 ? 200 : -200,
-                    msg: result.affectedRows > 0 ? "操作成功" : '操作失败',
-                    flag: result.affectedRows > 0
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0
                 })
             })
         })
@@ -142,9 +142,9 @@ var userControll = {
         pool.getConnection(function (err, connection) {
             query(connection, sql.updateUser, params, result => {
                 return res.json({
-                    code: result.affectedRows > 0 ? 200 : -200,
-                    msg: result.affectedRows > 0 ? "操作成功" : '操作失败',
-                    flag: result.affectedRows > 0
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0
                 })
             })
         })

@@ -34,7 +34,7 @@ const actions = {
         connection.query(sql, params, function (err, result) {
             console.log('----------------------------------------')
             console.log('|-sql: ' + sql)
-            console.log('|-params: ' + params)
+            console.log('|-params: ' + JSON.stringify(params))
             console.log('|-result: ' + JSON.stringify(result))
             console.log('---------------------------------------')
             console.log('')
