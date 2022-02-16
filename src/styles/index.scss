@@ -24,9 +24,10 @@
 }
 
 .nav-svg-icon {
-  width: 20px;
-  height: 20px;
+  width: 1em;
+  height: 1em;
   cursor: pointer;
+  vertical-align: -2px;
 }
 .nav-svg-icon:hover {
   transform: scale(1.2);

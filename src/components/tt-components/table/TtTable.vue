@@ -6,7 +6,7 @@
           <slot name="header" />
         </div>
         <div>
-          <el-button v-if="!refresh" :icon="Refresh" @click="refreshTable">刷新</el-button>
+          <el-button v-if="refresh" :icon="Refresh" @click="refreshTable">刷新</el-button>
           <el-dropdown trigger="click" placement="bottom-end" :hide-on-click="false" class="ml-1">
             <el-button :icon="Filter"></el-button>
             <template #dropdown>

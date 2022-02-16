@@ -13,6 +13,9 @@
     <!--nav title-->
     <div v-if="settings.showNavbarTitle" class="heardCenterTitle">{{ settings.title }}</div>
     <div class="right-menu rowSC">
+      <div class="mx-1 mtPx-2">
+        <Refresh class="nav-svg-icon" @click="refreshTable" />
+      </div>
       <ScreenFull v-if="settings.ShowScreenFull" />
       <SizeSelect v-if="settings.ShowSizeSelect" />
       <LangSelect v-if="settings.ShowLangSelect" />
@@ -32,6 +35,10 @@ import Breadcrumb from './Breadcrumb'
 import Hamburger from './Hamburger'
 import UserCard from './UserCard'
 
+import { Refresh } from '@element-plus/icons-vue'
+import { getCurrentInstance } from 'vue'
+let { proxy } = getCurrentInstance()
+
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 
@@ -45,6 +52,18 @@ const opened = computed(() => {
 })
 const toggleSideBar = () => {
   store.commit('app/M_toggleSideBar')
+}
+
+/**
+ * 刷新
+ */
+const refreshTable = () => {
+  const fullPath = proxy.$route.fullPath
+  proxy.$nextTick(() => {
+    proxy.$router.replace({
+      path: `/redirect${fullPath}`
+    })
+  })
 }
 </script>
 
