@@ -1,5 +1,5 @@
 <template>
-  <el-dropdown size="medium" class="ml-2">
+  <el-dropdown class="ml-2" popper-class="user-dropdown">
     <div class="avatar-wrapper">
       <img :src="store.state.user.avatar" class="user-avatar" />
       <div class="user-name">
@@ -9,18 +9,25 @@
     </div>
     <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item @click="dialog.dialogVisible = true">
-          {{ getI18nName('navbar', 'changePassword') }}
+        <el-dropdown-item :icon="Edit" @click="dialog.dialogVisible = true">
+          <span class="py-1">
+            {{ getI18nName('navbar', 'changePassword') }}
+          </span>
         </el-dropdown-item>
-        <el-dropdown-item divided @click="logOut">{{ getI18nName('navbar', 'logOut') }}</el-dropdown-item>
+        <el-divider style="margin: 6px 0"></el-divider>
+        <el-dropdown-item :icon="SwitchButton" @click="logOut">
+          <span class="py-1">
+            {{ getI18nName('navbar', 'logOut') }}
+          </span>
+        </el-dropdown-item>
       </el-dropdown-menu>
     </template>
   </el-dropdown>
   <sub-pass :dialog-visible="dialog.dialogVisible" @close="closeDialog"></sub-pass>
 </template>
-
+, Edit
 <script setup>
-import { CaretBottom } from '@element-plus/icons-vue'
+import { CaretBottom, Edit, SwitchButton } from '@element-plus/icons-vue'
 import SubPass from './SubPass.vue'
 
 import useI18n from '@/hooks/useI18n'

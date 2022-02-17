@@ -26,6 +26,7 @@
             <template #dropdown>
               <el-dropdown-menu>
                 <el-dropdown-item>导出到 Csv 文件</el-dropdown-item>
+                <el-divider style="margin: 6px 0"></el-divider>
                 <el-dropdown-item>导出到 Excel 文件</el-dropdown-item>
               </el-dropdown-menu>
             </template>
