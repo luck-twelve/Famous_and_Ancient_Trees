@@ -12,6 +12,7 @@ export default {
     'Declare List': 'Declare List',
     Archives: 'Archives',
     'Archives List': 'Archives List',
+    'New Archives': 'New Archives',
     Curing: 'Curing',
     'Curing List': 'Curing List',
     Abnormal: 'Abnormal',

@@ -49,11 +49,11 @@ var userControll = {
                         } else {
                             //通过用户名查询
                             let login_params = [req.body.username]
-                            query(connection, sql.queryByUsername, 'whyLoginErr', login_params, (data, err) => {
+                            query(connection, sql.getUsersByName, 'whyLoginErr', login_params, (data, err) => {
                                 if (err) {
                                     throw err;
                                 } else {
-                                    if (data.length === 0) {
+                                    if (data?.length === 0) {
                                         return res.json({
                                             code: 404,
                                             msg: '用户不存在'
@@ -82,7 +82,7 @@ var userControll = {
     getUserInfo: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             vertoken.getToken(req.headers['authorize_token']).then(params => {
-                query(connection, sql.getUserInfo, 'getUserInfo', params.uid, function (err, result) {
+                query(connection, sql.getUserInfo, 'getUserInfo', params.uid, result => {
                     return res.json({
                         code: 200,
                         data: result ? result[0] : '',
@@ -154,7 +154,7 @@ var userControll = {
     },
     deleteUser: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            query(connection, sql.deleteUser, 'deleteUser', [req.query.uid], function (err, result) {
+            query(connection, sql.deleteUser, 'deleteUser', [req.query.uid], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

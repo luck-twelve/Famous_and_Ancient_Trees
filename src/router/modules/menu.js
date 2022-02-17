@@ -34,6 +34,12 @@ const asyncMenus = [
                 path: 'archives-list',
                 component: () => import('@/views/mainpages/archives/archives-list.vue'),
                 meta: { title: 'Archives List', noCache: true, roles: ['worker'] }
+            },
+            {
+                name: 'NewArchives',
+                path: 'new-archives',
+                component: () => import('@/views/mainpages/archives/newArchives/index.vue'),
+                meta: { title: 'New Archives', noCache: true, roles: ['worker'] }
             }
         ]
     },

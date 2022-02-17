@@ -12,6 +12,7 @@ export default {
     'Declare List': '申报列表',
     Archives: '档案管理',
     'Archives List': '档案列表',
+    'New Archives': '新建档案',
     Curing: '养护管理',
     'Curing List': '养护列表',
     Abnormal: '异常上报',

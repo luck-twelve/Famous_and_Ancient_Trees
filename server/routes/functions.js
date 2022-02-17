@@ -36,7 +36,7 @@ const actions = {
             console.dir({
                 sql: sql,
                 params: JSON.stringify(params),
-                result: JSON.stringify(result)
+                result: result?.length ? '' : JSON.stringify(result)
             })
             if (result?.length > 0) {
                 console.table(result)
