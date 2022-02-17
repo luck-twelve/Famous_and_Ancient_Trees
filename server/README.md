@@ -4,9 +4,23 @@
 
 npm start
 
-### 接口文档
+### 日志输出
 
-打包
+- log: 普通信息
+- info: 提示信息
+- error: 错误信息
+- warn: 警示信息
+- clear: 清空控制台信息
+- time & timeEnd: 计时器
+- group & groupEnd: 分组
+- table: 显示表格信息 egg: [{},{}...]
+- dir: 显示 JSON 信息
+- dirxml: 显示节点包含的 HTML/XML 代码
+- assert: 判断一个表达式或变量是否为真
+- count: 统计代码被执行的次数
+- profile & profileEnd: 性能分析
+
+### 打包
 
 apidoc -i routes/ -o public/apidoc/
 

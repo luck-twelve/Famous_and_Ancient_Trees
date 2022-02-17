@@ -30,14 +30,18 @@ const actions = {
             })
         })
     },
-    query: (connection, sql, params, callback) => {
+    query: (connection, sql, action, params, callback) => {
         connection.query(sql, params, function (err, result) {
-            console.log('----------------------------------------')
-            console.log('|-sql: ' + sql)
-            console.log('|-params: ' + JSON.stringify(params))
-            console.log('|-result: ' + JSON.stringify(result))
-            console.log('---------------------------------------')
-            console.log('')
+            console.group(action)
+            console.dir({
+                sql: sql,
+                params: JSON.stringify(params),
+                result: JSON.stringify(result)
+            })
+            if (result?.length > 0) {
+                console.table(result)
+            }
+            console.groupEnd()
             callback(result, err)
         })
     }

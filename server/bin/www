@@ -89,7 +89,7 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-  console.log(`\nYour server port is localhost:${port}\n`);
+  console.log(`\n Your server port is http://localhost:${port} \n`);
   // open(`http://localhost:${port}`);
   // open(`http://localhost:5001`);
 }

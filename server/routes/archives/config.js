@@ -11,7 +11,7 @@ var archivesControll = {
     getArchives: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchives, req.body)
-            query(connection, reqSql, reqParams, result => {
+            query(connection, reqSql, 'getArchives', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
                     return res.json({
                         code: 200,
@@ -33,7 +33,7 @@ var archivesControll = {
         params[4] = req.body.treeAdminister
         params[5] = req.body.treeHistoryLegend
         pool.getConnection(function (err, connection) {
-            query(connection, sql.addArchives, params, result => {
+            query(connection, sql.addArchives, 'addArchives', params, result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
@@ -53,7 +53,7 @@ var archivesControll = {
         params[5] = req.body.treeHistoryLegend
         params[6] = req.body.tree_id
         pool.getConnection(function (err, connection) {
-            query(connection, sql.updateArchives, params, result => {
+            query(connection, sql.updateArchives, 'updateArchives', params, result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
@@ -65,7 +65,7 @@ var archivesControll = {
     },
     deleteArchives: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            query(connection, sql.deleteArchives, [req.query.tree_id], result => {
+            query(connection, sql.deleteArchives, 'deleteArchives', [req.query.tree_id], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

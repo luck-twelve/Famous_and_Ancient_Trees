@@ -27,7 +27,7 @@ var userControll = {
         } else {
             pool.getConnection(function (err, connection) {
                 // 查询数据是否存在数据库中(user表没有设置索引)
-                query(connection, sql.login, params, function (result, err) {
+                query(connection, sql.login, 'login', params, function (result, err) {
                     if (err) {
                         return res.json({
                             code: 500,
@@ -49,7 +49,7 @@ var userControll = {
                         } else {
                             //通过用户名查询
                             let login_params = [req.body.username]
-                            query(connection, sql.queryByUsername, login_params, (data, err) => {
+                            query(connection, sql.queryByUsername, 'whyLoginErr', login_params, (data, err) => {
                                 if (err) {
                                     throw err;
                                 } else {
@@ -82,7 +82,7 @@ var userControll = {
     getUserInfo: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             vertoken.getToken(req.headers['authorize_token']).then(params => {
-                connection.query(sql.getUserInfo, params.uid, function (err, result) {
+                query(connection, sql.getUserInfo, 'getUserInfo', params.uid, function (err, result) {
                     return res.json({
                         code: 200,
                         data: result ? result[0] : '',
@@ -104,7 +104,7 @@ var userControll = {
     getUserList: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getUsers, req.body)
-            query(connection, reqSql, reqParams, result => {
+            query(connection, reqSql, 'getUserList', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
                     return res.json({
                         code: 200,
@@ -124,7 +124,7 @@ var userControll = {
         params[2] = req.body.avatar
         params[3] = req.body.roles
         pool.getConnection(function (err, connection) {
-            query(connection, sql.addUser, params, result => {
+            query(connection, sql.addUser, 'addUser', params, result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
@@ -142,7 +142,7 @@ var userControll = {
         params[3] = req.body.roles
         params[4] = req.body.uid
         pool.getConnection(function (err, connection) {
-            query(connection, sql.updateUser, params, result => {
+            query(connection, sql.updateUser, 'updateUser', params, result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
@@ -154,7 +154,7 @@ var userControll = {
     },
     deleteUser: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            query(connection, sql.deleteUser, [req.query.uid], function (err, result) {
+            query(connection, sql.deleteUser, 'deleteUser', [req.query.uid], function (err, result) {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
