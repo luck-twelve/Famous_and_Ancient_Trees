@@ -1,6 +1,6 @@
 <template>
   <div class="form-container">
-    <el-descriptions title="异常上报" :column="1" border>
+    <el-descriptions title="异常上报" :column="3" border>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
@@ -39,7 +39,7 @@
           placeholder="请选择"
         ></el-date-picker>
       </el-descriptions-item>
-      <el-descriptions-item>
+      <el-descriptions-item :span="3">
         <template #label>
           <div class="cell-item">
             <el-icon>
@@ -50,7 +50,7 @@
         </template>
         <el-input v-model="form.happenAddr"></el-input>
       </el-descriptions-item>
-      <el-descriptions-item>
+      <el-descriptions-item :span="3">
         <template #label>
           <div class="cell-item">
             <el-icon>
@@ -61,7 +61,7 @@
         </template>
         <el-input v-model="form.abCondition" :rows="3" type="textarea"></el-input>
       </el-descriptions-item>
-      <el-descriptions-item>
+      <el-descriptions-item :span="3">
         <template #label>
           <div class="cell-item">
             <el-icon>
@@ -101,7 +101,7 @@ const handleSubmit = () => {
 
 <style lang="scss" scoped>
 .form-container {
-  max-width: 1000px;
+  // max-width: 1000px;
   min-width: 400px;
   display: flex;
   justify-content: center;
@@ -115,9 +115,6 @@ const handleSubmit = () => {
     width: 120px;
   }
 }
-// .el-descriptions {
-//   margin-top: 20px;
-// }
 .cell-item {
   display: flex;
   align-items: center;

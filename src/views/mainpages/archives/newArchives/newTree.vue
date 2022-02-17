@@ -1,76 +1,187 @@
 <template>
   <div class="form-container">
-    <el-descriptions title="异常上报" :column="1" border>
-      <el-descriptions-item>
-        <template #label>
-          <div class="cell-item">
-            <el-icon>
-              <user />
-            </el-icon>
-            <span>姓名</span>
-          </div>
-        </template>
-        <el-input v-model="form.username"></el-input>
+    <el-descriptions title="名木古树调查表" :column="2" border>
+      <el-descriptions-item label="单位" :span="2">
+        <div class="rowSC">
+          <el-input v-model="form.company_province" class="widthPx-100"></el-input>
+          省（市、区）
+          <el-input v-model="form.company_city" class="widthPx-100"></el-input>
+          市（地、州）
+          <el-input v-model="form.company_district" class="widthPx-100"></el-input>
+          区（市、区）
+        </div>
       </el-descriptions-item>
-      <el-descriptions-item>
-        <template #label>
-          <div class="cell-item">
-            <el-icon>
-              <iphone />
-            </el-icon>
-            <span>联系方式</span>
-          </div>
-        </template>
-        <el-input v-model="form.contact"></el-input>
+      <el-descriptions-item label="档案号">
+        <el-input v-model="form.archive_id"></el-input>
       </el-descriptions-item>
-      <el-descriptions-item>
-        <template #label>
-          <div class="cell-item">
-            <el-icon>
-              <clock />
-            </el-icon>
-            <span>发生时间</span>
-          </div>
-        </template>
-        <el-date-picker
-          v-model="form.happenTime"
-          type="datetime"
-          value-format="YYYY-MM-DD hh:mm:ss"
-          placeholder="请选择"
-        ></el-date-picker>
+      <el-descriptions-item label="挂牌号">
+        <div class="rowSC">
+          第
+          <el-input v-model="form.listing" class="widthPx-150"></el-input>
+          号
+        </div>
       </el-descriptions-item>
-      <el-descriptions-item>
-        <template #label>
-          <div class="cell-item">
-            <el-icon>
-              <location-information />
-            </el-icon>
-            <span>发生地点</span>
-          </div>
-        </template>
-        <el-input v-model="form.happenAddr"></el-input>
+      <el-descriptions-item label="位置" :span="2">
+        <div class="rowSC">
+          <el-input v-model="form.location_township" class="widthPx-100"></el-input>
+          乡镇（街道）
+          <el-input v-model="form.location_village" class="widthPx-100"></el-input>
+          村（居委会）
+          <el-input v-model="form.location_social" class="widthPx-100"></el-input>
+          社（组、号）
+        </div>
+        <div class="rowSC">
+          经度：
+          <el-input v-model="form.longitude_degree" class="widthPx-100"></el-input>
+          度
+          <el-input v-model="form.longitude_branch" class="widthPx-100"></el-input>
+          分
+          <el-input v-model="form.longitude_second" class="widthPx-100"></el-input>
+          秒
+          <el-divider direction="vertical"></el-divider>
+          纬度：
+          <el-input v-model="form.latitude_degree" class="widthPx-100"></el-input>
+          度
+          <el-input v-model="form.latitude_branch" class="widthPx-100"></el-input>
+          分
+          <el-input v-model="form.latitude_second" class="widthPx-100"></el-input>
+          秒
+          <el-divider direction="vertical"></el-divider>
+          小地名：
+          <el-input v-model="form.location_aliasName" class="widthPx-150"></el-input>
+        </div>
       </el-descriptions-item>
-      <el-descriptions-item>
-        <template #label>
-          <div class="cell-item">
-            <el-icon>
-              <tickets />
-            </el-icon>
-            <span>异常情况</span>
-          </div>
-        </template>
-        <el-input v-model="form.abCondition" :rows="3" type="textarea"></el-input>
+      <el-descriptions-item label="区域">
+        <el-radio-group v-model="radioArea">
+          <el-radio label="CITY">城市</el-radio>
+          <el-radio label="COUNTRY_SIDE">农村</el-radio>
+        </el-radio-group>
       </el-descriptions-item>
-      <el-descriptions-item>
-        <template #label>
-          <div class="cell-item">
-            <el-icon>
-              <warning />
-            </el-icon>
-            <span>原因分析</span>
-          </div>
-        </template>
-        <el-input v-model="form.reasons" :rows="3" type="textarea"></el-input>
+      <el-descriptions-item label="坐落">
+        <el-radio-group v-model="radioLocation">
+          <el-radio label="UNIT_COURTYYARD">单位庭院</el-radio>
+          <el-radio label="PERSONAL_HOUSE">个人宅院</el-radio>
+          <el-radio label="TEMPLE">寺院</el-radio>
+          <el-radio label="OTHERS">其他</el-radio>
+        </el-radio-group>
+      </el-descriptions-item>
+      <el-descriptions-item label="类别">
+        <el-radio-group v-model="radioType">
+          <el-radio label="ANCIENT">古树</el-radio>
+          <el-radio label="FAMOUS">名木</el-radio>
+        </el-radio-group>
+      </el-descriptions-item>
+      <el-descriptions-item label="分布">
+        <el-radio-group v-model="radioDistribution">
+          <el-radio label="GROW_SCATTERED">散生</el-radio>
+          <el-radio label="GROUP_SHAPE">群状</el-radio>
+        </el-radio-group>
+      </el-descriptions-item>
+      <el-descriptions-item label="树种" :span="2">
+        <div class="rowSC">
+          科
+          <el-input v-model="form.username" class="widthPx-100"></el-input>
+          属
+          <el-input v-model="form.username" class="widthPx-100"></el-input>
+          树
+          <el-input v-model="form.username" class="widthPx-100"></el-input>
+          中文名
+          <el-input v-model="form.tree_nameZh" class="widthPx-100"></el-input>
+          英文名
+          <el-input v-model="form.tree_nameEn" class="widthPx-100"></el-input>
+          别名
+          <el-input v-model="form.tree_nameAlias" class="widthPx-100"></el-input>
+        </div>
+      </el-descriptions-item>
+      <el-descriptions-item label="树龄" :span="2">
+        <div class="rowSC">
+          真实树龄
+          <el-input v-model="form.tree_ageReal" class="widthPx-100"></el-input>
+          年
+          <el-divider direction="vertical"></el-divider>
+          传说树龄
+          <el-input v-model="form.tree_ageLegend" class="widthPx-100"></el-input>
+          年
+          <el-divider direction="vertical"></el-divider>
+          估测树龄
+          <el-input v-model="form.tree_ageEstimate" class="widthPx-100"></el-input>
+          年
+        </div>
+      </el-descriptions-item>
+      <el-descriptions-item label="树高">
+        <div class="rowSC">
+          <el-input v-model="form.tree_height" class="widthPx-100"></el-input>
+          米
+        </div>
+      </el-descriptions-item>
+      <el-descriptions-item label="林分平均胸围（地围）">
+        <div class="rowSC">
+          <el-input v-model="form.ground_circumference" class="widthPx-100"></el-input>
+          厘米
+        </div>
+      </el-descriptions-item>
+      <el-descriptions-item label="冠幅" :span="2">
+        <div class="rowSC">
+          平均
+          <el-input v-model="form.crown_widthAverage" class="widthPx-100"></el-input>
+          米
+          <el-divider direction="vertical"></el-divider>
+          东西
+          <el-input v-model="form.crown_widthEW" class="widthPx-100"></el-input>
+          米
+          <el-divider direction="vertical"></el-divider>
+          南北
+          <el-input v-model="form.crown_widthNS" class="widthPx-100"></el-input>
+          米
+        </div>
+        <div class="rowSC">
+          海拔
+          <el-input v-model="form.crown_altitude" class="widthPx-100"></el-input>
+          米
+          <el-divider direction="vertical"></el-divider>
+          坡向
+          <!-- crown_slopeDirection -->
+          <el-divider direction="vertical"></el-divider>
+          坡度
+          <el-input v-model="form.crown_slopeDegree" class="widthPx-100"></el-input>
+          度
+          <el-divider direction="vertical"></el-divider>
+          坡位
+          <el-input v-model="form.crown_slopePosition" class="widthPx-100"></el-input>
+          部
+        </div>
+      </el-descriptions-item>
+      <el-descriptions-item label="立地条件" :span="2">
+        <div class="rowSC">
+          土壤名称
+          <el-input v-model="form.site_soilName" class="widthPx-100"></el-input>
+          <el-divider direction="vertical"></el-divider>
+          紧密度
+          <el-radio-group v-model="radioCompactness">
+            <el-radio :label="5">极紧密</el-radio>
+            <el-radio :label="4">紧密</el-radio>
+            <el-radio :label="3">中等</el-radio>
+            <el-radio :label="2">较疏松</el-radio>
+            <el-radio :label="1">疏松</el-radio>
+          </el-radio-group>
+        </div>
+      </el-descriptions-item>
+      <el-descriptions-item label="特殊状况描述" :span="2">
+        <el-input v-model="form.special_conditions" :rows="3" type="textarea"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item label="权属" :span="2">
+        <el-radio-group v-model="radioOwner">
+          <el-radio label="STATE_OWNED">国有</el-radio>
+          <el-radio label="COLLECTIVE">集体</el-radio>
+          <el-radio label="PERSONAL">个人</el-radio>
+          <el-radio label="OTHERS">其他</el-radio>
+        </el-radio-group>
+      </el-descriptions-item>
+      <el-descriptions-item label="管辖单位或个人" :span="2">
+        <el-input v-model="form.administer"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item label="保护现状及建议" :span="2">
+        <el-input v-model="form.protection_status" :rows="3" type="textarea"></el-input>
       </el-descriptions-item>
     </el-descriptions>
     <div class="footer-btn">
@@ -83,16 +194,58 @@
 import { User, Iphone, Clock, LocationInformation, Tickets, Warning } from '@element-plus/icons-vue'
 import { ref, toRefs, reactive, onBeforeMount } from 'vue'
 
+const radioArea = ref('') // 区域 - CITY / COUNTRY_SIDE
+const radioLocation = ref('') // 坐落 - UNIT_COURTYYARD / PERSONAL_HOUSE / TEMPLE / OTHERS
+const radioType = ref('') // 类别 - ANCIENT / FAMOUS
+const radioDistribution = ref('') // 分布 - GROW_SCATTERED / GROUP_SHAPE
+const radioCompactness = ref('') // 紧密度 - 5 / 4 / 3 / 2 / 1
+const radioOwner = ref('') // 权属 - STATE_OWNED / COLLECTIVE / PERSONAL / OTHERS
+
 /**
  * 表单
  */
 const form = reactive({
-  username: '',
-  contact: '',
-  happenTime: '',
-  happenAddr: '',
-  abCondition: '',
-  reasons: ''
+  company_province: '', // 单位 - 省（市、区）
+  company_city: '', // 单位 - 市（地、州）
+  company_district: '', // 单位 - 区（市、区）
+  archive_id: '', // 档案号
+  listing: '', // 挂牌号
+  location_township: '', // 位置 - 乡镇（街道）
+  location_village: '', // 位置 - 村（居委会）
+  location_social: '', // 位置 - 社（组、号）
+  longitude_degree: '', // 经度 - 度
+  longitude_branch: '', // 经度 - 分
+  longitude_second: '', // 经度 - 秒
+  latitude_degree: '', // 纬度 - 度
+  latitude_branch: '', // 纬度 - 分
+  latitude_second: '', // 纬度 - 秒
+  location_aliasName: '', // 小地名
+  tree_area: '', // 区域
+  tree_location: '', // 坐落
+  tree_type: '', // 类别
+  tree_distribution: '', // 分布
+  tree_species: '', // 树种
+  tree_nameZh: '', // 中文名
+  tree_nameEn: '', // 英文名
+  tree_nameAlias: '', // 别名
+  tree_ageReal: '', // 真实树龄
+  tree_ageLegend: '', // 传说树龄
+  tree_ageEstimate: '', // 估测树龄
+  tree_height: '', // 树高
+  ground_circumference: '', // 林分平均胸围（地围）
+  crown_widthAverage: '', // 平均冠幅
+  crown_widthEW: '', // 东西冠幅
+  crown_widthNS: '', // 南北冠幅
+  crown_altitude: '', // 海拔
+  crown_slopeDirection: '', // 坡向
+  crown_slopeDegree: '', // 坡度
+  crown_slopePosition: '', // 坡位
+  site_soilName: '', // 立地条件 - 土壤名称
+  site_compactness: '', // 立地条件 - 紧密度
+  special_conditions: '', // 特殊状况描述
+  tree_owner: '', // 权属
+  administer: '', // 管辖单位或个人
+  protection_status: '' // 保护现状及建议
 })
 const handleSubmit = () => {
   console.log(form)
@@ -101,8 +254,8 @@ const handleSubmit = () => {
 
 <style lang="scss" scoped>
 .form-container {
-  max-width: 1000px;
-  min-width: 400px;
+  // max-width: 1000px;
+  // min-width: 800px;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -115,9 +268,7 @@ const handleSubmit = () => {
     width: 120px;
   }
 }
-// .el-descriptions {
-//   margin-top: 20px;
-// }
+
 .cell-item {
   display: flex;
   align-items: center;

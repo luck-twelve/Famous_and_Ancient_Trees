@@ -175,3 +175,22 @@
 .cell .el-button [class*='el-icon'] + span {
   margin-left: 1px;
 }
+
+.el-descriptions__body .el-descriptions__table .el-descriptions__label.el-descriptions__cell.is-bordered-label {
+  color: #606266;
+}
+.el-descriptions__body .el-descriptions__table .el-descriptions__cell .el-input__inner {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 0;
+  padding: 0 5px;
+}
+.el-descriptions__body .el-descriptions__table .el-descriptions__cell .el-date-editor .el-input__inner {
+  border: var(--el-input-border, var(--el-border-base));
+  border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+  padding-left: 30px;
+}
+.el-descriptions__body .el-descriptions__table .el-descriptions__cell .el-textarea__inner {
+  padding: 0 5px;
+}

@@ -1,13 +1,13 @@
 <template>
   <div class="form-container">
-    <el-descriptions title="异常上报" :column="1" border>
+    <el-descriptions title="古树群调查表" :column="1" border>
       <el-descriptions-item>
         <template #label>
           <div class="cell-item">
             <el-icon>
               <user />
             </el-icon>
-            <span>姓名</span>
+            <span>单位</span>
           </div>
         </template>
         <el-input v-model="form.username"></el-input>
@@ -18,7 +18,7 @@
             <el-icon>
               <iphone />
             </el-icon>
-            <span>联系方式</span>
+            <span>调查号</span>
           </div>
         </template>
         <el-input v-model="form.contact"></el-input>
@@ -27,17 +27,12 @@
         <template #label>
           <div class="cell-item">
             <el-icon>
-              <clock />
+              <location-information />
             </el-icon>
-            <span>发生时间</span>
+            <span>权属</span>
           </div>
         </template>
-        <el-date-picker
-          v-model="form.happenTime"
-          type="datetime"
-          value-format="YYYY-MM-DD hh:mm:ss"
-          placeholder="请选择"
-        ></el-date-picker>
+        <el-input v-model="form.happenAddr"></el-input>
       </el-descriptions-item>
       <el-descriptions-item>
         <template #label>
@@ -45,7 +40,161 @@
             <el-icon>
               <location-information />
             </el-icon>
-            <span>发生地点</span>
+            <span>位置</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>区域</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>类别</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>面积</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>古树株数</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>主要树种</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>目的保护树种</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>平均树龄</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>郁闭度</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>林分平均高度</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>林分平均胸围（地围）</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>立地条件</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>土层厚度</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>下木</span>
+          </div>
+        </template>
+        <el-input v-model="form.happenAddr"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <location-information />
+            </el-icon>
+            <span>密度</span>
           </div>
         </template>
         <el-input v-model="form.happenAddr"></el-input>
@@ -56,7 +205,7 @@
             <el-icon>
               <tickets />
             </el-icon>
-            <span>异常情况</span>
+            <span>经营活动情况</span>
           </div>
         </template>
         <el-input v-model="form.abCondition" :rows="3" type="textarea"></el-input>
@@ -65,12 +214,23 @@
         <template #label>
           <div class="cell-item">
             <el-icon>
-              <warning />
+              <tickets />
             </el-icon>
-            <span>原因分析</span>
+            <span>管护单位或个人</span>
           </div>
         </template>
-        <el-input v-model="form.reasons" :rows="3" type="textarea"></el-input>
+        <el-input v-model="form.abCondition" :rows="3" type="textarea"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item>
+        <template #label>
+          <div class="cell-item">
+            <el-icon>
+              <tickets />
+            </el-icon>
+            <span>管护现状</span>
+          </div>
+        </template>
+        <el-input v-model="form.abCondition" :rows="3" type="textarea"></el-input>
       </el-descriptions-item>
     </el-descriptions>
     <div class="footer-btn">
@@ -101,7 +261,7 @@ const handleSubmit = () => {
 
 <style lang="scss" scoped>
 .form-container {
-  max-width: 1000px;
+  // max-width: 1000px;
   min-width: 400px;
   display: flex;
   justify-content: center;
@@ -115,9 +275,7 @@ const handleSubmit = () => {
     width: 120px;
   }
 }
-// .el-descriptions {
-//   margin-top: 20px;
-// }
+
 .cell-item {
   display: flex;
   align-items: center;
