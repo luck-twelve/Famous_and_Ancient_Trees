@@ -74,6 +74,59 @@ var archivesControll = {
                 })
             })
         })
-    }
+    },
+
+
+    getArchivesTree: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body)
+            query(connection, reqSql, 'getArchivesTree', reqParams, result => {
+                getTotal(noLimitSql, pool).then(total => {
+                    return res.json({
+                        code: 200,
+                        data: result,
+                        total: total,
+                        msg: "操作成功",
+                        flag: true
+                    })
+                })
+            })
+        })
+    },
+    addArchivesTree: function (req, res, next) {
+        const params = [];
+        console.log(req.body)
+        let keys = Object.keys(req.body)
+        if (!keys?.length) return res.json({
+            code: -200,
+            msg: '操作失败',
+            flag: false,
+            showFlag: true
+        })
+        let reqsql = sql.addArchivesTree + '('
+        let paramsSql = ' VALUES('
+        keys.forEach((item, index) => {
+            reqsql += item
+            paramsSql += `'${req.body[item]}'`
+            if (index === keys.length - 1) {
+                reqsql += ')'
+                paramsSql += ')'
+            } else {
+                reqsql += ','
+                paramsSql += ','
+            }
+        })
+        reqsql += paramsSql
+        pool.getConnection(function (err, connection) {
+            query(connection, reqsql, 'addArchivesTree', params, result => {
+                return res.json({
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
+                })
+            })
+        })
+    },
 };
 module.exports = archivesControll;

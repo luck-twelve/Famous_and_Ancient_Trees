@@ -1,5 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" class="demo-tabs" type="border-card" @tab-click="handleTab">
+  <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleTab">
     <el-tab-pane label="名木古树" name="tree">
       <new-tree></new-tree>
     </el-tab-pane>

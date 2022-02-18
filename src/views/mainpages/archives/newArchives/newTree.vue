@@ -1,6 +1,16 @@
 <template>
   <div class="form-container">
     <el-descriptions title="名木古树调查表" :column="2" border>
+      <el-descriptions-item label="档案号">
+        <el-input v-model="form.archive_id" class="widthPx-300"></el-input>
+      </el-descriptions-item>
+      <el-descriptions-item label="挂牌号">
+        <div class="rowSC">
+          第
+          <el-input v-model="form.listing" class="widthPx-300"></el-input>
+          号
+        </div>
+      </el-descriptions-item>
       <el-descriptions-item label="单位" :span="2">
         <div class="rowSC">
           <el-input v-model="form.company_province" class="widthPx-100"></el-input>
@@ -11,23 +21,13 @@
           区（市、区）
         </div>
       </el-descriptions-item>
-      <el-descriptions-item label="档案号">
-        <el-input v-model="form.archive_id"></el-input>
-      </el-descriptions-item>
-      <el-descriptions-item label="挂牌号">
-        <div class="rowSC">
-          第
-          <el-input v-model="form.listing" class="widthPx-150"></el-input>
-          号
-        </div>
-      </el-descriptions-item>
       <el-descriptions-item label="位置" :span="2">
         <div class="rowSC">
-          <el-input v-model="form.location_township" class="widthPx-100"></el-input>
+          <el-input v-model="form.location_township" class="widthPx-150"></el-input>
           乡镇（街道）
-          <el-input v-model="form.location_village" class="widthPx-100"></el-input>
+          <el-input v-model="form.location_village" class="widthPx-150"></el-input>
           村（居委会）
-          <el-input v-model="form.location_social" class="widthPx-100"></el-input>
+          <el-input v-model="form.location_social" class="widthPx-150"></el-input>
           社（组、号）
         </div>
         <div class="rowSC">
@@ -77,86 +77,94 @@
           <el-radio label="GROUP_SHAPE">群状</el-radio>
         </el-radio-group>
       </el-descriptions-item>
-      <el-descriptions-item label="树种" :span="2">
+      <el-descriptions-item label="树种">
+        <el-select v-model="form.tree_species" placeholder="请选择">
+          <el-option label="松柏类" value="songbai"></el-option>
+        </el-select>
+      </el-descriptions-item>
+      <el-descriptions-item label="树名">
         <div class="rowSC">
-          科
-          <el-input v-model="form.username" class="widthPx-100"></el-input>
-          属
-          <el-input v-model="form.username" class="widthPx-100"></el-input>
-          树
-          <el-input v-model="form.username" class="widthPx-100"></el-input>
-          中文名
-          <el-input v-model="form.tree_nameZh" class="widthPx-100"></el-input>
-          英文名
-          <el-input v-model="form.tree_nameEn" class="widthPx-100"></el-input>
-          别名
-          <el-input v-model="form.tree_nameAlias" class="widthPx-100"></el-input>
+          <span class="widthPx-80">中文名：</span>
+          <el-input v-model="form.tree_nameZh"></el-input>
+        </div>
+        <div class="rowSC">
+          <span class="widthPx-80">英文名：</span>
+          <el-input v-model="form.tree_nameEn"></el-input>
+        </div>
+        <div class="rowSC">
+          <span class="widthPx-60">别名：</span>
+          <el-input v-model="form.tree_nameAlias"></el-input>
         </div>
       </el-descriptions-item>
       <el-descriptions-item label="树龄" :span="2">
         <div class="rowSC">
-          真实树龄
+          真实树龄：
           <el-input v-model="form.tree_ageReal" class="widthPx-100"></el-input>
           年
           <el-divider direction="vertical"></el-divider>
-          传说树龄
+          传说树龄：
           <el-input v-model="form.tree_ageLegend" class="widthPx-100"></el-input>
           年
           <el-divider direction="vertical"></el-divider>
-          估测树龄
+          估测树龄：
           <el-input v-model="form.tree_ageEstimate" class="widthPx-100"></el-input>
           年
         </div>
       </el-descriptions-item>
       <el-descriptions-item label="树高">
         <div class="rowSC">
-          <el-input v-model="form.tree_height" class="widthPx-100"></el-input>
+          <el-input v-model="form.tree_height" class="widthPx-200"></el-input>
           米
         </div>
       </el-descriptions-item>
       <el-descriptions-item label="林分平均胸围（地围）">
         <div class="rowSC">
-          <el-input v-model="form.ground_circumference" class="widthPx-100"></el-input>
+          <el-input v-model="form.ground_circumference" class="widthPx-200"></el-input>
           厘米
         </div>
       </el-descriptions-item>
       <el-descriptions-item label="冠幅" :span="2">
         <div class="rowSC">
-          平均
-          <el-input v-model="form.crown_widthAverage" class="widthPx-100"></el-input>
+          平均：
+          <el-input v-model="form.crown_widthAverage" class="widthPx-120"></el-input>
           米
           <el-divider direction="vertical"></el-divider>
-          东西
-          <el-input v-model="form.crown_widthEW" class="widthPx-100"></el-input>
+          东西：
+          <el-input v-model="form.crown_widthEW" class="widthPx-120"></el-input>
           米
           <el-divider direction="vertical"></el-divider>
-          南北
-          <el-input v-model="form.crown_widthNS" class="widthPx-100"></el-input>
+          南北：
+          <el-input v-model="form.crown_widthNS" class="widthPx-120"></el-input>
           米
         </div>
         <div class="rowSC">
-          海拔
-          <el-input v-model="form.crown_altitude" class="widthPx-100"></el-input>
+          海拔：
+          <el-input v-model="form.crown_altitude" class="widthPx-120"></el-input>
           米
           <el-divider direction="vertical"></el-divider>
-          坡向
-          <!-- crown_slopeDirection -->
+          坡向：
+          <el-select v-model="form.crown_slopeDirection" class="widthPx-130" placeholder="请选择">
+            <el-option label="东" value="east"></el-option>
+            <el-option label="西" value="west"></el-option>
+            <el-option label="南" value="south"></el-option>
+            <el-option label="北" value="north"></el-option>
+          </el-select>
           <el-divider direction="vertical"></el-divider>
-          坡度
-          <el-input v-model="form.crown_slopeDegree" class="widthPx-100"></el-input>
+          坡度：
+          <el-input v-model="form.crown_slopeDegree" class="widthPx-120"></el-input>
           度
           <el-divider direction="vertical"></el-divider>
-          坡位
-          <el-input v-model="form.crown_slopePosition" class="widthPx-100"></el-input>
+          坡位：
+          <el-input v-model="form.crown_slopePosition" class="widthPx-120"></el-input>
           部
         </div>
       </el-descriptions-item>
       <el-descriptions-item label="立地条件" :span="2">
         <div class="rowSC">
-          土壤名称
-          <el-input v-model="form.site_soilName" class="widthPx-100"></el-input>
+          土壤名称：
+          <el-input v-model="form.site_soilName" class="widthPx-200"></el-input>
           <el-divider direction="vertical"></el-divider>
-          紧密度
+          紧密度：
           <el-radio-group v-model="radioCompactness">
             <el-radio :label="5">极紧密</el-radio>
             <el-radio :label="4">紧密</el-radio>
@@ -178,10 +186,10 @@
         </el-radio-group>
       </el-descriptions-item>
       <el-descriptions-item label="管辖单位或个人" :span="2">
-        <el-input v-model="form.administer"></el-input>
+        <el-input v-model="form.keeper"></el-input>
       </el-descriptions-item>
       <el-descriptions-item label="保护现状及建议" :span="2">
-        <el-input v-model="form.protection_status" :rows="3" type="textarea"></el-input>
+        <el-input v-model="form.status" :rows="3" type="textarea"></el-input>
       </el-descriptions-item>
     </el-descriptions>
     <div class="footer-btn">
@@ -191,8 +199,8 @@
 </template>
 
 <script setup>
-import { User, Iphone, Clock, LocationInformation, Tickets, Warning } from '@element-plus/icons-vue'
 import { ref, toRefs, reactive, onBeforeMount } from 'vue'
+import { addArchivesTreeReq } from '@/api/archives'
 
 const radioArea = ref('') // 区域 - CITY / COUNTRY_SIDE
 const radioLocation = ref('') // 坐落 - UNIT_COURTYYARD / PERSONAL_HOUSE / TEMPLE / OTHERS
@@ -205,11 +213,11 @@ const radioOwner = ref('') // 权属 - STATE_OWNED / COLLECTIVE / PERSONAL / OTH
  * 表单
  */
 const form = reactive({
+  archive_id: '', // 档案号
+  listing: '', // 挂牌号
   company_province: '', // 单位 - 省（市、区）
   company_city: '', // 单位 - 市（地、州）
   company_district: '', // 单位 - 区（市、区）
-  archive_id: '', // 档案号
-  listing: '', // 挂牌号
   location_township: '', // 位置 - 乡镇（街道）
   location_village: '', // 位置 - 村（居委会）
   location_social: '', // 位置 - 社（组、号）
@@ -220,10 +228,10 @@ const form = reactive({
   latitude_branch: '', // 纬度 - 分
   latitude_second: '', // 纬度 - 秒
   location_aliasName: '', // 小地名
-  tree_area: '', // 区域
-  tree_location: '', // 坐落
-  tree_type: '', // 类别
-  tree_distribution: '', // 分布
+  tree_area: radioArea.value, // 区域
+  tree_location: radioLocation.value, // 坐落
+  tree_type: radioType.value, // 类别
+  tree_distribution: radioDistribution.value, // 分布
   tree_species: '', // 树种
   tree_nameZh: '', // 中文名
   tree_nameEn: '', // 英文名
@@ -237,17 +245,24 @@ const form = reactive({
   crown_widthEW: '', // 东西冠幅
   crown_widthNS: '', // 南北冠幅
   crown_altitude: '', // 海拔
-  crown_slopeDirection: '', // 坡向
+  crown_slopeDirection: '', // 坡向 - east / west / south / north
   crown_slopeDegree: '', // 坡度
   crown_slopePosition: '', // 坡位
   site_soilName: '', // 立地条件 - 土壤名称
-  site_compactness: '', // 立地条件 - 紧密度
+  site_compactness: radioCompactness.value, // 立地条件 - 紧密度
   special_conditions: '', // 特殊状况描述
-  tree_owner: '', // 权属
-  administer: '', // 管辖单位或个人
-  protection_status: '' // 保护现状及建议
+  tree_owner: radioOwner.value, // 权属
+  keeper: '', // 管辖单位或个人
+  status: '' // 保护现状及建议
 })
 const handleSubmit = () => {
+  form.tree_area = radioArea.value
+  form.tree_location = radioLocation.value
+  form.tree_type = radioType.value
+  form.tree_distribution = radioDistribution.value
+  form.site_compactness = radioCompactness.value
+  form.tree_owner = radioOwner.value
+  addArchivesTreeReq(form)
   console.log(form)
 }
 </script>

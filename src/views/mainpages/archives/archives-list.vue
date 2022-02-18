@@ -47,7 +47,7 @@
 <script setup>
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount } from 'vue'
-import { getArchivesListReq, deleteArchivesReq } from '@/api/archives'
+import { getArchivesListReq, deleteArchivesReq, getArchivesTreeListReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
 
@@ -120,6 +120,7 @@ onBeforeMount(() => {
 
 const getList = (params = {}) => {
   state.listLoading = true
+  // getArchivesTreeListReq(params)
   getArchivesListReq(params).then(({ data }) => {
     state.list = data
     state.listLoading = false

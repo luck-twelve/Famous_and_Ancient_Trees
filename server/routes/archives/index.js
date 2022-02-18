@@ -51,6 +51,33 @@ const archivesApi = (router) => {
     router.delete('/archives/deleteArchives', function (req, res, next) {
         archivesControll.deleteArchives(req, res, next)
     })
+
+
+    /* archivesTree controller */
+    /**
+     * @api {post} /api/archives/getArchivesTree 获取名木古树调查表列表
+     * @apiDescription 获取名木古树调查表列表
+     * @apiName getArchivesTree
+     * @apiGroup archivesTree
+     * @apiSuccess {json} archivesTreeList 名木古树调查表列表
+     * @apiSampleRequest http://localhost:3000/api/archives/getArchivesTree
+     * @apiVersion 1.0.0
+     */
+    router.post('/archives/getArchivesTree', function (req, res, next) {
+        archivesControll.getArchivesTree(req, res, next)
+    })
+
+    /**
+         * @api {post} /api/archives/addArchivesTree 新增档案
+         * @apiDescription 新增档案
+         * @apiName addArchivesTree
+         * @apiGroup ArchivesTree
+         * @apiSampleRequest http://localhost:3000/api/archives/addArchivesTree
+         * @apiVersion 1.0.0
+         */
+    router.post('/archives/addArchivesTree', function (req, res, next) {
+        archivesControll.addArchivesTree(req, res, next)
+    })
 }
 
 module.exports = archivesApi;

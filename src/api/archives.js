@@ -30,3 +30,39 @@ export function deleteArchivesReq(data) {
         method: 'delete',
     })
 }
+
+/**
+ * 名木古树调查表
+ * @param {*} data 
+ * @returns 
+ */
+export function getArchivesTreeListReq(data) {
+    return request({
+        url: '/archives/getArchivesTree',
+        method: 'post',
+        data,
+    })
+}
+
+export function addArchivesTreeReq(data) {
+    return request({
+        url: '/archives/addArchivesTree',
+        data,
+        method: 'post',
+    })
+}
+
+export function updateArchivesTreeReq(data) {
+    return request({
+        url: '/archives/updateArchivesTree',
+        data,
+        method: 'put',
+    })
+}
+
+export function deleteArchivesTreeReq(data) {
+    return request({
+        url: `/archives/deleteArchivesTree?tree_id=${data}`,
+        method: 'delete',
+    })
+}
