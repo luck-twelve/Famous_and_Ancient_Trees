@@ -2,7 +2,7 @@
 const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
-const { query, getFiltersql, getTotal } = require('../functions'); // 引入已经封装好的全局函数
+const { query, getFiltersql, getTotal, sqlAdd } = require('../functions'); // 引入已经封装好的全局函数
 var pool = mysql.createPool(mysqlconfig);
 
 //引入token 
@@ -25,15 +25,9 @@ var archivesControll = {
         })
     },
     addArchives: function (req, res, next) {
-        const params = [];
-        params[0] = req.body.treeName
-        params[1] = req.body.treeType
-        params[2] = req.body.treeAge
-        params[3] = req.body.treeLocation
-        params[4] = req.body.treeAdminister
-        params[5] = req.body.treeHistoryLegend
+        let reqsql = sqlAdd(req, res, 'trees')
         pool.getConnection(function (err, connection) {
-            query(connection, sql.addArchives, 'addArchives', params, result => {
+            query(connection, reqsql, 'addArchives', [], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
@@ -94,31 +88,9 @@ var archivesControll = {
         })
     },
     addArchivesTree: function (req, res, next) {
-        const params = [];
-        console.log(req.body)
-        let keys = Object.keys(req.body)
-        if (!keys?.length) return res.json({
-            code: -200,
-            msg: '操作失败',
-            flag: false,
-            showFlag: true
-        })
-        let reqsql = sql.addArchivesTree + '('
-        let paramsSql = ' VALUES('
-        keys.forEach((item, index) => {
-            reqsql += item
-            paramsSql += `'${req.body[item]}'`
-            if (index === keys.length - 1) {
-                reqsql += ')'
-                paramsSql += ')'
-            } else {
-                reqsql += ','
-                paramsSql += ','
-            }
-        })
-        reqsql += paramsSql
+        let reqsql = sqlAdd(req, res, 'archives_tree')
         pool.getConnection(function (err, connection) {
-            query(connection, reqsql, 'addArchivesTree', params, result => {
+            query(connection, reqsql, 'addArchivesTree', [], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

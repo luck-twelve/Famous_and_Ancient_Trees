@@ -2,60 +2,124 @@
   <div class="form-container">
     <el-descriptions title="名木古树调查表" :column="2" border>
       <el-descriptions-item label="档案号">
-        <el-input v-model="form.archive_id" class="widthPx-300"></el-input>
+        <el-form ref="archive_id" :model="form">
+          <el-form-item prop="archive_id" :rules="formRulesMixin.isNotNullSecond">
+            <el-input v-model="form.archive_id" class="widthPx-300"></el-input>
+          </el-form-item>
+        </el-form>
       </el-descriptions-item>
       <el-descriptions-item label="挂牌号">
         <div class="rowSC">
           第
-          <el-input v-model="form.listing" class="widthPx-300"></el-input>
+          <el-form ref="listing" :model="form">
+            <el-form-item prop="listing" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.listing" class="widthPx-300"></el-input>
+            </el-form-item>
+          </el-form>
           号
         </div>
       </el-descriptions-item>
       <el-descriptions-item label="单位" :span="2">
         <div class="rowSC">
-          <el-input v-model="form.company_province" class="widthPx-100"></el-input>
+          <el-form ref="company_province" :model="form">
+            <el-form-item prop="company_province" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.company_province" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           省（市、区）
-          <el-input v-model="form.company_city" class="widthPx-100"></el-input>
+          <el-form ref="company_city" :model="form">
+            <el-form-item prop="company_city" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.company_city" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           市（地、州）
-          <el-input v-model="form.company_district" class="widthPx-100"></el-input>
+          <el-form ref="company_district" :model="form">
+            <el-form-item prop="company_district" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.company_district" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           区（市、区）
         </div>
       </el-descriptions-item>
       <el-descriptions-item label="位置" :span="2">
         <div class="rowSC">
-          <el-input v-model="form.location_township" class="widthPx-150"></el-input>
+          <el-form ref="location_township" :model="form">
+            <el-form-item prop="location_township" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.location_township" class="widthPx-150"></el-input>
+            </el-form-item>
+          </el-form>
           乡镇（街道）
-          <el-input v-model="form.location_village" class="widthPx-150"></el-input>
+          <el-form ref="location_village" :model="form">
+            <el-form-item prop="location_village" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.location_village" class="widthPx-150"></el-input>
+            </el-form-item>
+          </el-form>
           村（居委会）
-          <el-input v-model="form.location_social" class="widthPx-150"></el-input>
+          <el-form ref="location_social" :model="form">
+            <el-form-item prop="location_social" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.location_social" class="widthPx-150"></el-input>
+            </el-form-item>
+          </el-form>
           社（组、号）
         </div>
         <div class="rowSC">
           经度：
-          <el-input v-model="form.longitude_degree" class="widthPx-100"></el-input>
+          <el-form ref="longitude_degree" :model="form">
+            <el-form-item prop="longitude_degree" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.longitude_degree" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           度
-          <el-input v-model="form.longitude_branch" class="widthPx-100"></el-input>
+          <el-form ref="longitude_branch" :model="form">
+            <el-form-item prop="longitude_branch" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.longitude_branch" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           分
-          <el-input v-model="form.longitude_second" class="widthPx-100"></el-input>
+          <el-form ref="longitude_second" :model="form">
+            <el-form-item prop="longitude_second" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.longitude_second" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           秒
           <el-divider direction="vertical"></el-divider>
           纬度：
-          <el-input v-model="form.latitude_degree" class="widthPx-100"></el-input>
+          <el-form ref="latitude_degree" :model="form">
+            <el-form-item prop="latitude_degree" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.latitude_degree" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           度
-          <el-input v-model="form.latitude_branch" class="widthPx-100"></el-input>
+          <el-form ref="latitude_branch" :model="form">
+            <el-form-item prop="latitude_branch" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.latitude_branch" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           分
-          <el-input v-model="form.latitude_second" class="widthPx-100"></el-input>
+          <el-form ref="latitude_second" :model="form">
+            <el-form-item prop="latitude_second" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.latitude_second" class="widthPx-100"></el-input>
+            </el-form-item>
+          </el-form>
           秒
           <el-divider direction="vertical"></el-divider>
           小地名：
-          <el-input v-model="form.location_aliasName" class="widthPx-150"></el-input>
+          <el-form ref="location_aliasName" :model="form">
+            <el-form-item prop="location_aliasName" :rules="formRulesMixin.isNotNullSecond">
+              <el-input v-model="form.location_aliasName" class="widthPx-150"></el-input>
+            </el-form-item>
+          </el-form>
         </div>
       </el-descriptions-item>
       <el-descriptions-item label="区域">
-        <el-radio-group v-model="radioArea">
-          <el-radio label="CITY">城市</el-radio>
-          <el-radio label="COUNTRY_SIDE">农村</el-radio>
-        </el-radio-group>
+        <el-form ref="tree_area" :model="form">
+          <el-form-item prop="tree_area" :rules="formRulesMixin.isNotNull">
+            <el-radio-group v-model="radioArea">
+              <el-radio label="CITY">城市</el-radio>
+              <el-radio label="COUNTRY_SIDE">农村</el-radio>
+            </el-radio-group>
+          </el-form-item>
+        </el-form>
       </el-descriptions-item>
       <el-descriptions-item label="坐落">
         <el-radio-group v-model="radioLocation">
@@ -199,8 +263,10 @@
 </template>
 
 <script setup>
-import { ref, toRefs, reactive, onBeforeMount } from 'vue'
+import { ref, reactive, getCurrentInstance } from 'vue'
+import { ElMessage } from 'element-plus'
 import { addArchivesTreeReq } from '@/api/archives'
+let { proxy } = getCurrentInstance()
 
 const radioArea = ref('') // 区域 - CITY / COUNTRY_SIDE
 const radioLocation = ref('') // 坐落 - UNIT_COURTYYARD / PERSONAL_HOUSE / TEMPLE / OTHERS
@@ -255,6 +321,7 @@ const form = reactive({
   keeper: '', // 管辖单位或个人
   status: '' // 保护现状及建议
 })
+const archive_id = ref()
 const handleSubmit = () => {
   form.tree_area = radioArea.value
   form.tree_location = radioLocation.value
@@ -262,8 +329,28 @@ const handleSubmit = () => {
   form.tree_distribution = radioDistribution.value
   form.site_compactness = radioCompactness.value
   form.tree_owner = radioOwner.value
-  addArchivesTreeReq(form)
-  console.log(form)
+
+  let checkList = []
+  Object.keys(form).forEach((item) => {
+    checkList.push(checkForm(item))
+  })
+  Promise.all(checkList)
+    .then(() => {
+      // addArchivesTreeReq(form)
+    })
+    .catch(() => {
+      ElMessage({ message: '请填写完整表单', type: 'error' })
+    })
+}
+// 表单验证
+const checkForm = (formRef) => {
+  return new Promise((resolve, reject) => {
+    proxy.$refs[formRef].validate((valid) => {
+      if (valid) {
+        resolve()
+      } else reject()
+    })
+  })
 }
 </script>
 
@@ -290,5 +377,8 @@ const handleSubmit = () => {
 }
 .cell-item :first-child {
   margin-right: 6px;
+}
+.el-form-item {
+  margin-bottom: 0;
 }
 </style>

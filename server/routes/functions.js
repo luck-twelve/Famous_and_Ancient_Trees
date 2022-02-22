@@ -44,6 +44,31 @@ const actions = {
             console.groupEnd()
             callback(result, err)
         })
+    },
+    sqlAdd: (req, res, tableDB) => {
+        let keys = Object.keys(req.body)
+        if (!keys?.length) return res.json({
+            code: -200,
+            msg: '操作失败',
+            flag: false,
+            showFlag: true
+        })
+        let reqsql = `INSERT INTO ${tableDB}(`
+        let paramsSql = ' VALUES('
+        keys.forEach((item, index) => {
+            if (!req.body[item]) return
+            reqsql += item
+            paramsSql += `'${req.body[item]}'`
+            if (index === keys.length - 1) {
+                reqsql += ')'
+                paramsSql += ')'
+            } else {
+                reqsql += ','
+                paramsSql += ','
+            }
+        })
+        reqsql += paramsSql
+        return reqsql
     }
 }
 module.exports = actions;
