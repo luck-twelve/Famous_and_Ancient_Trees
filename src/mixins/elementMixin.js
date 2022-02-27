@@ -50,7 +50,9 @@ const mixin = {
       /* 表单校验*/
       formRulesMixin: {
         isNotNull: [{ required: true, message: '该字段不能为空', trigger: 'blur' }],
-        isNotNullSecond: [{ required: true, message: ' ', trigger: 'blur' }],
+        isNotNullCheckbox: [{ required: true, message: '请选择', trigger: 'change' }],
+        isNotNullLine: [{ required: true, message: ' ', trigger: 'blur' }],
+        isNotNullSelect: [{ required: true, message: ' ', trigger: 'change' }],
         mLength8: [
           { required: true, message: '该字段不能为空', trigger: 'blur' },
           { max: 8, message: '最长为8个字符', trigger: 'blur' }

@@ -197,3 +197,7 @@
 .el-descriptions__body .el-descriptions__table .el-descriptions__cell .el-divider--vertical {
   margin: 0 30px;
 }
+
+.el-radio-group + .el-form-item__error {
+  top: 70%;
+}
