@@ -48,7 +48,7 @@
           :align="item.align || 'left'"
         ></el-table-column>
       </template>
-      <slot />
+      <slot v-if="formThead.length > 0" />
     </el-table>
     <el-pagination
       background

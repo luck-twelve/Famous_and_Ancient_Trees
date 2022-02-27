@@ -78,6 +78,18 @@ const archivesApi = (router) => {
     router.post('/archives/addArchivesTree', function (req, res, next) {
         archivesControll.addArchivesTree(req, res, next)
     })
+
+    /**
+         * @api {post} /api/archives/updateArchivesTree 修改档案
+         * @apiDescription 修改档案
+         * @apiName updateArchivesTree
+         * @apiGroup ArchivesTree
+         * @apiSampleRequest http://localhost:3000/api/archives/updateArchivesTree
+         * @apiVersion 1.0.0
+         */
+    router.put('/archives/updateArchivesTree', function (req, res, next) {
+        archivesControll.updateArchivesTree(req, res, next)
+    })
 }
 
 module.exports = archivesApi;

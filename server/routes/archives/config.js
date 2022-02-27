@@ -2,7 +2,7 @@
 const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
-const { query, getFiltersql, getTotal, sqlAdd } = require('../functions'); // 引入已经封装好的全局函数
+const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate } = require('../functions'); // 引入已经封装好的全局函数
 var pool = mysql.createPool(mysqlconfig);
 
 //引入token 
@@ -91,6 +91,19 @@ var archivesControll = {
         let reqsql = sqlAdd(req, res, 'archives_tree')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addArchivesTree', [], result => {
+                return res.json({
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
+                })
+            })
+        })
+    },
+    updateArchivesTree: function (req, res, next) {
+        let reqsql = sqlUpdate(req, res, 'archives_tree', 'archives_id')
+        pool.getConnection(function (err, connection) {
+            query(connection, reqsql, 'updateArchivesTree', [], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

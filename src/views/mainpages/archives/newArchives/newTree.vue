@@ -1,20 +1,16 @@
 <template>
   <div class="form-container">
     <el-descriptions title="名木古树调查表" :column="2" border>
+      <el-descriptions-item label="档案号">
+        {{ form.archive_id }}
+      </el-descriptions-item>
       <el-descriptions-item>
         <template #label>
           <span>
-            档案号
+            挂牌号
             <i style="font-size: 16px; color: #fc5531; vertical-align: -2px; user-select: none">*</i>
           </span>
         </template>
-        <el-form ref="archive_id" :model="form">
-          <el-form-item prop="archive_id" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.archive_id" class="widthPx-300"></el-input>
-          </el-form-item>
-        </el-form>
-      </el-descriptions-item>
-      <el-descriptions-item label="挂牌号">
         <div class="rowSC">
           第
           <el-form ref="listing" :model="form">
@@ -287,10 +283,10 @@
           <el-form ref="crown_slopeDirection" :model="form">
             <el-form-item prop="crown_slopeDirection" :rules="formRulesMixin.isNotNullSelect">
               <el-select v-model="form.crown_slopeDirection" class="widthPx-130" placeholder="请选择">
-                <el-option label="东" value="east"></el-option>
-                <el-option label="西" value="west"></el-option>
-                <el-option label="南" value="south"></el-option>
-                <el-option label="北" value="north"></el-option>
+                <el-option label="东" value="EAST"></el-option>
+                <el-option label="西" value="WEST"></el-option>
+                <el-option label="南" value="SOUTH"></el-option>
+                <el-option label="北" value="NORTH"></el-option>
               </el-select>
             </el-form-item>
           </el-form>
@@ -325,11 +321,11 @@
           <el-form ref="site_compactness" :model="form">
             <el-form-item prop="site_compactness" :rules="formRulesMixin.isNotNullCheckbox">
               <el-radio-group v-model="radioCompactness">
-                <el-radio :label="5">极紧密</el-radio>
-                <el-radio :label="4">紧密</el-radio>
-                <el-radio :label="3">中等</el-radio>
-                <el-radio :label="2">较疏松</el-radio>
-                <el-radio :label="1">疏松</el-radio>
+                <el-radio label="TIGHT_QUITE">极紧密</el-radio>
+                <el-radio label="TIGHT">紧密</el-radio>
+                <el-radio label="MODERATE">中等</el-radio>
+                <el-radio label="LOOSE">较疏松</el-radio>
+                <el-radio label="LOOSE_QUITE">疏松</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-form>
@@ -378,63 +374,86 @@
 <script setup>
 import { ref, reactive, getCurrentInstance } from 'vue'
 import { ElMessage } from 'element-plus'
-import { addArchivesTreeReq } from '@/api/archives'
+import { addArchivesTreeReq, updateArchivesTreeReq } from '@/api/archives'
 let { proxy } = getCurrentInstance()
 
-const radioArea = ref('') // 区域 - CITY / COUNTRY_SIDE
-const radioLocation = ref('') // 坐落 - UNIT_COURTYYARD / PERSONAL_HOUSE / TEMPLE / OTHERS
-const radioType = ref('') // 类别 - ANCIENT / FAMOUS
-const radioDistribution = ref('') // 分布 - GROW_SCATTERED / GROUP_SHAPE
-const radioCompactness = ref('') // 紧密度 - 5 / 4 / 3 / 2 / 1
-const radioOwner = ref('') // 权属 - STATE_OWNED / COLLECTIVE / PERSONAL / OTHERS
+const props = defineProps({
+  viewType: {
+    require: true,
+    default: 'add', // add-edit
+    type: String
+  },
+  dataSource: {
+    default: () => {
+      return {
+        tree_area: '',
+        tree_location: '',
+        tree_type: '',
+        tree_distribution: '',
+        site_compactness: '',
+        tree_owner: ''
+      }
+    },
+    type: Object
+  }
+})
+
+const radioArea = ref(props.dataSource.tree_area) // 区域 - CITY / COUNTRY_SIDE
+const radioLocation = ref(props.dataSource.tree_location) // 坐落 - UNIT_COURTYYARD / PERSONAL_HOUSE / TEMPLE / OTHERS
+const radioType = ref(props.dataSource.tree_type) // 类别 - ANCIENT / FAMOUS
+const radioDistribution = ref(props.dataSource.tree_distribution) // 分布 - GROW_SCATTERED / GROUP_SHAPE
+const radioCompactness = ref(props.dataSource.site_compactness) // 紧密度
+const radioOwner = ref(props.dataSource.tree_owner) // 权属 - STATE_OWNED / COLLECTIVE / PERSONAL / OTHERS
 
 /**
  * 表单
  */
-const form = reactive({
-  archive_id: '', // 档案号
-  listing: '', // 挂牌号
-  company_province: '', // 单位 - 省（市、区）
-  company_city: '', // 单位 - 市（地、州）
-  company_district: '', // 单位 - 区（市、区）
-  location_township: '', // 位置 - 乡镇（街道）
-  location_village: '', // 位置 - 村（居委会）
-  location_social: '', // 位置 - 社（组、号）
-  longitude_degree: '', // 经度 - 度
-  longitude_branch: '', // 经度 - 分
-  longitude_second: '', // 经度 - 秒
-  latitude_degree: '', // 纬度 - 度
-  latitude_branch: '', // 纬度 - 分
-  latitude_second: '', // 纬度 - 秒
-  location_aliasName: '', // 小地名
-  tree_area: radioArea.value, // 区域
-  tree_location: radioLocation.value, // 坐落
-  tree_type: radioType.value, // 类别
-  tree_distribution: radioDistribution.value, // 分布
-  tree_species: '', // 树种
-  tree_nameZh: '', // 中文名
-  tree_nameEn: '', // 英文名
-  tree_nameAlias: '', // 别名
-  tree_ageReal: '', // 真实树龄
-  tree_ageLegend: '', // 传说树龄
-  tree_ageEstimate: '', // 估测树龄
-  tree_height: '', // 树高
-  ground_circumference: '', // 林分平均胸围（地围）
-  crown_widthAverage: '', // 平均冠幅
-  crown_widthEW: '', // 东西冠幅
-  crown_widthNS: '', // 南北冠幅
-  crown_altitude: '', // 海拔
-  crown_slopeDirection: '', // 坡向 - east / west / south / north
-  crown_slopeDegree: '', // 坡度
-  crown_slopePosition: '', // 坡位
-  site_soilName: '', // 立地条件 - 土壤名称
-  site_compactness: radioCompactness.value, // 立地条件 - 紧密度
-  special_conditions: '', // 特殊状况描述
-  tree_owner: radioOwner.value, // 权属
-  keeper: '', // 管辖单位或个人
-  status: '' // 保护现状及建议
-})
-const archive_id = ref()
+const form = reactive(props.dataSource || initForm())
+const initForm = () => {
+  return {
+    archive_id: '', // 档案号
+    listing: '', // 挂牌号
+    company_province: '', // 单位 - 省（市、区）
+    company_city: '', // 单位 - 市（地、州）
+    company_district: '', // 单位 - 区（市、区）
+    location_township: '', // 位置 - 乡镇（街道）
+    location_village: '', // 位置 - 村（居委会）
+    location_social: '', // 位置 - 社（组、号）
+    longitude_degree: '', // 经度 - 度
+    longitude_branch: '', // 经度 - 分
+    longitude_second: '', // 经度 - 秒
+    latitude_degree: '', // 纬度 - 度
+    latitude_branch: '', // 纬度 - 分
+    latitude_second: '', // 纬度 - 秒
+    location_aliasName: '', // 小地名
+    tree_area: '', // 区域
+    tree_location: '', // 坐落
+    tree_type: '', // 类别
+    tree_distribution: '', // 分布
+    tree_species: '', // 树种
+    tree_nameZh: '', // 中文名
+    tree_nameEn: '', // 英文名
+    tree_nameAlias: '', // 别名
+    tree_ageReal: '', // 真实树龄
+    tree_ageLegend: '', // 传说树龄
+    tree_ageEstimate: '', // 估测树龄
+    tree_height: '', // 树高
+    ground_circumference: '', // 林分平均胸围（地围）
+    crown_widthAverage: '', // 平均冠幅
+    crown_widthEW: '', // 东西冠幅
+    crown_widthNS: '', // 南北冠幅
+    crown_altitude: '', // 海拔
+    crown_slopeDirection: '', // 坡向 - east / west / south / north
+    crown_slopeDegree: '', // 坡度
+    crown_slopePosition: '', // 坡位
+    site_soilName: '', // 立地条件 - 土壤名称
+    site_compactness: '', // 立地条件 - 紧密度
+    special_conditions: '', // 特殊状况描述
+    tree_owner: '', // 权属
+    keeper: '', // 管辖单位或个人
+    status: '' // 保护现状及建议
+  }
+}
 const handleSubmit = () => {
   form.tree_area = radioArea.value
   form.tree_location = radioLocation.value
@@ -445,11 +464,17 @@ const handleSubmit = () => {
 
   let checkList = []
   Object.keys(form).forEach((item) => {
-    checkList.push(checkForm(item))
+    if (item !== 'archive_id') {
+      checkList.push(checkForm(item))
+    }
   })
   Promise.all(checkList)
     .then(() => {
-      // addArchivesTreeReq(form)
+      if (!form.archive_id) {
+        addArchivesTreeReq(form)
+      } else {
+        updateArchivesTreeReq(form)
+      }
     })
     .catch(() => {
       ElMessage({ message: '请填写完整表单', type: 'error' })

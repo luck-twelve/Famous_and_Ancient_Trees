@@ -1,13 +1,13 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" :model="formData" class="demo-form-inline">
-      <el-form-item prop="treeName">
-        <el-input v-model="formData.treeName" clearable>
+      <el-form-item prop="tree_nameZh">
+        <el-input v-model="formData.tree_nameZh" clearable>
           <template #prepend>树名</template>
         </el-input>
       </el-form-item>
-      <el-form-item prop="treeType">
-        <el-input v-model="formData.treeType" clearable>
+      <el-form-item prop="tree_species">
+        <el-input v-model="formData.tree_species" clearable>
           <template #prepend>树种</template>
         </el-input>
       </el-form-item>
@@ -47,7 +47,7 @@
 <script setup>
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount } from 'vue'
-import { getArchivesListReq, deleteArchivesReq, getArchivesTreeListReq } from '@/api/archives'
+import { deleteArchivesReq, getArchivesTreeListReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
 
@@ -55,8 +55,8 @@ import ArchivesListDialog from './archives-list-dialog.vue'
  * 搜索
  */
 const formData = reactive({
-  treeName: '',
-  treeType: ''
+  tree_nameZh: '',
+  tree_species: ''
 })
 const handleSearch = () => {
   getList(formData)
@@ -68,13 +68,13 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: 'ID', prop: 'tree_id', width: '80px', align: 'center', sortable: true },
-    { label: '树名', prop: 'treeName', width: '140px' },
-    { label: '树种', prop: 'treeType', width: '140px', sortable: true },
-    { label: '树龄', prop: 'treeAge', width: '120px', sortable: true },
-    { label: '地理位置', prop: 'treeLocation', minWidth: '220px' },
-    { label: '责任单位', prop: 'treeAdminister', minWidth: '220px' }
-    // { label: '历史传说', prop: 'treeHistoryLegend', minWidth: '300px' }
+    { label: 'ID', prop: 'archive_id', width: '80px', align: 'center', sortable: true },
+    { label: '树名', prop: 'tree_nameZh', width: '150px' },
+    { label: '英文名', prop: 'tree_nameEn', width: '150px' },
+    { label: '树龄', prop: 'tree_ageReal', width: '120px', sortable: true },
+    { label: '树种', prop: 'tree_species', width: '150px', sortable: true },
+    { label: '树高', prop: 'tree_height', minWidth: '150px' },
+    { label: '地围', prop: 'ground_circumference', minWidth: '150px' }
   ],
   listLoading: true
 })
@@ -108,7 +108,7 @@ const handleEdit = (row) => {
  * 删除
  */
 const handleDelete = (row) => {
-  deleteArchivesReq(row.tree_id).then(({ data }) => {
+  deleteArchivesReq(row.archive_id).then(({ data }) => {
     getList()
   })
 }
@@ -121,7 +121,7 @@ onBeforeMount(() => {
 const getList = (params = {}) => {
   state.listLoading = true
   // getArchivesTreeListReq(params)
-  getArchivesListReq(params).then(({ data }) => {
+  getArchivesTreeListReq(params).then(({ data }) => {
     state.list = data
     state.listLoading = false
   })

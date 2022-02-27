@@ -69,6 +69,27 @@ const actions = {
         })
         reqsql += paramsSql
         return reqsql
+    },
+    sqlUpdate: (req, res, tableDB, targetId) => {
+        let keys = Object.keys(req.body)
+        if (!keys?.length) return res.json({
+            code: -200,
+            msg: '操作失败',
+            flag: false,
+            showFlag: true
+        })
+        let reqsql = `UPDATE ${tableDB} SET `
+        keys.remove(targetId)
+        keys.forEach((item, index) => {
+            if (!req.body[item]) return
+            reqsql += `${item}=${req.body[item]}`
+            if (index === keys.length - 1) {
+                reqsql += ` WHERE ${targetId}=${req.body[targetId]}`
+            } else {
+                reqsql += ','
+            }
+        })
+        return reqsql
     }
 }
 module.exports = actions;
