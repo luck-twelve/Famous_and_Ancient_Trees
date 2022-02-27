@@ -101,7 +101,7 @@ var archivesControll = {
         })
     },
     updateArchivesTree: function (req, res, next) {
-        let reqsql = sqlUpdate(req, res, 'archives_tree', 'archives_id')
+        let reqsql = sqlUpdate(req, res, 'archives_tree', 'archive_id')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesTree', [], result => {
                 return res.json({

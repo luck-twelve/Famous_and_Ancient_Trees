@@ -116,7 +116,7 @@
       <el-descriptions-item label="区域">
         <el-form ref="tree_area" :model="form">
           <el-form-item prop="tree_area" :rules="formRulesMixin.isNotNullCheckbox">
-            <el-radio-group v-model="radioArea">
+            <el-radio-group v-model="form.tree_area">
               <el-radio label="CITY">城市</el-radio>
               <el-radio label="COUNTRY_SIDE">农村</el-radio>
             </el-radio-group>
@@ -126,7 +126,7 @@
       <el-descriptions-item label="坐落">
         <el-form ref="tree_location" :model="form">
           <el-form-item prop="tree_location" :rules="formRulesMixin.isNotNullCheckbox">
-            <el-radio-group v-model="radioLocation">
+            <el-radio-group v-model="form.tree_location">
               <el-radio label="UNIT_COURTYYARD">单位庭院</el-radio>
               <el-radio label="PERSONAL_HOUSE">个人宅院</el-radio>
               <el-radio label="TEMPLE">寺院</el-radio>
@@ -138,7 +138,7 @@
       <el-descriptions-item label="类别">
         <el-form ref="tree_type" :model="form">
           <el-form-item prop="tree_type" :rules="formRulesMixin.isNotNullCheckbox">
-            <el-radio-group v-model="radioType">
+            <el-radio-group v-model="form.tree_type">
               <el-radio label="ANCIENT">古树</el-radio>
               <el-radio label="FAMOUS">名木</el-radio>
             </el-radio-group>
@@ -148,7 +148,7 @@
       <el-descriptions-item label="分布">
         <el-form ref="tree_distribution" :model="form">
           <el-form-item prop="tree_distribution" :rules="formRulesMixin.isNotNullCheckbox">
-            <el-radio-group v-model="radioDistribution">
+            <el-radio-group v-model="form.tree_distribution">
               <el-radio label="GROW_SCATTERED">散生</el-radio>
               <el-radio label="GROUP_SHAPE">群状</el-radio>
             </el-radio-group>
@@ -320,7 +320,7 @@
           紧密度：
           <el-form ref="site_compactness" :model="form">
             <el-form-item prop="site_compactness" :rules="formRulesMixin.isNotNullCheckbox">
-              <el-radio-group v-model="radioCompactness">
+              <el-radio-group v-model="form.site_compactness">
                 <el-radio label="TIGHT_QUITE">极紧密</el-radio>
                 <el-radio label="TIGHT">紧密</el-radio>
                 <el-radio label="MODERATE">中等</el-radio>
@@ -341,7 +341,7 @@
       <el-descriptions-item label="权属" :span="2">
         <el-form ref="tree_owner" :model="form">
           <el-form-item prop="tree_owner" :rules="formRulesMixin.isNotNullCheckbox">
-            <el-radio-group v-model="radioOwner">
+            <el-radio-group v-model="form.tree_owner">
               <el-radio label="STATE_OWNED">国有</el-radio>
               <el-radio label="COLLECTIVE">集体</el-radio>
               <el-radio label="PERSONAL">个人</el-radio>
@@ -398,13 +398,6 @@ const props = defineProps({
   }
 })
 
-const radioArea = ref(props.dataSource.tree_area) // 区域 - CITY / COUNTRY_SIDE
-const radioLocation = ref(props.dataSource.tree_location) // 坐落 - UNIT_COURTYYARD / PERSONAL_HOUSE / TEMPLE / OTHERS
-const radioType = ref(props.dataSource.tree_type) // 类别 - ANCIENT / FAMOUS
-const radioDistribution = ref(props.dataSource.tree_distribution) // 分布 - GROW_SCATTERED / GROUP_SHAPE
-const radioCompactness = ref(props.dataSource.site_compactness) // 紧密度
-const radioOwner = ref(props.dataSource.tree_owner) // 权属 - STATE_OWNED / COLLECTIVE / PERSONAL / OTHERS
-
 /**
  * 表单
  */
@@ -426,10 +419,10 @@ const initForm = () => {
     latitude_branch: '', // 纬度 - 分
     latitude_second: '', // 纬度 - 秒
     location_aliasName: '', // 小地名
-    tree_area: '', // 区域
-    tree_location: '', // 坐落
-    tree_type: '', // 类别
-    tree_distribution: '', // 分布
+    tree_area: ref(props.dataSource.tree_area), // 区域 - CITY / COUNTRY_SIDE
+    tree_location: ref(props.dataSource.tree_location), // 坐落 - UNIT_COURTYYARD / PERSONAL_HOUSE / TEMPLE / OTHERS
+    tree_type: ref(props.dataSource.tree_type), // 类别 - ANCIENT / FAMOUS
+    tree_distribution: ref(props.dataSource.tree_distribution), // 分布 - GROW_SCATTERED / GROUP_SHAPE
     tree_species: '', // 树种
     tree_nameZh: '', // 中文名
     tree_nameEn: '', // 英文名
@@ -447,21 +440,15 @@ const initForm = () => {
     crown_slopeDegree: '', // 坡度
     crown_slopePosition: '', // 坡位
     site_soilName: '', // 立地条件 - 土壤名称
-    site_compactness: '', // 立地条件 - 紧密度
+    site_compactness: ref(props.dataSource.site_compactness), // 立地条件 - 紧密度 - TIGHT_QUITE / TIGHT / MODERATE / LOOSE / LOOSE_QUITE
     special_conditions: '', // 特殊状况描述
-    tree_owner: '', // 权属
+    tree_owner: ref(props.dataSource.tree_owner), // 权属 - STATE_OWNED / COLLECTIVE / PERSONAL / OTHERS
     keeper: '', // 管辖单位或个人
     status: '' // 保护现状及建议
   }
 }
+const emit = defineEmits(['success'])
 const handleSubmit = () => {
-  form.tree_area = radioArea.value
-  form.tree_location = radioLocation.value
-  form.tree_type = radioType.value
-  form.tree_distribution = radioDistribution.value
-  form.site_compactness = radioCompactness.value
-  form.tree_owner = radioOwner.value
-
   let checkList = []
   Object.keys(form).forEach((item) => {
     if (item !== 'archive_id') {
@@ -471,9 +458,17 @@ const handleSubmit = () => {
   Promise.all(checkList)
     .then(() => {
       if (!form.archive_id) {
-        addArchivesTreeReq(form)
+        addArchivesTreeReq(form).then(({ data }) => {
+          if (data.flag) {
+            emit('success')
+          }
+        })
       } else {
-        updateArchivesTreeReq(form)
+        updateArchivesTreeReq(form).then(({ data }) => {
+          if (data.flag) {
+            emit('success')
+          }
+        })
       }
     })
     .catch(() => {

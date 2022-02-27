@@ -2,7 +2,7 @@
   <div class="drawer-wrap">
     <el-drawer v-model="visable" title="档案管理" size="100%" direction="ttb" :before-close="handleClose">
       <el-scrollbar>
-        <new-tree v-if="visable" :data-source="dialogData"></new-tree>
+        <new-tree v-if="visable" :data-source="dialogData" @success="successCallback"></new-tree>
       </el-scrollbar>
     </el-drawer>
   </div>
@@ -44,6 +44,10 @@ let { visable } = toRefs(state)
 const emit = defineEmits(['update:dialogVisible', 'success'])
 const handleClose = () => {
   emit('update:dialogVisible', false)
+}
+const successCallback = () => {
+  emit('success')
+  handleClose()
 }
 </script>
 

@@ -79,10 +79,10 @@ const actions = {
             showFlag: true
         })
         let reqsql = `UPDATE ${tableDB} SET `
-        keys.remove(targetId)
+        keys.splice(keys.indexOf(targetId), 1)
         keys.forEach((item, index) => {
             if (!req.body[item]) return
-            reqsql += `${item}=${req.body[item]}`
+            reqsql += `${item}='${req.body[item]}'`
             if (index === keys.length - 1) {
                 reqsql += ` WHERE ${targetId}=${req.body[targetId]}`
             } else {
