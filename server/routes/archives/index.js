@@ -68,8 +68,8 @@ const archivesApi = (router) => {
     })
 
     /**
-         * @api {post} /api/archives/addArchivesTree 新增档案
-         * @apiDescription 新增档案
+         * @api {post} /api/archives/addArchivesTree 新增名木古树调查表
+         * @apiDescription 新增名木古树调查表
          * @apiName addArchivesTree
          * @apiGroup ArchivesTree
          * @apiSampleRequest http://localhost:3000/api/archives/addArchivesTree
@@ -80,8 +80,8 @@ const archivesApi = (router) => {
     })
 
     /**
-         * @api {post} /api/archives/updateArchivesTree 修改档案
-         * @apiDescription 修改档案
+         * @api {post} /api/archives/updateArchivesTree 修改名木古树调查表
+         * @apiDescription 修改名木古树调查表
          * @apiName updateArchivesTree
          * @apiGroup ArchivesTree
          * @apiSampleRequest http://localhost:3000/api/archives/updateArchivesTree
@@ -89,6 +89,18 @@ const archivesApi = (router) => {
          */
     router.put('/archives/updateArchivesTree', function (req, res, next) {
         archivesControll.updateArchivesTree(req, res, next)
+    })
+
+    /**
+         * @api {delete} /api/archives/deleteArchivesTree 删除名木古树调查表
+         * @apiDescription 删除名木古树调查表
+         * @apiName deleteArchivesTree
+         * @apiGroup ArchivesTree
+         * @apiSampleRequest http://localhost:3000/api/archives/deleteArchivesTree
+         * @apiVersion 1.0.0
+         */
+    router.delete('/archives/deleteArchivesTree', function (req, res, next) {
+        archivesControll.deleteArchivesTree(req, res, next)
     })
 }
 

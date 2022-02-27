@@ -62,7 +62,7 @@ export function updateArchivesTreeReq(data) {
 
 export function deleteArchivesTreeReq(data) {
     return request({
-        url: `/archives/deleteArchivesTree?tree_id=${data}`,
+        url: `/archives/deleteArchivesTree?archive_id=${data}`,
         method: 'delete',
     })
 }

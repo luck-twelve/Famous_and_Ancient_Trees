@@ -47,7 +47,7 @@
 <script setup>
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount } from 'vue'
-import { deleteArchivesReq, getArchivesTreeListReq } from '@/api/archives'
+import { getArchivesTreeListReq, deleteArchivesTreeReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
 
@@ -108,7 +108,7 @@ const handleEdit = (row) => {
  * 删除
  */
 const handleDelete = (row) => {
-  deleteArchivesReq(row.archive_id).then(({ data }) => {
+  deleteArchivesTreeReq(row.archive_id).then(({ data }) => {
     getList()
   })
 }
