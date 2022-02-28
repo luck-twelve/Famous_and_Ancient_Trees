@@ -5,6 +5,7 @@
   "author": "qinrui(1745874297@qq.com)",
   "scripts": {
     "dev": "vite --mode serve-dev --host",
+    "serve": "nodemon ./server/bin/www",
     "test": "vite --mode serve-test --host",
     "build:test": "vite build --mode  build-test",
     "build": "vite build --mode build",
