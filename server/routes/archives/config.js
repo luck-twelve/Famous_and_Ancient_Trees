@@ -73,7 +73,7 @@ var archivesControll = {
 
     getArchivesTree: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body)
+            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body, 1)
             query(connection, reqSql, 'getArchivesTree', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
                     return res.json({

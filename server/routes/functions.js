@@ -1,5 +1,5 @@
 const actions = {
-    getFiltersql: (sql, data) => {
+    getFiltersql: (sql, data, isShow) => {
         if (Object.keys(data).length > 0) {
             for (let i of Object.keys(data)) {
                 if (i == 'pageNum' || i == 'pageSize') continue
@@ -12,6 +12,11 @@ const actions = {
                     sql += `${i}='${data[i]}'`
                 }
             }
+        }
+        if (sql.includes(' WHERE ')) {
+            sql += ` and isShow=${isShow}`
+        } else {
+            sql += ' WHERE isShow=1'
         }
         let noLimit = sql
         sql += ' limit ?,?'

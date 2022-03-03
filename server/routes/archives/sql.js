@@ -7,6 +7,7 @@ var archivesSqls = {
 
     getArchivesTree: 'SELECT * FROM archives_tree',
     addArchivesTree: 'INSERT INTO archives_tree',
-    deleteArchivesTree: 'DELETE FROM archives_tree WHERE archive_id=?'
+    // deleteArchivesTree: 'DELETE FROM archives_tree WHERE archive_id=?'
+    deleteArchivesTree: 'UPDATE archives_tree SET isShow=0 WHERE archive_id=?'
 };
 module.exports = archivesSqls;
