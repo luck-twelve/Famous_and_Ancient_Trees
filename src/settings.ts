@@ -60,7 +60,7 @@ const setting = {
   /**
    * @description TagsView show number
    */
-  tagsViewNum: 6,
+  tagsViewNum: 11,
   /**
    * @type {boolean} true | false
    * @description Whether show the top Navbar
