@@ -6,6 +6,7 @@ export default {
     'Operation Log': '操作日志',
     'Change Password': '修改密码',
 
+    Map: '全景地图',
     User: '用户管理',
     'User List': '用户列表',
     Declare: '申报管理',

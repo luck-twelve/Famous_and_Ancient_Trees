@@ -6,6 +6,7 @@ export default {
     'Operation Log': 'Operation Log',
     'Change Password': 'Change Password',
 
+    Map: 'Map',
     User: 'User',
     'User List': 'User List',
     Declare: 'Declare',

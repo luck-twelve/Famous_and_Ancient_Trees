@@ -15,7 +15,9 @@ module.exports = {
     GLOBAL_VAR: true,
     window: true,
     defineProps: true,
-    defineExpose: true
+    defineExpose: true,
+    BMap: true,
+    BMapGL: true
   },
   plugins: ['@typescript-eslint', 'prettier', 'import'],
   extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended', 'plugin:vue/vue3-recommended', 'prettier'],

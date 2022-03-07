@@ -46,6 +46,19 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/map',
+    component: Layout,
+    hidden: false,
+    children: [
+      {
+        name: 'Map',
+        path: '',
+        meta: { title: 'Map', icon: 'map', affix: true },
+        component: () => import('@/views/map/index.vue')
+      }
+    ]
+  },
+  {
     path: '/writing-demo',
     meta: { title: 'Writing Demo', icon: 'eye-open' },
     component: Layout,
