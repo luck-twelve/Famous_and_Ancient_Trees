@@ -1,11 +1,36 @@
 <template>
   <div id="container"></div>
+  <div class="ttDialog">
+    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="400px">
+      <el-form :model="formData" label-position="right" label-width="70px">
+        <el-form-item label="挂牌号:">
+          {{ formData.listing }}
+        </el-form-item>
+        <el-form-item label="树种:">
+          {{ formData.tree_species }}
+        </el-form-item>
+        <el-form-item label="小地名:">
+          {{ formData.location_aliasName }}
+        </el-form-item>
+        <el-form-item label="经纬度:">({{ formData.longitude }}, {{ formData.latitude }})</el-form-item>
+      </el-form>
+      <template #footer></template>
+    </el-dialog>
+  </div>
 </template>
 
 <script setup>
 import { getMapInfo } from '@/api/map'
 import { getMarkerImg } from '@/api/image'
-import { onMounted } from 'vue'
+import { onMounted, reactive, toRefs } from 'vue'
+
+const state = reactive({
+  dialogTitle: '',
+  dialogVisible: false,
+  formData: {}
+})
+let { dialogTitle, dialogVisible, formData } = toRefs(state)
+
 onMounted(async () => {
   const map = new BMapGL.Map('container') // 创建地图实例
   let point = new BMapGL.Point(109.451, 34.956)
@@ -27,23 +52,10 @@ onMounted(async () => {
     mapInfo.data.data.forEach((item) => {
       const pointItem = new BMapGL.Point(item.longitude, item.latitude)
       const marker = new BMapGL.Marker(pointItem, { icon: myIcon }) // 创建标注对象并添加到地图
-
-      let html = []
-      html.push('<div>')
-      html.push(`<div>挂牌号：${item.listing}</div>`)
-      html.push(`<div>树种：${item.tree_species}</div>`)
-      html.push(`<div>小地名：${item.location_aliasName}</div>`)
-      html.push(`<div>经纬度：(${item.longitude}, ${item.latitude})</div>`)
-      html.push('</div>')
-      const infoOptions = {
-        width: 100,
-        height: 105,
-        title: `<h4>${item.tree_nameZh}</h4>`
-      }
-      const infoContent = new BMapGL.InfoWindow(html.join(''), infoOptions)
       marker.addEventListener('click', function (e) {
-        this.openInfoWindow(infoContent)
-        // alert(item.description) // 监听点击事件
+        state.dialogTitle = item.tree_nameZh
+        state.formData = item
+        state.dialogVisible = true
       })
       map.addOverlay(marker)
     })
@@ -58,6 +70,7 @@ onMounted(async () => {
   margin: 0px;
   padding: 0px;
 }
+
 .BMap_bubble_pop {
   border: none !important;
   border-radius: 4px !important;

@@ -1258,24 +1258,6 @@ flex布局 第一个字母为主轴
   }
 }
 
-.resetElementDialogFull {
-  .el-dialog {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding-bottom: 60px;
-    height: 100%;
-  }
-  .el-dialog__body {
-    padding-top: 10px;
-  }
-  .el-dialog__footer {
-    text-align: center;
-  }
-  .el-dialog__wrapper {
-    background: #fff;
-  }
-}
-
 /*修改input文件默认样式*/
 .inputFileClass {
   width: 72px;

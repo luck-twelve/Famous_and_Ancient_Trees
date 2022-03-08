@@ -1,10 +1,18 @@
 <template>
-  <div class="drawer-wrap">
-    <el-drawer v-model="visable" title="档案管理" size="100%" direction="ttb" :before-close="handleClose">
-      <el-scrollbar>
-        <new-tree v-if="visable" :data-source="dialogData" @success="successCallback"></new-tree>
-      </el-scrollbar>
-    </el-drawer>
+  <div class="ttDialog">
+    <div class="top-20">
+      <el-dialog v-model="visable" title="档案管理" width="70%" :before-close="handleClose">
+        <el-scrollbar>
+          <new-tree v-if="visable" :data-source="dialogData" @success="successCallback"></new-tree>
+        </el-scrollbar>
+        <template #footer>
+          <span class="dialog-footer">
+            <el-button @click="handleSubmit">保 存</el-button>
+            <el-button type="primary" @click="handleSubmit">提 交</el-button>
+          </span>
+        </template>
+      </el-dialog>
+    </div>
   </div>
 </template>
 

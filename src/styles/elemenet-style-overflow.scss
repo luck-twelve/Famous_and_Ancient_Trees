@@ -201,3 +201,28 @@
 .el-radio-group + .el-form-item__error {
   top: 70%;
 }
+
+.el-descriptions__body .el-descriptions__table .el-descriptions__label.el-descriptions__cell.is-bordered-label {
+  min-width: 100px;
+}
+.el-descriptions__body .el-descriptions__table .el-descriptions__cell.is-left {
+  min-width: 280px;
+}
+
+.ttDialog {
+  .top-20 {
+    .el-dialog {
+      height: 552px;
+      margin-top: 60px !important;
+    }
+  }
+  .el-dialog__body {
+    padding: 10px 20px 10px 20px;
+  }
+  .el-dialog__footer {
+    padding: 10px 15px 10px 15px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}

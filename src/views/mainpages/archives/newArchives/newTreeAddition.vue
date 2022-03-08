@@ -1,29 +1,27 @@
 <template>
-  <div class="form-container">
-    <el-tabs v-model="activeName" type="card">
-      <el-tab-pane label="古树基本资料" name="base">
-        <new-tree-base></new-tree-base>
-      </el-tab-pane>
-      <el-tab-pane label="古树生长资料" name="grow">
-        <new-tree-grow></new-tree-grow>
-      </el-tab-pane>
-      <el-tab-pane label="古树附加资料" name="addition">
-        <new-tree-addition></new-tree-addition>
-      </el-tab-pane>
-    </el-tabs>
-  </div>
+  <el-descriptions :column="2" border>
+    <el-descriptions-item label="特殊状况描述" :span="2">
+      <el-form ref="special_conditions" :model="form">
+        <el-form-item prop="special_conditions" :rules="formRulesMixin.isNotNullLine">
+          <el-input v-model="form.special_conditions" :rows="3" type="textarea"></el-input>
+        </el-form-item>
+      </el-form>
+    </el-descriptions-item>
+    <el-descriptions-item label="保护现状及建议" :span="2">
+      <el-form ref="status" :model="form">
+        <el-form-item prop="status" :rules="formRulesMixin.isNotNullLine">
+          <el-input v-model="form.status" :rows="3" type="textarea"></el-input>
+        </el-form-item>
+      </el-form>
+    </el-descriptions-item>
+  </el-descriptions>
 </template>
 
 <script setup>
 import { ref, reactive, getCurrentInstance } from 'vue'
 import { ElMessage } from 'element-plus'
 import { addArchivesTreeReq, updateArchivesTreeReq } from '@/api/archives'
-import newTreeBase from './newTreeBase.vue'
-import newTreeGrow from './newTreeGrow.vue'
-import newTreeAddition from './newTreeAddition.vue'
 let { proxy } = getCurrentInstance()
-
-const activeName = ref('base')
 
 const props = defineProps({
   viewType: {
@@ -95,60 +93,17 @@ const initForm = () => {
     status: '' // 保护现状及建议
   }
 }
-const emit = defineEmits(['success'])
-const handleSubmit = () => {
-  let checkList = []
-  Object.keys(form).forEach((item) => {
-    if (item !== 'archive_id') {
-      checkList.push(checkForm(item))
-    }
-  })
-  Promise.all(checkList)
-    .then(() => {
-      if (!form.archive_id) {
-        addArchivesTreeReq(form).then(({ data }) => {
-          if (data.flag) {
-            emit('success')
-          }
-        })
-      } else {
-        updateArchivesTreeReq(form).then(({ data }) => {
-          if (data.flag) {
-            emit('success')
-          }
-        })
-      }
-    })
-    .catch(() => {
-      ElMessage({ message: '请填写完整表单', type: 'error' })
-    })
-}
-// 表单验证
-const checkForm = (formRef) => {
-  return new Promise((resolve, reject) => {
-    proxy.$refs[formRef].validate((valid) => {
-      if (valid) {
-        resolve()
-      } else reject()
-    })
-  })
-}
 </script>
 
-<style lang="scss" scoped>
-.form-container {
-  // max-width: 1000px;
-  // min-width: 800px;
+<style scoped>
+.cell-item {
   display: flex;
-  justify-content: center;
-  flex-direction: column;
-  .footer-btn {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-  }
-  &:deep(.el-descriptions__label) {
-    width: 120px;
-  }
+  align-items: center;
+}
+.cell-item :first-child {
+  margin-right: 6px;
+}
+.el-form-item {
+  margin-bottom: 0;
 }
 </style>
