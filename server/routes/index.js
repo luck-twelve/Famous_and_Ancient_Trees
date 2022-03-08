@@ -12,11 +12,13 @@ const menuApi = require('./menu')
 const archivesApi = require('./archives')
 const fileApi = require('./files')
 const imageApi = require('./image')
+const mapApi = require('./map')
 
 userApi(router)
 menuApi(router)
 archivesApi(router)
 fileApi(router)
 imageApi(router)
+mapApi(router)
 
 module.exports = router;
