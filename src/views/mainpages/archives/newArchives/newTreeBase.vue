@@ -7,146 +7,91 @@
       <template #label>
         <span>
           挂牌号
-          <i style="font-size: 16px; color: #fc5531; vertical-align: -2px; user-select: none">*</i>
+          <i class="marker">*</i>
         </span>
       </template>
       <div class="rowSC">
         第
-        <el-form ref="listing" :model="form">
-          <el-form-item prop="listing" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.listing" class="widthPx-300"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.listing" class="widthPx-300"></el-input>
         号
       </div>
     </el-descriptions-item>
-    <el-descriptions-item label="树种" :span="2">
-      <el-form ref="tree_species" :model="form">
-        <el-form-item prop="tree_species" :rules="formRulesMixin.isNotNullSelect">
-          <el-select v-model="form.tree_species" placeholder="请选择" class="widthPx-200">
-            <el-option label="松柏类" value="songbai"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
+    <el-descriptions-item label="树种">
+      <template #label>
+        <span>
+          树种
+          <i class="marker">*</i>
+        </span>
+      </template>
+      <el-select v-model="form.tree_species" placeholder="请选择" clearable class="widthPx-200">
+        <el-option label="松柏类" value="songbai"></el-option>
+      </el-select>
+    </el-descriptions-item>
+    <el-descriptions-item label="权属">
+      <template #label>
+        <span>
+          权属
+          <i class="marker">*</i>
+        </span>
+      </template>
+      <el-select v-model="form.tree_owner" placeholder="请选择" clearable class="widthPx-200">
+        <el-option label="国有" value="STATE_OWNED"></el-option>
+        <el-option label="集体" value="COLLECTIVE"></el-option>
+        <el-option label="个人" value="PERSONAL"></el-option>
+        <el-option label="其他" value="OTHERS"></el-option>
+      </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="古树命名" :span="2">
       <div class="rowSC">
-        中文名：
-        <el-form ref="tree_nameZh" :model="form">
-          <el-form-item prop="tree_nameZh" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.tree_nameZh" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
+        中文名
+        <i class="marker mr">*</i>
+        ：
+        <el-input v-model="form.tree_nameZh" class="widthPx-120"></el-input>
         <el-divider direction="vertical"></el-divider>
         英文名：
-        <el-form ref="tree_nameEn" :model="form">
-          <el-form-item prop="tree_nameEn" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.tree_nameEn" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.tree_nameEn" class="widthPx-120"></el-input>
         <el-divider direction="vertical"></el-divider>
         别名：
-        <el-form ref="tree_nameAlias" :model="form">
-          <el-form-item prop="tree_nameAlias" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.tree_nameAlias" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.tree_nameAlias" class="widthPx-120"></el-input>
       </div>
     </el-descriptions-item>
     <el-descriptions-item label="位置" :span="2">
       <div class="rowSC">
-        <el-form ref="location_township" :model="form">
-          <el-form-item prop="location_township" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.location_township" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
-        乡镇（街道）
-        <el-form ref="location_village" :model="form">
-          <el-form-item prop="location_village" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.location_village" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
-        村（居委会）
-        <el-form ref="location_social" :model="form">
-          <el-form-item prop="location_social" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.location_social" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
-        社（组、号）
-      </div>
-      <div class="rowSC">
-        小地名：
-        <el-form ref="location_aliasName" :model="form">
-          <el-form-item prop="location_aliasName" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.location_aliasName" class="widthPx-150"></el-input>
-          </el-form-item>
-        </el-form>
-        <el-divider direction="vertical"></el-divider>
         经度：
-        <el-form ref="longitude" :model="form">
-          <el-form-item prop="longitude" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.longitude" class="widthPx-150"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.longitude" maxlength="18" class="widthPx-160"></el-input>
         <el-divider direction="vertical"></el-divider>
         纬度：
-        <el-form ref="latitude" :model="form">
-          <el-form-item prop="latitude" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.latitude" class="widthPx-150"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.latitude" maxlength="18" class="widthPx-160"></el-input>
+        <el-divider direction="vertical"></el-divider>
+        小地名：
+        <el-input v-model="form.location_aliasName" class="widthPx-150"></el-input>
+      </div>
+      <div class="rowSC mt-1">
+        详细地址：
+        <el-input v-model="form.location_township" class="widthPx-120"></el-input>
+        乡镇（街道）
+        <el-input v-model="form.location_village" class="widthPx-120"></el-input>
+        村（居委会）
+        <el-input v-model="form.location_social" class="widthPx-120"></el-input>
+        社（组、号）
       </div>
     </el-descriptions-item>
     <el-descriptions-item label="区域">
-      <el-form ref="tree_area" :model="form">
-        <el-form-item prop="tree_area" :rules="formRulesMixin.isNotNullCheckbox">
-          <el-radio-group v-model="form.tree_area">
-            <el-radio label="CITY">城市</el-radio>
-            <el-radio label="COUNTRY_SIDE">农村</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
+      <el-select v-model="form.tree_area" placeholder="请选择" clearable class="widthPx-200">
+        <el-option label="城市" value="CITY"></el-option>
+        <el-option label="农村" value="COUNTRY_SIDE"></el-option>
+      </el-select>
     </el-descriptions-item>
-    <el-descriptions-item label="分布">
-      <el-form ref="tree_distribution" :model="form">
-        <el-form-item prop="tree_distribution" :rules="formRulesMixin.isNotNullCheckbox">
-          <el-radio-group v-model="form.tree_distribution">
-            <el-radio label="GROW_SCATTERED">散生</el-radio>
-            <el-radio label="GROUP_SHAPE">群状</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
-    </el-descriptions-item>
-    <el-descriptions-item label="坐落" :span="2">
-      <el-form ref="tree_location" :model="form">
-        <el-form-item prop="tree_location" :rules="formRulesMixin.isNotNullCheckbox">
-          <el-radio-group v-model="form.tree_location">
-            <el-radio label="UNIT_COURTYYARD">单位庭院</el-radio>
-            <el-radio label="PERSONAL_HOUSE">个人宅院</el-radio>
-            <el-radio label="TEMPLE">寺院</el-radio>
-            <el-radio label="OTHERS">其他</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
-    </el-descriptions-item>
-    <el-descriptions-item label="权属" :span="2">
-      <el-form ref="tree_owner" :model="form">
-        <el-form-item prop="tree_owner" :rules="formRulesMixin.isNotNullCheckbox">
-          <el-radio-group v-model="form.tree_owner">
-            <el-radio label="STATE_OWNED">国有</el-radio>
-            <el-radio label="COLLECTIVE">集体</el-radio>
-            <el-radio label="PERSONAL">个人</el-radio>
-            <el-radio label="OTHERS">其他</el-radio>
-          </el-radio-group>
-        </el-form-item>
-      </el-form>
+    <el-descriptions-item label="坐落">
+      <el-select v-model="form.tree_location" placeholder="请选择" clearable class="widthPx-200">
+        <el-option label="单位庭院" value="UNIT_COURTYYARD"></el-option>
+        <el-option label="个人宅院" value="PERSONAL_HOUSE"></el-option>
+        <el-option label="寺院" value="TEMPLE"></el-option>
+        <el-option label="其他" value="OTHERS"></el-option>
+      </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="管辖单位/个人" :span="2">
-      <el-form ref="keeper" :model="form">
-        <el-form-item prop="keeper" :rules="formRulesMixin.isNotNullLine">
-          <el-input v-model="form.keeper"></el-input>
-        </el-form-item>
-      </el-form>
+      <el-input v-model="form.keeper"></el-input>
     </el-descriptions-item>
   </el-descriptions>
 </template>

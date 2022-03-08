@@ -184,6 +184,7 @@
   border-left: none;
   border-right: none;
   border-radius: 0;
+  border-bottom: var(--el-border-width-base) var(--el-border-style-base) #dcdfe652;
   padding: 0 5px;
 }
 .el-descriptions__body .el-descriptions__table .el-descriptions__cell .el-date-editor .el-input__inner {
@@ -207,6 +208,7 @@
 }
 .el-descriptions__body .el-descriptions__table .el-descriptions__cell.is-left {
   min-width: 280px;
+  height: 60px;
 }
 
 .ttDialog {

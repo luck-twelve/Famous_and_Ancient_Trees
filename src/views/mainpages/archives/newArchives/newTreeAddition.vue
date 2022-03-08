@@ -1,18 +1,10 @@
 <template>
   <el-descriptions :column="2" border>
     <el-descriptions-item label="特殊状况描述" :span="2">
-      <el-form ref="special_conditions" :model="form">
-        <el-form-item prop="special_conditions" :rules="formRulesMixin.isNotNullLine">
-          <el-input v-model="form.special_conditions" :rows="3" type="textarea"></el-input>
-        </el-form-item>
-      </el-form>
+      <el-input v-model="form.special_conditions" :rows="4" type="textarea"></el-input>
     </el-descriptions-item>
     <el-descriptions-item label="保护现状及建议" :span="2">
-      <el-form ref="status" :model="form">
-        <el-form-item prop="status" :rules="formRulesMixin.isNotNullLine">
-          <el-input v-model="form.status" :rows="3" type="textarea"></el-input>
-        </el-form-item>
-      </el-form>
+      <el-input v-model="form.status" :rows="4" type="textarea"></el-input>
     </el-descriptions-item>
   </el-descriptions>
 </template>

@@ -2,145 +2,92 @@
   <el-descriptions :column="2" border>
     <el-descriptions-item label="树龄" :span="2">
       <div class="rowSC">
+        估测树龄：
+        <el-input v-model="form.tree_ageEstimate" class="widthPx-100"></el-input>
+        年
+        <el-divider direction="vertical"></el-divider>
         真实树龄：
-        <el-form ref="tree_ageReal" :model="form">
-          <el-form-item prop="tree_ageReal" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.tree_ageReal" class="widthPx-100"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.tree_ageReal" class="widthPx-100"></el-input>
         年
         <el-divider direction="vertical"></el-divider>
         传说树龄：
-        <el-form ref="tree_ageLegend" :model="form">
-          <el-form-item prop="tree_ageLegend" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.tree_ageLegend" class="widthPx-100"></el-input>
-          </el-form-item>
-        </el-form>
-        年
-        <el-divider direction="vertical"></el-divider>
-        估测树龄：
-        <el-form ref="tree_ageEstimate" :model="form">
-          <el-form-item prop="tree_ageEstimate" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.tree_ageEstimate" class="widthPx-100"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.tree_ageLegend" class="widthPx-100"></el-input>
         年
       </div>
     </el-descriptions-item>
     <el-descriptions-item label="树高">
       <div class="rowSC">
-        <el-form ref="tree_height" :model="form">
-          <el-form-item prop="tree_height" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.tree_height" class="widthPx-200"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.tree_height" class="widthPx-200"></el-input>
         米
       </div>
     </el-descriptions-item>
+    <el-descriptions-item label="分布">
+      <el-select v-model="form.tree_distribution" placeholder="请选择" class="widthPx-200">
+        <el-option label="散生" value="GROW_SCATTERED"></el-option>
+        <el-option label="群状" value="GROUP_SHAPE"></el-option>
+      </el-select>
+    </el-descriptions-item>
     <el-descriptions-item label="林分平均胸围（地围）">
       <template #label>
-        <div>
-          林分平均胸围
-          <i style="font-size: 16px; color: #fc5531; vertical-align: -2px; user-select: none">*</i>
-        </div>
+        <div>林分平均胸围</div>
         （地围）
       </template>
       <div class="rowSC">
-        <el-form ref="ground_circumference" :model="form">
-          <el-form-item prop="ground_circumference" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.ground_circumference" class="widthPx-200"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.ground_circumference" class="widthPx-200"></el-input>
         厘米
+      </div>
+    </el-descriptions-item>
+    <el-descriptions-item label="海拔">
+      <div class="rowSC">
+        <el-input v-model="form.crown_altitude" class="widthPx-150"></el-input>
+        米
       </div>
     </el-descriptions-item>
     <el-descriptions-item label="冠幅" :span="2">
       <div class="rowSC">
-        平均：
-        <el-form ref="crown_widthAverage" :model="form">
-          <el-form-item prop="crown_widthAverage" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.crown_widthAverage" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
-        米
-        <el-divider direction="vertical"></el-divider>
         东西：
-        <el-form ref="crown_widthEW" :model="form">
-          <el-form-item prop="crown_widthEW" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.crown_widthEW" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.crown_widthEW" class="widthPx-130"></el-input>
         米
         <el-divider direction="vertical"></el-divider>
         南北：
-        <el-form ref="crown_widthNS" :model="form">
-          <el-form-item prop="crown_widthNS" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.crown_widthNS" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.crown_widthNS" class="widthPx-130"></el-input>
+        米
+        <el-divider direction="vertical"></el-divider>
+        平均：
+        <el-input v-model="form.crown_widthAverage" class="widthPx-130"></el-input>
         米
       </div>
-      <div class="rowSC">
-        海拔：
-        <el-form ref="crown_altitude" :model="form">
-          <el-form-item prop="crown_altitude" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.crown_altitude" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
-        米
-      </div>
-      <div class="rowSC">
+      <div class="rowSC mt-1">
         坡向：
-        <el-form ref="crown_slopeDirection" :model="form">
-          <el-form-item prop="crown_slopeDirection" :rules="formRulesMixin.isNotNullSelect">
-            <el-select v-model="form.crown_slopeDirection" class="widthPx-130" placeholder="请选择">
-              <el-option label="东" value="EAST"></el-option>
-              <el-option label="西" value="WEST"></el-option>
-              <el-option label="南" value="SOUTH"></el-option>
-              <el-option label="北" value="NORTH"></el-option>
-            </el-select>
-          </el-form-item>
-        </el-form>
+        <el-select v-model="form.crown_slopeDirection" class="widthPx-150" placeholder="请选择">
+          <el-option label="东" value="EAST"></el-option>
+          <el-option label="西" value="WEST"></el-option>
+          <el-option label="南" value="SOUTH"></el-option>
+          <el-option label="北" value="NORTH"></el-option>
+        </el-select>
         <el-divider direction="vertical"></el-divider>
         坡度：
-        <el-form ref="crown_slopeDegree" :model="form">
-          <el-form-item prop="crown_slopeDegree" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.crown_slopeDegree" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.crown_slopeDegree" class="widthPx-120"></el-input>
         度
         <el-divider direction="vertical"></el-divider>
         坡位：
-        <el-form ref="crown_slopePosition" :model="form">
-          <el-form-item prop="crown_slopePosition" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.crown_slopePosition" class="widthPx-120"></el-input>
-          </el-form-item>
-        </el-form>
+        <el-input v-model="form.crown_slopePosition" class="widthPx-120"></el-input>
         部
       </div>
     </el-descriptions-item>
     <el-descriptions-item label="立地条件" :span="2">
       <div class="rowSC">
         土壤名称：
-        <el-form ref="site_soilName" :model="form">
-          <el-form-item prop="site_soilName" :rules="formRulesMixin.isNotNullLine">
-            <el-input v-model="form.site_soilName" class="widthPx-200"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-      <div class="rowSC">
+        <el-input v-model="form.site_soilName" class="widthPx-200"></el-input>
+        <el-divider direction="vertical"></el-divider>
         紧密度：
-        <el-form ref="site_compactness" :model="form">
-          <el-form-item prop="site_compactness" :rules="formRulesMixin.isNotNullCheckbox">
-            <el-radio-group v-model="form.site_compactness">
-              <el-radio label="TIGHT_QUITE">极紧密</el-radio>
-              <el-radio label="TIGHT">紧密</el-radio>
-              <el-radio label="MODERATE">中等</el-radio>
-              <el-radio label="LOOSE">较疏松</el-radio>
-              <el-radio label="LOOSE_QUITE">疏松</el-radio>
-            </el-radio-group>
-          </el-form-item>
-        </el-form>
+        <el-select v-model="form.site_compactness" class="widthPx-200" placeholder="请选择">
+          <el-option label="极紧密" value="TIGHT_QUITE"></el-option>
+          <el-option label="紧密" value="TIGHT"></el-option>
+          <el-option label="中等" value="MODERATE"></el-option>
+          <el-option label="较疏松" value="LOOSE"></el-option>
+          <el-option label="疏松" value="LOOSE_QUITE"></el-option>
+        </el-select>
       </div>
     </el-descriptions-item>
   </el-descriptions>

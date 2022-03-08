@@ -7,7 +7,7 @@
         </el-scrollbar>
         <template #footer>
           <span class="dialog-footer">
-            <el-button @click="handleSubmit">保 存</el-button>
+            <el-button @click="handleSave">保 存</el-button>
             <el-button type="primary" @click="handleSubmit">提 交</el-button>
           </span>
         </template>
@@ -56,6 +56,17 @@ const handleClose = () => {
 const successCallback = () => {
   emit('success')
   handleClose()
+}
+
+const handleSave = async () => {
+  return new Promise((resolve, reject) => {
+    console.log('保存')
+    resolve()
+  })
+}
+const handleSubmit = async () => {
+  await handleSave()
+  console.log('提交')
 }
 </script>
 
