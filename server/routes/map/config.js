@@ -6,7 +6,7 @@ var pool = mysql.createPool(mysqlconfig);
 var mapControll = {
     getMapInfo: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            connection.query(`SELECT archive_id,listing,tree_nameZh,tree_species,longitude,latitude,description FROM archives_tree`, [], function (err, result) {
+            connection.query(`SELECT archive_id,listing,tree_nameZh,tree_species,longitude,latitude,location_aliasName,description FROM archives_tree`, [], function (err, result) {
                 return res.json({
                     code: 200,
                     msg: '操作成功',

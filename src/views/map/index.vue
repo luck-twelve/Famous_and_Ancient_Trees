@@ -8,7 +8,7 @@ import { getMarkerImg } from '@/api/image'
 import { onMounted } from 'vue'
 onMounted(async () => {
   const map = new BMapGL.Map('container') // 创建地图实例
-  let point = new BMapGL.Point(116.404, 39.915)
+  let point = new BMapGL.Point(109.451, 34.956)
 
   map.centerAndZoom(point, 5) // 初始化地图，设置中心点坐标和地图级别
   map.enableScrollWheelZoom() //启用滚轮放大缩小
@@ -31,14 +31,14 @@ onMounted(async () => {
       let html = []
       html.push('<div>')
       html.push(`<div>挂牌号：${item.listing}</div>`)
-      html.push(`<div>树名：${item.tree_nameZh}</div>`)
       html.push(`<div>树种：${item.tree_species}</div>`)
+      html.push(`<div>小地名：${item.location_aliasName}</div>`)
       html.push(`<div>经纬度：(${item.longitude}, ${item.latitude})</div>`)
       html.push('</div>')
       const infoOptions = {
         width: 100,
         height: 105,
-        title: `<h4>${item.description}</h4>`
+        title: `<h4>${item.tree_nameZh}</h4>`
       }
       const infoContent = new BMapGL.InfoWindow(html.join(''), infoOptions)
       marker.addEventListener('click', function (e) {
