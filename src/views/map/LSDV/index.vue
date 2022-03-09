@@ -121,7 +121,8 @@ onMounted(() => {
   width: calc(100vw - 45% - 10px * 3);
 }
 #myMap {
-  width: 600px;
+  width: 630px;
+  min-width: calc(100vw - 45% - 10px * 3);
   height: calc(100vh - 50px - 32px - 16px * 2 - 40px) !important;
 }
 </style>

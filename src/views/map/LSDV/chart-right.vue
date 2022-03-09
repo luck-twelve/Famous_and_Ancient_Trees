@@ -86,8 +86,9 @@ const initEchartsF = () => {
       }
     },
     grid: {
-      left: '3%',
-      right: '4%',
+      left: '16px',
+      right: '16px',
+      top: '55px',
       bottom: '3%',
       containLabel: true
     },
@@ -95,11 +96,11 @@ const initEchartsF = () => {
       data: ['Line 1', 'Line 2'],
       inactiveColor: 'rgba(153, 153, 153, 0.6)',
       textStyle: {
-        fontSize: 14, // 字体大小
+        fontSize: 10, // 字体大小
         color: '#666'
       },
       padding: [20, 0],
-      itemGap: 20, // 设置间距
+      itemGap: 16, // 设置间距
       icon: 'square' // 正方形
     },
     xAxis: {
@@ -120,7 +121,7 @@ const initEchartsF = () => {
     yAxis: {
       type: 'value',
       axisLabel: {
-        color: 'rgba(255, 255, 255, 0.6)'
+        show: false
       },
       axisLine: {
         show: true,

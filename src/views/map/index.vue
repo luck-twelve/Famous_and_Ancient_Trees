@@ -19,15 +19,29 @@
   </div>
   <el-button class="ab-btn" @click="drawer = true">数据统计</el-button>
   <div class="drawer-wrap">
-    <el-drawer v-model="drawer" title="数据统计" size="100%" direction="ttb" :before-close="() => (drawer = false)">
+    <el-drawer v-model="drawer" size="100%" direction="ttb" :before-close="close">
+      <template #title>
+        <div class="rowBC">
+          <b style="color: #333">数据统计</b>
+          <div class="rowCC font-sizePx12 mr-1">
+            <el-icon class="mr"><cloudy /></el-icon>
+            22℃~30℃
+            <el-divider direction="vertical"></el-divider>
+            <span>{{ nowTime }}</span>
+          </div>
+        </div>
+      </template>
       <LSDV v-if="drawer"></LSDV>
     </el-drawer>
   </div>
 </template>
 
 <script setup>
+import { Cloudy } from '@element-plus/icons-vue'
 import { getMapInfo } from '@/api/map'
-import { ref, onMounted, reactive, toRefs } from 'vue'
+import { getWhether } from '@/api/whether'
+import { ref, onBeforeMount, onMounted, reactive, toRefs } from 'vue'
+import dayjs from 'dayjs'
 import LSDV from './LSDV/index.vue'
 
 const drawer = ref(false)
@@ -35,10 +49,32 @@ const drawer = ref(false)
 const state = reactive({
   dialogTitle: '',
   dialogVisible: false,
-  formData: {}
+  formData: {},
+  nowTime: ''
 })
-let { dialogTitle, dialogVisible, formData } = toRefs(state)
-
+let { dialogTitle, dialogVisible, formData, nowTime } = toRefs(state)
+const weekEnum = {
+  Mo: ' 星期一',
+  Tu: ' 星期二',
+  We: ' 星期三',
+  Th: ' 星期四',
+  Fr: ' 星期五',
+  Sa: ' 星期六',
+  Su: ' 星期七'
+}
+setInterval(() => {
+  let time = dayjs().format('YYYY-MM-DD HH:mm:ss')
+  let week = weekEnum[dayjs().format('dd')]
+  state.nowTime = time + week
+}, 1000)
+const close = () => {
+  drawer.value = false
+}
+onBeforeMount(() => {
+  getWhether().then((res) => {
+    console.log(res)
+  })
+})
 onMounted(async () => {
   const map = new BMapGL.Map('container') // 创建地图实例
   let point = new BMapGL.Point(109.451, 34.956)
@@ -107,7 +143,7 @@ onMounted(async () => {
   cursor: default;
 
   &:deep(.el-drawer__header) {
-    padding: 5px 0 5px 20px !important;
+    padding: 5px 5px 5px 20px !important;
     box-shadow: var(--el-box-shadow-light);
   }
   &:deep(.el-drawer__body) {
