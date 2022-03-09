@@ -4,18 +4,16 @@
       <el-card shadow="always" class="widthPC-100">
         <div id="myMap" ref="myMap"></div>
       </el-card>
-      <el-card shadow="always" class="widthPC-100">
-        <!-- <div id="myMap" ref="myMap"></div> -->
-      </el-card>
+      <chart-bottom></chart-bottom>
     </div>
-    <el-card shadow="always" class="widthPC-45">
-      <!-- <div id="myMap" ref="myMap"></div> -->
-    </el-card>
+    <chart-right></chart-right>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref, getCurrentInstance } from 'vue'
+import ChartBottom from './chart-bottom.vue'
+import ChartRight from './chart-right.vue'
 
 let { proxy } = getCurrentInstance()
 
