@@ -1,7 +1,7 @@
 <template>
   <div class="rowBS">
     <div class="card-map columnBS">
-      <el-card shadow="always" class="widthPC-100">
+      <el-card shadow="always" class="widthPC-100 mb-1">
         <div id="myMap" ref="myMap"></div>
       </el-card>
       <chart-bottom></chart-bottom>
@@ -22,9 +22,9 @@ const mapOption = ref({
   backgroundColor: '#FFFFFF',
   geo: {
     map: 'china',
-    roam: false,
+    roam: true, // 拖拽和缩放 move / scale
     zoom: 1.2,
-    scaleLimit: { min: 0, max: 3 }, // 缩放级别
+    scaleLimit: { min: 1, max: 3 }, // 缩放级别
     regions: [
       {
         name: '南海诸岛',
@@ -40,15 +40,15 @@ const mapOption = ref({
       }
     ],
     itemStyle: {
-      areaColor: '#BEDAEE', //默认的地图板块颜色
+      areaColor: '#97b552', //默认的地图板块颜色
       borderWidth: 1,
-      borderColor: '#009ce0'
+      borderColor: '#666'
     }
   },
   title: {
-    text: '资源池分步',
+    text: '全国古树分布统计',
     x: 'center',
-    y: 20
+    y: 10
   },
   tooltip: {
     trigger: 'item'
@@ -60,7 +60,7 @@ const mapOption = ref({
       name: '数据',
       type: 'map',
       mapType: 'china',
-      roam: false,
+      roam: true,
       geoIndex: 0,
       label: {
         normal: {
@@ -112,11 +112,6 @@ const mapOption = ref({
 onMounted(() => {
   chart.value = proxy.$echarts.init(document.getElementById('myMap'), 'macarons')
   chart.value.setOption(mapOption.value)
-  // this.chart.on("click", function(params) {
-  //   //此点击事件也可以做为其他echarts图表的点击 事件
-  //   alert(params.name);
-  //   console.info(params);
-  // });
 })
 </script>
 

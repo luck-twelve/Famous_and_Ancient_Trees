@@ -1,16 +1,4 @@
 <template>
-  <el-button @click="drawer = true">打开大屏</el-button>
-  <div class="drawer-wrap">
-    <el-drawer
-      v-model="drawer"
-      title="I am the title"
-      size="100%"
-      direction="ttb"
-      :before-close="() => (drawer = false)"
-    >
-      <LSDV v-if="drawer"></LSDV>
-    </el-drawer>
-  </div>
   <div id="container"></div>
   <div class="ttDialog">
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="400px">
@@ -29,11 +17,16 @@
       <template #footer></template>
     </el-dialog>
   </div>
+  <el-button class="ab-btn" @click="drawer = true">数据统计</el-button>
+  <div class="drawer-wrap">
+    <el-drawer v-model="drawer" title="数据统计" size="100%" direction="ttb" :before-close="() => (drawer = false)">
+      <LSDV v-if="drawer"></LSDV>
+    </el-drawer>
+  </div>
 </template>
 
 <script setup>
 import { getMapInfo } from '@/api/map'
-import { getMarkerImg } from '@/api/image'
 import { ref, onMounted, reactive, toRefs } from 'vue'
 import LSDV from './LSDV/index.vue'
 
@@ -57,8 +50,6 @@ onMounted(async () => {
   map.setMapStyleV2({
     styleId: 'fe459dd0763a4cb32ce06e07cdddc06a'
   })
-  // const markerIcon = await getMarkerImg()
-  // const myIcon = new BMapGL.Icon(markerIcon.data.data.value, new BMapGL.Size(15, 15)) // 标记样式和大小
   const mapInfo = await getMapInfo() // 档案数据
   if (mapInfo.data.data?.length) {
     mapInfo.data.data.forEach((item) => {
@@ -81,6 +72,12 @@ onMounted(async () => {
   width: 100%;
   margin: 0px;
   padding: 0px;
+}
+.ab-btn {
+  position: absolute;
+  top: 26px;
+  right: 26px;
+  z-index: 10;
 }
 
 .BMap_bubble_pop {
