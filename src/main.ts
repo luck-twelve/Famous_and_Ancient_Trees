@@ -62,6 +62,11 @@ import './permission'
 import errorLog from '@/hooks/useErrorLog'
 errorLog(app)
 
+import * as echarts from 'echarts'
+import china from '@/views/map/LSDV/china.json'
+echarts.registerMap('china', china)
+app.config.globalProperties.$echarts = echarts
+
 //axios cancel req
 window.__axiosPromiseArr = []
 

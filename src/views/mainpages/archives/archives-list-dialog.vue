@@ -69,17 +69,3 @@ const handleSubmit = async () => {
   console.log('提交')
 }
 </script>
-
-<style lang="scss" scoped>
-.drawer-wrap {
-  height: 100%;
-  cursor: default;
-  &:deep(.el-drawer__body) {
-    height: 100%;
-    padding: 20px 0 60px 20px;
-  }
-  &:deep(.el-drawer__header) {
-    margin-bottom: 0;
-  }
-}
-</style>

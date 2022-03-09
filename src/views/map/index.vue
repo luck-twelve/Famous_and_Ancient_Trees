@@ -1,4 +1,16 @@
 <template>
+  <el-button @click="drawer = true">打开大屏</el-button>
+  <div class="drawer-wrap">
+    <el-drawer
+      v-model="drawer"
+      title="I am the title"
+      size="100%"
+      direction="ttb"
+      :before-close="() => (drawer = false)"
+    >
+      <LSDV v-if="drawer"></LSDV>
+    </el-drawer>
+  </div>
   <div id="container"></div>
   <div class="ttDialog">
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="400px">
@@ -22,7 +34,10 @@
 <script setup>
 import { getMapInfo } from '@/api/map'
 import { getMarkerImg } from '@/api/image'
-import { onMounted, reactive, toRefs } from 'vue'
+import { ref, onMounted, reactive, toRefs } from 'vue'
+import LSDV from './LSDV/index.vue'
+
+const drawer = ref(false)
 
 const state = reactive({
   dialogTitle: '',
@@ -34,7 +49,6 @@ let { dialogTitle, dialogVisible, formData } = toRefs(state)
 onMounted(async () => {
   const map = new BMapGL.Map('container') // 创建地图实例
   let point = new BMapGL.Point(109.451, 34.956)
-
   map.centerAndZoom(point, 5) // 初始化地图，设置中心点坐标和地图级别
   map.enableScrollWheelZoom() //启用滚轮放大缩小
   map.addControl(new BMapGL.ScaleControl()) // 添加比例尺控件
@@ -43,15 +57,13 @@ onMounted(async () => {
   map.setMapStyleV2({
     styleId: 'fe459dd0763a4cb32ce06e07cdddc06a'
   })
-
-  const markerIcon = await getMarkerImg()
-  const myIcon = new BMapGL.Icon(markerIcon.data.data.value, new BMapGL.Size(15, 15)) // 标记样式和大小
+  // const markerIcon = await getMarkerImg()
+  // const myIcon = new BMapGL.Icon(markerIcon.data.data.value, new BMapGL.Size(15, 15)) // 标记样式和大小
   const mapInfo = await getMapInfo() // 档案数据
-  console.log(mapInfo.data)
   if (mapInfo.data.data?.length) {
     mapInfo.data.data.forEach((item) => {
       const pointItem = new BMapGL.Point(item.longitude, item.latitude)
-      const marker = new BMapGL.Marker(pointItem, { icon: myIcon }) // 创建标注对象并添加到地图
+      const marker = new BMapGL.Marker(pointItem, { icon: new BMapGL.Icon(item.marker, new BMapGL.Size(15, 15)) }) // 创建标注对象并添加到地图
       marker.addEventListener('click', function (e) {
         state.dialogTitle = item.tree_nameZh
         state.formData = item
@@ -66,7 +78,7 @@ onMounted(async () => {
 <style lang="scss">
 #container {
   height: calc(100vh - 50px - 32px - 16px * 2) !important;
-  widows: 100%;
+  width: 100%;
   margin: 0px;
   padding: 0px;
 }
@@ -89,5 +101,24 @@ onMounted(async () => {
 .BMap_bubble_pop img {
   left: 84px !important;
   top: 136px !important;
+}
+</style>
+
+<style lang="scss" scoped>
+.drawer-wrap {
+  height: 100%;
+  cursor: default;
+
+  &:deep(.el-drawer__header) {
+    padding: 5px 0 5px 20px !important;
+    box-shadow: var(--el-box-shadow-light);
+  }
+  &:deep(.el-drawer__body) {
+    height: 100%;
+    padding: 10px;
+  }
+  &:deep(.el-drawer__header) {
+    margin-bottom: 0;
+  }
 }
 </style>
