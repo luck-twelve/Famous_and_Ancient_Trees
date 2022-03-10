@@ -1,35 +1,5 @@
 import request from '../utils/axiosReq'
-
-export function getArchivesListReq(data) {
-    return request({
-        url: '/archives/getArchives',
-        method: 'post',
-        data,
-    })
-}
-
-export function addArchivesReq(data) {
-    return request({
-        url: '/archives/addArchives',
-        data,
-        method: 'post',
-    })
-}
-
-export function updateArchivesReq(data) {
-    return request({
-        url: '/archives/updateArchives',
-        data,
-        method: 'put',
-    })
-}
-
-export function deleteArchivesReq(data) {
-    return request({
-        url: `/archives/deleteArchives?tree_id=${data}`,
-        method: 'delete',
-    })
-}
+import { filterParams } from './config'
 
 /**
  * 名木古树调查表
@@ -40,29 +10,35 @@ export function getArchivesTreeListReq(data) {
     return request({
         url: '/archives/getArchivesTree',
         method: 'post',
-        data,
+        data: filterParams(data),
     })
 }
 
 export function addArchivesTreeReq(data) {
     return request({
         url: '/archives/addArchivesTree',
-        data,
+        data: filterParams(data),
         method: 'post',
     })
 }
 
 export function updateArchivesTreeReq(data) {
+    let url = '/archives/updateArchivesTree'
+    let method = 'put'
+    if (!data.archive_id) {
+        url = '/archives/addArchivesTree'
+        method = 'post'
+    }
     return request({
-        url: '/archives/updateArchivesTree',
-        data,
-        method: 'put',
+        url: url,
+        data: filterParams(data),
+        method: method,
     })
 }
 
 export function deleteArchivesTreeReq(data) {
     return request({
-        url: `/archives/deleteArchivesTree?archive_id=${data}`,
+        url: `/archives/deleteArchivesTree?archive_id=${filterParams(data)}`,
         method: 'delete',
     })
 }

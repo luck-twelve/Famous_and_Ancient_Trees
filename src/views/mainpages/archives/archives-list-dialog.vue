@@ -3,7 +3,7 @@
     <div class="top-20">
       <el-dialog v-model="visiable" title="档案管理" width="70%" :before-close="handleClose">
         <el-scrollbar>
-          <new-tree v-if="visiable" @success="successCallback"></new-tree>
+          <new-tree v-if="visiable"></new-tree>
         </el-scrollbar>
         <template #footer>
           <span class="dialog-footer">
@@ -29,23 +29,15 @@ const props = defineProps({
 })
 const { visiable } = toRefs(props)
 
-const emit = defineEmits(['update:visiable', 'success'])
+const emit = defineEmits(['update:visiable', 'handleSave', 'handleSubmit'])
 const handleClose = () => {
   emit('update:visiable', false)
 }
-const successCallback = () => {
-  emit('success')
-  handleClose()
-}
 
-const handleSave = async () => {
-  return new Promise((resolve, reject) => {
-    console.log('保存')
-    resolve()
-  })
+const handleSave = () => {
+  emit('handleSave')
 }
-const handleSubmit = async () => {
-  await handleSave()
-  console.log('提交')
+const handleSubmit = () => {
+  emit('handleSubmit')
 }
 </script>
