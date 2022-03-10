@@ -15,13 +15,11 @@ const actions = {
                 }
             }
         }
-        if (isShow >= 0) {
-            if (sql.includes(' WHERE ')) {
-                // sql += ` and isShow=${isShow}`
-                sql += ` and isShow!=99`
-            } else {
-                sql += ' WHERE isShow!=99'
-            }
+        if (sql.includes(' WHERE ')) {
+            // sql += ` and isShow=${isShow}`
+            sql += ` and isShow!=99`
+        } else {
+            sql += ' WHERE isShow!=99'
         }
         let noLimit = sql
         sql += ' limit ?,?'
@@ -58,15 +56,22 @@ const actions = {
     sqlAdd: (req, res, tableDB) => {
         let reqsql = ''
         let keys = Object.keys(req.body)
+        if (keys.indexOf('id') === -1) {
+            keys.push('id')
+        }
         if (!keys?.length) {
             reqsql = `INSERT INTO ${tableDB}(id, isShow) VALUES('${uuid.v1()}', 0)`
         } else {
             reqsql = `INSERT INTO ${tableDB}(`
             let paramsSql = ' VALUES('
             keys.forEach((item, index) => {
-                if (!req.body[item]) return
-                reqsql += item
-                paramsSql += `'${req.body[item]}'`
+                let key = item, value = req.body[item]
+                if (item == 'id') {
+                    value = uuid.v1()
+                }
+                if (!value) return
+                reqsql += key
+                paramsSql += `'${value}'`
                 if (index === keys.length - 1) {
                     reqsql += ')'
                     paramsSql += ')'
@@ -93,7 +98,7 @@ const actions = {
             if (!req.body[item]) return
             reqsql += `${item}='${req.body[item]}'`
             if (index === keys.length - 1) {
-                reqsql += ` WHERE ${targetId}=${req.body[targetId]}`
+                reqsql += ` WHERE ${targetId}='${req.body[targetId]}'`
             } else {
                 reqsql += ','
             }

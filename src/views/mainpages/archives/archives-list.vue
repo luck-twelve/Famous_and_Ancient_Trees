@@ -38,6 +38,7 @@
   </div>
   <archives-list-dialog
     v-model:visiable="visiable"
+    @handle-close="handleClose"
     @handle-save="handleSave"
     @handle-submit="handleSabmit"
   ></archives-list-dialog>
@@ -49,6 +50,7 @@ import { toRefs, reactive, onBeforeMount, provide } from 'vue'
 import { getArchivesTreeListReq, updateArchivesTreeReq, deleteArchivesTreeReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
+import { ElMessage } from 'element-plus'
 
 /**
  * 搜索
@@ -67,7 +69,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: 'ID', prop: 'id', width: '80px', align: 'center', sortable: true },
+    { label: 'ID', prop: 'id', width: '250px', align: 'center', sortable: true },
     { label: '树名', prop: 'tree_nameZh', width: '150px' },
     { label: '英文名', prop: 'tree_nameEn', width: '150px' },
     { label: '树龄', prop: 'tree_ageReal', width: '120px', sortable: true },
@@ -84,6 +86,10 @@ const dialog = reactive({
   type: 'add',
   data: {}
 })
+const handleClose = () => {
+  dialog.visiable = false
+  getList()
+}
 /**
  * 新增
  */
@@ -104,11 +110,13 @@ provide('dialogInfo', dialog)
 /**
  * 保存
  */
-const handleSave = async () => {
+const handleSave = async (isSubmit) => {
   return new Promise((resolve, reject) => {
     updateArchivesTreeReq(dialog.data).then(({ data }) => {
       if (data.flag) {
-        console.log(data)
+        if (!isSubmit) {
+          getList()
+        }
         resolve()
       } else {
         reject()
@@ -119,10 +127,23 @@ const handleSave = async () => {
 /**
  * 提交
  */
-const handleSabmit = async (row) => {
-  await handleSave()
-  console.log('提交')
-  getList()
+const handleSabmit = async () => {
+  let row = dialog.data
+  if (
+    row.tree_species &&
+    row.tree_owner &&
+    row.longitude &&
+    row.latitude &&
+    row.tree_area &&
+    row.tree_location &&
+    row.keeper
+  ) {
+    await handleSave(true)
+    getList()
+    dialog.visiable = false
+  } else {
+    ElMessage({ message: '请填写完整表单', type: 'warning' })
+  }
 }
 
 /**

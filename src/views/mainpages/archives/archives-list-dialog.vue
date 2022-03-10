@@ -29,9 +29,9 @@ const props = defineProps({
 })
 const { visiable } = toRefs(props)
 
-const emit = defineEmits(['update:visiable', 'handleSave', 'handleSubmit'])
+const emit = defineEmits(['handleClose', 'handleSave', 'handleSubmit'])
 const handleClose = () => {
-  emit('update:visiable', false)
+  emit('handleClose')
 }
 
 const handleSave = () => {

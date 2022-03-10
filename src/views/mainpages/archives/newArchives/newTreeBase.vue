@@ -3,13 +3,7 @@
     <el-descriptions-item label="档案号">
       {{ data.id }}
     </el-descriptions-item>
-    <el-descriptions-item>
-      <template #label>
-        <span>
-          挂牌号
-          <i class="marker">*</i>
-        </span>
-      </template>
+    <el-descriptions-item label="挂牌号">
       <div class="rowSC">
         第
         <el-input v-model="data.listing" class="widthPx-300"></el-input>
@@ -57,11 +51,15 @@
     </el-descriptions-item>
     <el-descriptions-item label="位置" :span="2">
       <div class="rowSC">
-        经度：
-        <el-input v-model="data.longitude" maxlength="18" class="widthPx-160"></el-input>
+        经度
+        <i class="marker mr">*</i>
+        ：
+        <el-input v-model="data.longitude" maxlength="18" class="widthPx-130"></el-input>
         <el-divider direction="vertical"></el-divider>
-        纬度：
-        <el-input v-model="data.latitude" maxlength="18" class="widthPx-160"></el-input>
+        纬度
+        <i class="marker mr">*</i>
+        ：
+        <el-input v-model="data.latitude" maxlength="18" class="widthPx-130"></el-input>
         <el-divider direction="vertical"></el-divider>
         小地名：
         <el-input v-model="data.location_aliasName" class="widthPx-150"></el-input>
@@ -77,12 +75,24 @@
       </div>
     </el-descriptions-item>
     <el-descriptions-item label="区域">
+      <template #label>
+        <span>
+          区域
+          <i class="marker">*</i>
+        </span>
+      </template>
       <el-select v-model="data.tree_area" placeholder="请选择" clearable class="widthPx-200">
         <el-option label="城市" value="CITY"></el-option>
         <el-option label="农村" value="COUNTRY_SIDE"></el-option>
       </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="坐落">
+      <template #label>
+        <span>
+          坐落
+          <i class="marker">*</i>
+        </span>
+      </template>
       <el-select v-model="data.tree_location" placeholder="请选择" clearable class="widthPx-200">
         <el-option label="单位庭院" value="UNIT_COURTYYARD"></el-option>
         <el-option label="个人宅院" value="PERSONAL_HOUSE"></el-option>
@@ -91,6 +101,12 @@
       </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="管辖单位/个人" :span="2">
+      <template #label>
+        <span>
+          管辖单位/个人
+          <i class="marker">*</i>
+        </span>
+      </template>
       <el-input v-model="data.keeper"></el-input>
     </el-descriptions-item>
   </el-descriptions>
