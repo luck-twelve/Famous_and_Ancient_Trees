@@ -60,7 +60,7 @@ export function updateUserReq(data) {
 
 export function deleteUserReq(data) {
   return request({
-    url: `/user/deleteUser?uid=${data}`,
+    url: `/user/deleteUser?id=${data}`,
     method: 'delete',
   })
 }

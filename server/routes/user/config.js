@@ -36,7 +36,7 @@ var userControll = {
                     } else {
                         if (result.length != 0) {
                             //调用生成token的方法
-                            vertoken.setToken(result[0].uid, result[0].username).then(token => {
+                            vertoken.setToken(result[0].id, result[0].username).then(token => {
                                 return res.json({
                                     code: 200,
                                     msg: '登录成功',
@@ -82,7 +82,7 @@ var userControll = {
     getUserInfo: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             vertoken.getToken(req.headers['authorize_token']).then(params => {
-                query(connection, sql.getUserInfo, 'getUserInfo', params.uid, result => {
+                query(connection, sql.getUserInfo, 'getUserInfo', params.id, result => {
                     return res.json({
                         code: 200,
                         data: result ? result[0] : '',
@@ -140,7 +140,7 @@ var userControll = {
         params[1] = req.body.password
         params[2] = req.body.avatar
         params[3] = req.body.roles
-        params[4] = req.body.uid
+        params[4] = req.body.id
         pool.getConnection(function (err, connection) {
             query(connection, sql.updateUser, 'updateUser', params, result => {
                 return res.json({
@@ -154,7 +154,7 @@ var userControll = {
     },
     deleteUser: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            query(connection, sql.deleteUser, 'deleteUser', [req.query.uid], result => {
+            query(connection, sql.deleteUser, 'deleteUser', [req.query.id], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

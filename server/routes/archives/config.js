@@ -59,7 +59,7 @@ var archivesControll = {
     },
     deleteArchives: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            query(connection, sql.deleteArchives, 'deleteArchives', [req.query.tree_id], result => {
+            query(connection, sql.deleteArchives, 'deleteArchives', [req.query.id], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
@@ -73,7 +73,7 @@ var archivesControll = {
 
     getArchivesTree: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body, 1)
+            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body)
             query(connection, reqSql, 'getArchivesTree', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
                     return res.json({
@@ -101,7 +101,7 @@ var archivesControll = {
         })
     },
     updateArchivesTree: function (req, res, next) {
-        let reqsql = sqlUpdate(req, res, 'archives_tree', 'archive_id')
+        let reqsql = sqlUpdate(req, res, 'archives_tree', 'id')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesTree', [], result => {
                 return res.json({
@@ -115,7 +115,7 @@ var archivesControll = {
     },
     deleteArchivesTree: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            query(connection, sql.deleteArchivesTree, 'deleteArchivesTree', [req.query.archive_id], result => {
+            query(connection, sql.deleteArchivesTree, 'deleteArchivesTree', [req.query.id], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

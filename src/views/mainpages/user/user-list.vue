@@ -78,7 +78,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: 'ID', prop: 'uid', width: '80px', align: 'center', sortable: true },
+    { label: 'ID', prop: 'id', width: '80px', align: 'center', sortable: true },
     { label: '用户名', prop: 'username', width: '120px' },
     { label: '头像', prop: 'avatar', minWidth: '600px' },
     { label: '用户权限', prop: 'roles', width: '120px', align: 'center', sortable: true }
@@ -115,7 +115,7 @@ const handleEdit = (row) => {
  * 删除
  */
 const handleDelete = (row) => {
-  deleteUserReq(row.uid).then(() => {
+  deleteUserReq(row.id).then(() => {
     getList()
   })
 }

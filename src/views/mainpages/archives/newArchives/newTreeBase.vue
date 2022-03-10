@@ -1,7 +1,7 @@
 <template>
   <el-descriptions :column="2" border>
     <el-descriptions-item label="档案号">
-      {{ data.archive_id }}
+      {{ data.id }}
     </el-descriptions-item>
     <el-descriptions-item>
       <template #label>

@@ -22,12 +22,12 @@ const toTrees = (data, roles) => {
     }
     data?.forEach(item => {
         // 根节点
-        if (item.parent_id === null && !root.find(xx => xx.menu_id === item.parent_id)) {
+        if (item.parent_id === null && !root.find(xx => xx.id === item.parent_id)) {
             root.push(item);
             return;
         }
         // 父节点
-        const parentEl = data.find(xx => xx.menu_id === item.parent_id);
+        const parentEl = data.find(xx => xx.id === item.parent_id);
         parentEl['children'] = [...(parentEl['children'] || []), item]
     });
     return root
@@ -48,7 +48,7 @@ var menuControll = {
     getMenus: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             vertoken.getToken(req.headers['authorize_token']).then(token => {
-                connection.query(sql.getUserInfo, token.uid, function (err, info) {
+                connection.query(sql.getUserInfo, token.id, function (err, info) {
                     connection.query(sql.getAllMenu, function (err, result) {
                         return res.json({
                             code: 200,

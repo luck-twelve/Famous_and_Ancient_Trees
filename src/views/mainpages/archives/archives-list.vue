@@ -67,7 +67,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: 'ID', prop: 'archive_id', width: '80px', align: 'center', sortable: true },
+    { label: 'ID', prop: 'id', width: '80px', align: 'center', sortable: true },
     { label: '树名', prop: 'tree_nameZh', width: '150px' },
     { label: '英文名', prop: 'tree_nameEn', width: '150px' },
     { label: '树龄', prop: 'tree_ageReal', width: '120px', sortable: true },
@@ -129,7 +129,7 @@ const handleSabmit = async (row) => {
  * 删除
  */
 const handleDelete = (row) => {
-  deleteArchivesTreeReq(row.archive_id).then(({ data }) => {
+  deleteArchivesTreeReq(row.id).then(({ data }) => {
     getList()
   })
 }
@@ -153,7 +153,7 @@ let { list, listLoading, tableColumn } = toRefs(state)
 
 const initForm = () => {
   return {
-    archive_id: '', // 档案号
+    id: '', // 档案号
     listing: '', // 挂牌号
     company_province: '', // 单位 - 省（市、区）
     company_city: '', // 单位 - 市（地、州）

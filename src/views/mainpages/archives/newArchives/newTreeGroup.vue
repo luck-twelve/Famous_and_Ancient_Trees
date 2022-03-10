@@ -2,7 +2,7 @@
   <div class="form-container">
     <el-descriptions title="古树群调查表" :column="2" border>
       <el-descriptions-item label="档案号">
-        <el-input v-model="form.archive_id" class="widthPx-300"></el-input>
+        <el-input v-model="form.id" class="widthPx-300"></el-input>
       </el-descriptions-item>
       <el-descriptions-item label="权属">
         <el-radio-group v-model="radioOwner">
@@ -179,7 +179,7 @@ const radioOwner = ref('') // 权属 - STATE_OWNED / COLLECTIVE / PERSONAL / OTH
  * 表单
  */
 const form = reactive({
-  archive_id: '', // 档案号
+  id: '', // 档案号
   tree_owner: radioOwner.value, // 权属
   company_province: '', // 单位 - 省（市、区）
   company_city: '', // 单位 - 市（地、州）

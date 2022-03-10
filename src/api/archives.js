@@ -25,7 +25,7 @@ export function addArchivesTreeReq(data) {
 export function updateArchivesTreeReq(data) {
     let url = '/archives/updateArchivesTree'
     let method = 'put'
-    if (!data.archive_id) {
+    if (!data.id) {
         url = '/archives/addArchivesTree'
         method = 'post'
     }
@@ -38,7 +38,7 @@ export function updateArchivesTreeReq(data) {
 
 export function deleteArchivesTreeReq(data) {
     return request({
-        url: `/archives/deleteArchivesTree?archive_id=${filterParams(data)}`,
+        url: `/archives/deleteArchivesTree?id=${filterParams(data)}`,
         method: 'delete',
     })
 }

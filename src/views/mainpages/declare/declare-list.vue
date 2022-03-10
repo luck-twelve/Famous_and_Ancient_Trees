@@ -41,7 +41,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: 'ID', prop: 'tree_id', width: '80px', align: 'center', sortable: true },
+    { label: 'ID', prop: 'id', width: '80px', align: 'center', sortable: true },
     { label: '树名', prop: 'treeName', width: '140px' },
     { label: '树种', prop: 'treeType', width: '140px', sortable: true },
     { label: '树龄', prop: 'treeAge', width: '120px', sortable: true },

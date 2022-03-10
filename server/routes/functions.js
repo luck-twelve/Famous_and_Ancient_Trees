@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
+var uuid = require('node-uuid');
 const actions = {
     getFiltersql: (sql, data, isShow) => {
         if (Object.keys(data).length > 0) {
@@ -13,10 +15,13 @@ const actions = {
                 }
             }
         }
-        if (sql.includes(' WHERE ')) {
-            sql += ` and isShow=${isShow}`
-        } else {
-            sql += ' WHERE isShow=1'
+        if (isShow >= 0) {
+            if (sql.includes(' WHERE ')) {
+                // sql += ` and isShow=${isShow}`
+                sql += ` and isShow!=99`
+            } else {
+                sql += ' WHERE isShow!=99'
+            }
         }
         let noLimit = sql
         sql += ' limit ?,?'
@@ -51,28 +56,27 @@ const actions = {
         })
     },
     sqlAdd: (req, res, tableDB) => {
+        let reqsql = ''
         let keys = Object.keys(req.body)
-        if (!keys?.length) return res.json({
-            code: -200,
-            msg: '操作失败',
-            flag: false,
-            showFlag: true
-        })
-        let reqsql = `INSERT INTO ${tableDB}(`
-        let paramsSql = ' VALUES('
-        keys.forEach((item, index) => {
-            if (!req.body[item]) return
-            reqsql += item
-            paramsSql += `'${req.body[item]}'`
-            if (index === keys.length - 1) {
-                reqsql += ')'
-                paramsSql += ')'
-            } else {
-                reqsql += ','
-                paramsSql += ','
-            }
-        })
-        reqsql += paramsSql
+        if (!keys?.length) {
+            reqsql = `INSERT INTO ${tableDB}(id, isShow) VALUES('${uuid.v1()}', 0)`
+        } else {
+            reqsql = `INSERT INTO ${tableDB}(`
+            let paramsSql = ' VALUES('
+            keys.forEach((item, index) => {
+                if (!req.body[item]) return
+                reqsql += item
+                paramsSql += `'${req.body[item]}'`
+                if (index === keys.length - 1) {
+                    reqsql += ')'
+                    paramsSql += ')'
+                } else {
+                    reqsql += ','
+                    paramsSql += ','
+                }
+            })
+            reqsql += paramsSql
+        }
         return reqsql
     },
     sqlUpdate: (req, res, tableDB, targetId) => {

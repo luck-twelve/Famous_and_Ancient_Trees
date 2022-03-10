@@ -74,8 +74,8 @@ watch(
   (val) => {
     state.visable = val
     if (val && dialogData.value) {
-      const { uid, username, password, avatar, roles } = dialogData.value
-      form.uid = uid
+      const { id, username, password, avatar, roles } = dialogData.value
+      form.id = id
       form.username = username
       form.password = password
       form.avatar = avatar
@@ -89,7 +89,7 @@ let { visable } = toRefs(state)
 
 const emit = defineEmits(['update:dialogVisible', 'success'])
 const handleClose = () => {
-  form.uid = ''
+  form.id = ''
   form.username = ''
   form.password = ''
   form.avatar = 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg'
@@ -120,7 +120,7 @@ const handleCommit = () => {
  * form表单
  */
 const form = reactive({
-  uid: '',
+  id: '',
   username: '',
   password: '',
   avatar: 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg',
