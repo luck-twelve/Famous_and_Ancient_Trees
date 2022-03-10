@@ -19,7 +19,7 @@ let { proxy } = getCurrentInstance()
 
 const chart = ref(null)
 const mapOption = ref({
-  backgroundColor: '#FFFFFF',
+  backgroundColor: '#fff',
   geo: {
     map: 'china',
     roam: true, // 拖拽和缩放 move / scale
@@ -52,6 +52,28 @@ const mapOption = ref({
   },
   tooltip: {
     trigger: 'item'
+  },
+  visualMap: {
+    left: 'right',
+    min: 0,
+    max: 500,
+    inRange: {
+      color: [
+        '#313695',
+        '#4575b4',
+        '#74add1',
+        '#abd9e9',
+        '#e0f3f8',
+        '#ffffbf',
+        '#fee090',
+        '#fdae61',
+        '#f46d43',
+        '#d73027',
+        '#a50026'
+      ]
+    },
+    text: ['High', 'Low'],
+    calculable: true
   },
 
   //配置属性
@@ -119,10 +141,13 @@ onMounted(() => {
 .card-map {
   height: calc(100vh - 34.5px - 10px * 2);
   width: calc(100vw - 45% - 10px * 3);
+  #myMap {
+    width: 670px;
+    // min-width: calc(100vw - 45% - 10px * 3);
+    height: calc(100vh - 34.5px - 10px * 2 - 10px - 208px) !important;
+  }
 }
-#myMap {
-  width: 630px;
-  min-width: calc(100vw - 45% - 10px * 3);
-  height: calc(100vh - 50px - 32px - 16px * 2 - 40px) !important;
+.card-map:deep(.el-card__body) {
+  padding: 0;
 }
 </style>

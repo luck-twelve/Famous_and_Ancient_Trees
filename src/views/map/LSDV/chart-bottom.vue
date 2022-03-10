@@ -113,7 +113,7 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .widthPC-100 {
-  height: 300px;
+  // height: 300px;
 }
 .title-logo {
   width: 30px;

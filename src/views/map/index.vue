@@ -71,9 +71,16 @@ const close = () => {
   drawer.value = false
 }
 onBeforeMount(() => {
-  getWhether().then((res) => {
-    console.log(res)
-  })
+  fetch('https://www.yiketianqi.com/free/day?appid=79875459&appsecret=jy5xrNDW&vue=1')
+    .then((res) => {
+      return res.json()
+    })
+    .then((res) => {
+      console.log(res)
+    })
+  // getWhether().then((res) => {
+  //   console.log(res)
+  // })
 })
 onMounted(async () => {
   const map = new BMapGL.Map('container') // 创建地图实例
