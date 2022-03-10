@@ -58,8 +58,8 @@
       <div id="echarts1" class="chart-1 mt-1"></div>
     </div>
     <div style="position: relative">
-      <div class="chart-tips"><b>提示</b></div>
-      <div id="echarts2" class="chart-1 mt-1"></div>
+      <div class="chart-tips"><b>一线城市古树分布（城市/农村）</b></div>
+      <div id="echarts2" class="chart-2"></div>
     </div>
   </el-card>
 </template>
@@ -68,7 +68,6 @@
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
 import { Top, Bottom } from '@element-plus/icons-vue'
-/*折线图*/
 let echarts1 = ref(null)
 let echarts2 = ref(null)
 const initEchartsF = () => {
@@ -81,7 +80,7 @@ const initEchartsF = () => {
       axisPointer: {
         type: 'cross',
         label: {
-          backgroundColor: '#97b552'
+          backgroundColor: '#304156'
         }
       }
     },
@@ -94,14 +93,11 @@ const initEchartsF = () => {
     },
     legend: {
       data: ['Line 1', 'Line 2'],
-      inactiveColor: 'rgba(153, 153, 153, 0.6)',
       textStyle: {
         fontSize: 10, // 字体大小
         color: '#666'
       },
-      padding: [20, 0],
-      itemGap: 16, // 设置间距
-      icon: 'square' // 正方形
+      padding: [20, 0]
     },
     xAxis: {
       type: 'category',
@@ -153,14 +149,26 @@ const initEchartsF = () => {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'shadow'
+        type: 'cross',
+        label: {
+          backgroundColor: '#304156'
+        }
       }
     },
     grid: {
       left: '3%',
       right: '4%',
+      top: '45px',
       bottom: '3%',
       containLabel: true
+    },
+    legend: {
+      data: ['城市', '农村'],
+      textStyle: {
+        fontSize: 10, // 字体大小
+        color: '#666'
+      },
+      padding: [20, 0]
     },
     xAxis: {
       type: 'value',
@@ -188,18 +196,18 @@ const initEchartsF = () => {
           opacity: 0
         }
       },
-      data: ['Brazil', 'Indonesia', 'USA', 'India', 'China', 'World']
+      data: ['重庆', '成都', '杭州', '深圳', '广州', '上海', '北京']
     },
     series: [
       {
-        name: '2011',
+        name: '城市',
         type: 'bar',
-        data: [18203, 23489, 29034, 104970, 131744, 630230]
+        data: [1023, 389, 934, 1070, 1314, 603, 124]
       },
       {
-        name: '2012',
+        name: '农村',
         type: 'bar',
-        data: [19325, 23438, 31000, 121594, 134141, 681807]
+        data: [925, 1348, 300, 124, 131, 687, 234]
       }
     ]
   }
@@ -249,6 +257,10 @@ onMounted(() => {
 .chart-1 {
   width: 520px;
   height: 220px;
+}
+.chart-2 {
+  width: 520px;
+  height: 280px;
 }
 
 :deep(.el-card__header) {

@@ -9,11 +9,25 @@
         </div>
       </div>
     </template>
-    <div class="rowSS">
-      <div id="echartsb1" class="chart-b-1"></div>
+    <div class="rowSC">
+      <div id="echartsb1" class="chart-b-1 ml-3"></div>
+      <div class="group-item font-sizePx12">
+        <span class="mb-1"><b>古树总数</b></span>
+        <div class="rowSE">
+          <span class="group-num"><b>5,018</b></span>
+          <span class="group-num-text"><b>起</b></span>
+        </div>
+        <div class="group-desc mt">
+          <span>较上个月</span>
+          <span>
+            <top class="icon" />
+            9.4%
+          </span>
+        </div>
+      </div>
       <div style="position: relative">
         <div class="chart-tips"><b>提示</b></div>
-        <div id="echartsb2" class="chart-b-2 mt-1"></div>
+        <div id="echartsb2" class="chart-b-2"></div>
       </div>
     </div>
   </el-card>
@@ -22,7 +36,8 @@
 <script setup>
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
-/*折线图*/
+import { Top, Bottom } from '@element-plus/icons-vue'
+
 let echarts1 = ref(null)
 let echarts2 = ref(null)
 const initEchartsF = () => {
@@ -34,7 +49,7 @@ const initEchartsF = () => {
       {
         name: 'Access From',
         type: 'pie',
-        radius: ['50%', '60%'],
+        radius: ['60%', '73%'],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 10,
@@ -43,13 +58,27 @@ const initEchartsF = () => {
         },
         label: {
           show: false,
-          position: 'center'
-        },
-        emphasis: {
-          label: {
+          position: 'center',
+          normal: {
             show: true,
-            fontSize: '40',
-            fontWeight: 'bold'
+            position: 'center', // 设置居中
+            formatter: function (data) {
+              let html = `${data.value}(${data.percent}%)`
+              html += `${data.name}`
+              // 设置圆饼图中间文字排版
+              return data.name + '\n' + `${data.value}(${data.percent}%)` // 对应的名字和值
+            },
+            textStyle: {
+              fontSize: '0'
+            }
+          },
+          emphasis: {
+            show: true, // 文字至于中间时，这里需为true
+            textStyle: {
+              // 设置文字样式
+              fontSize: '12',
+              fontWeight: 700
+            }
           }
         },
         labelLine: {
@@ -70,12 +99,16 @@ const initEchartsF = () => {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'shadow'
+        type: 'cross',
+        label: {
+          backgroundColor: '#304156'
+        }
       }
     },
     grid: {
       left: '3%',
       right: '4%',
+      top: '30px',
       bottom: '3%',
       containLabel: true
     },
@@ -85,19 +118,40 @@ const initEchartsF = () => {
         data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
         axisTick: {
           alignWithLabel: true
+        },
+        axisLabel: {
+          color: '#666'
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: 'rgba(255, 255, 255, 0.6)',
+            opacity: 0
+          }
         }
       }
     ],
     yAxis: [
       {
-        type: 'value'
+        type: 'value',
+        axisLabel: {
+          show: false,
+          color: '#666'
+        },
+        axisLine: {
+          show: true,
+          lineStyle: {
+            color: 'rgba(255, 255, 255, 0.6)',
+            opacity: 0
+          }
+        }
       }
     ],
     series: [
       {
         name: 'Direct',
         type: 'bar',
-        barWidth: '60%',
+        barWidth: '15%',
         data: [10, 52, 200, 334, 390, 330, 220]
       }
     ]
@@ -120,7 +174,7 @@ onMounted(() => {
 }
 
 .group-item {
-  width: 33%;
+  width: 110px;
 }
 .group-num {
   font-size: 26px;
@@ -143,14 +197,15 @@ onMounted(() => {
 
 .chart-tips {
   position: absolute;
-  top: 16px;
+  top: 0;
+  left: 16px;
 }
 .chart-b-1 {
   width: 150px;
   height: 150px;
 }
 .chart-b-2 {
-  width: 300px;
+  width: 380px;
   height: 150px;
 }
 

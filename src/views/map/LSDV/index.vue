@@ -22,7 +22,7 @@ const mapOption = ref({
   backgroundColor: '#fff',
   geo: {
     map: 'china',
-    roam: true, // 拖拽和缩放 move / scale
+    roam: false, // 拖拽和缩放 move / scale
     zoom: 1.2,
     scaleLimit: { min: 1, max: 3 }, // 缩放级别
     regions: [

@@ -17,15 +17,26 @@
       <template #footer></template>
     </el-dialog>
   </div>
-  <el-button class="ab-btn" @click="drawer = true">数据统计</el-button>
+  <el-button class="ab-btn" @click="handleStac">数据统计</el-button>
   <div class="drawer-wrap">
-    <el-drawer v-model="drawer" size="100%" direction="ttb" :before-close="close">
+    <el-drawer v-if="drawer" v-model="drawer" size="100%" direction="ttb" :before-close="close">
       <template #title>
         <div class="rowBC">
           <b style="color: #333">数据统计</b>
           <div class="rowCC font-sizePx12 mr-1">
-            <el-icon class="mr"><cloudy /></el-icon>
-            22℃~30℃
+            {{ weather.city }}
+            {{ weather.wea }}
+            <el-icon class="mx">
+              <cloudy v-if="weather.wea_img == 'shachen'" />
+              <drizzling v-if="weather.wea_img == 'xue'" />
+              <lightning v-if="weather.wea_img == 'lei'" />
+              <mostly-cloudy v-if="weather.wea_img == 'yin'" />
+              <partly-cloudy v-if="weather.wea_img == 'yun'" />
+              <pouring v-if="weather.wea_img == 'yu'" />
+              <sunny v-if="weather.wea_img == 'qing'" />
+              <sunrise v-if="weather.wea_img == 'wu'" />
+            </el-icon>
+            {{ weather.tem_night }}~{{ weather.tem_day }}℃
             <el-divider direction="vertical"></el-divider>
             <span>{{ nowTime }}</span>
           </div>
@@ -37,10 +48,18 @@
 </template>
 
 <script setup>
-import { Cloudy } from '@element-plus/icons-vue'
+import {
+  Cloudy,
+  Drizzling,
+  Lightning,
+  MostlyCloudy,
+  PartlyCloudy,
+  Pouring,
+  Sunny,
+  Sunrise
+} from '@element-plus/icons-vue'
 import { getMapInfo } from '@/api/map'
-import { getWhether } from '@/api/whether'
-import { ref, onBeforeMount, onMounted, reactive, toRefs } from 'vue'
+import { ref, onMounted, reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import LSDV from './LSDV/index.vue'
 
@@ -50,9 +69,10 @@ const state = reactive({
   dialogTitle: '',
   dialogVisible: false,
   formData: {},
-  nowTime: ''
+  nowTime: '',
+  weather: {}
 })
-let { dialogTitle, dialogVisible, formData, nowTime } = toRefs(state)
+let { dialogTitle, dialogVisible, formData, nowTime, weather } = toRefs(state)
 const weekEnum = {
   Mo: ' 星期一',
   Tu: ' 星期二',
@@ -70,18 +90,6 @@ setInterval(() => {
 const close = () => {
   drawer.value = false
 }
-onBeforeMount(() => {
-  fetch('https://www.yiketianqi.com/free/day?appid=79875459&appsecret=jy5xrNDW&vue=1')
-    .then((res) => {
-      return res.json()
-    })
-    .then((res) => {
-      console.log(res)
-    })
-  // getWhether().then((res) => {
-  //   console.log(res)
-  // })
-})
 onMounted(async () => {
   const map = new BMapGL.Map('container') // 创建地图实例
   let point = new BMapGL.Point(109.451, 34.956)
@@ -107,6 +115,17 @@ onMounted(async () => {
     })
   }
 })
+
+const handleStac = () => {
+  drawer.value = true
+  fetch('https://www.yiketianqi.com/free/day?appid=79875459&appsecret=jy5xrNDW&vue=1')
+    .then((res) => {
+      return res.json()
+    })
+    .then((res) => {
+      state.weather = res
+    })
+}
 </script>
 
 <style lang="scss">
