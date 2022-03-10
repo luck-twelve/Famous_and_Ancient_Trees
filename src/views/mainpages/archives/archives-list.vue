@@ -36,17 +36,12 @@
       </el-table-column>
     </tt-table>
   </div>
-  <archives-list-dialog
-    v-model:dialogVisible="dialogVisible"
-    :dialog-type="dialogType"
-    :dialog-data="dialogData"
-    @success="getList"
-  ></archives-list-dialog>
+  <archives-list-dialog v-model:visiable="visiable" @success="getList"></archives-list-dialog>
 </template>
 
 <script setup>
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
-import { toRefs, reactive, onBeforeMount } from 'vue'
+import { ref, toRefs, reactive, onBeforeMount, provide } from 'vue'
 import { getArchivesTreeListReq, deleteArchivesTreeReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
@@ -81,28 +76,28 @@ const state = reactive({
 
 // 弹窗
 const dialog = reactive({
-  dialogType: 'add',
-  dialogVisible: false,
-  dialogData: {}
+  visiable: false,
+  type: 'add',
+  data: {}
 })
-
 /**
  * 新增
  */
 const handleAdd = () => {
-  dialog.dialogType = 'add'
-  dialog.dialogVisible = true
-  dialog.dialogData = {}
+  dialog.visiable = true
+  dialog.type = 'add'
+  dialog.data = {}
 }
 
 /**
  * 编辑
  */
 const handleEdit = (row) => {
-  dialog.dialogType = 'edit'
-  dialog.dialogVisible = true
-  dialog.dialogData = row
+  dialog.visiable = true
+  dialog.type = 'edit'
+  dialog.data = row
 }
+provide('dialogInfo', dialog)
 
 /**
  * 删除
@@ -128,7 +123,7 @@ const getList = (params = {}) => {
 }
 
 //导出属性到页面中使用
-let { dialogVisible, dialogType, dialogData } = toRefs(dialog)
+let { visiable, type, data } = toRefs(dialog)
 let { list, listLoading, tableColumn } = toRefs(state)
 </script>
 

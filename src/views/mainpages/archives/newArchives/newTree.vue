@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, getCurrentInstance } from 'vue'
+import { ref, reactive, getCurrentInstance, inject } from 'vue'
 import { ElMessage } from 'element-plus'
 import { addArchivesTreeReq, updateArchivesTreeReq } from '@/api/archives'
 import newTreeBase from './newTreeBase.vue'
@@ -45,7 +45,7 @@ const props = defineProps({
     type: Object
   }
 })
-
+console.log(inject('dialogInfo'))
 /**
  * 表单
  */
