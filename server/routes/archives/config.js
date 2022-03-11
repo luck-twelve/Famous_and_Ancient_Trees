@@ -88,11 +88,13 @@ var archivesControll = {
         })
     },
     addArchivesTree: function (req, res, next) {
-        let reqsql = sqlAdd(req, res, 'archives_tree')
+        console.log(sqlAdd(req, res, 'archives_tree'))
+        let { reqsql, insertData } = sqlAdd(req, res, 'archives_tree')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addArchivesTree', [], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
+                    data: insertData,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
                     flag: result?.affectedRows > 0,
                     showFlag: true
@@ -101,9 +103,23 @@ var archivesControll = {
         })
     },
     updateArchivesTree: function (req, res, next) {
-        let reqsql = sqlUpdate(req, res, 'archives_tree', 'id')
+        let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_tree', 'id')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesTree', [], result => {
+                return res.json({
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    data: updatedData,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
+                })
+            })
+        })
+    },
+    updateArchivesStatus: function (req, res, next) {
+        let reqsql = 'UPDATE archives_tree SET isShow=1 WHERE id=?'
+        pool.getConnection(function (err, connection) {
+            query(connection, reqsql, 'updateArchivesStatus', [req.body.id], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

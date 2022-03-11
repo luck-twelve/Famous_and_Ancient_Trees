@@ -47,7 +47,12 @@
 <script setup>
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount, provide } from 'vue'
-import { getArchivesTreeListReq, updateArchivesTreeReq, deleteArchivesTreeReq } from '@/api/archives'
+import {
+  getArchivesTreeListReq,
+  updateArchivesTreeReq,
+  updateArchivesStatusReq,
+  deleteArchivesTreeReq
+} from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
 import { ElMessage } from 'element-plus'
@@ -114,10 +119,8 @@ const handleSave = async (isSubmit) => {
   return new Promise((resolve, reject) => {
     updateArchivesTreeReq(dialog.data).then(({ data }) => {
       if (data.flag) {
-        if (!isSubmit) {
-          getList()
-        }
-        resolve()
+        dialog.data = Object.assign(initForm(), data.data)
+        resolve(data.data.id)
       } else {
         reject()
       }
@@ -138,9 +141,9 @@ const handleSabmit = async () => {
     row.tree_location &&
     row.keeper
   ) {
-    await handleSave(true)
-    getList()
-    dialog.visiable = false
+    const insertId = await handleSave(true)
+    await updateArchivesStatusReq({ id: insertId })
+    handleClose()
   } else {
     ElMessage({ message: '请填写完整表单', type: 'warning' })
   }

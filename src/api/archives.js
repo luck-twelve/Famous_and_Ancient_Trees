@@ -36,6 +36,14 @@ export function updateArchivesTreeReq(data) {
     })
 }
 
+export function updateArchivesStatusReq(data) {
+    return request({
+        url: '/archives/updateArchivesStatus',
+        data,
+        method: 'put',
+    })
+}
+
 export function deleteArchivesTreeReq(data) {
     return request({
         url: `/archives/deleteArchivesTree?id=${data}`,

@@ -92,6 +92,18 @@ const archivesApi = (router) => {
     })
 
     /**
+         * @api {post} /api/archives/updateArchivesStatus 修改名木古树调查表
+         * @apiDescription 修改名木古树调查表
+         * @apiName updateArchivesStatus
+         * @apiGroup ArchivesTree
+         * @apiSampleRequest http://localhost:3000/api/archives/updateArchivesStatus
+         * @apiVersion 1.0.0
+         */
+    router.put('/archives/updateArchivesStatus', function (req, res, next) {
+        archivesControll.updateArchivesStatus(req, res, next)
+    })
+
+    /**
          * @api {delete} /api/archives/deleteArchivesTree 删除名木古树调查表
          * @apiDescription 删除名木古树调查表
          * @apiName deleteArchivesTree

@@ -56,8 +56,9 @@ const actions = {
     sqlAdd: (req, res, tableDB) => {
         let reqsql = ''
         let keys = Object.keys(req.body)
+        let insertId = uuid.v1()
         if (!keys?.length) {
-            reqsql = `INSERT INTO ${tableDB}(id, isShow) VALUES('${uuid.v1()}', 0)`
+            reqsql = `INSERT INTO ${tableDB}(id, isShow) VALUES('${insertId}', 0)`
         } else {
             if (keys.indexOf('id') === -1) {
                 keys.push('id')
@@ -67,26 +68,27 @@ const actions = {
             }
             reqsql = `INSERT INTO ${tableDB}(`
             let paramsSql = ' VALUES('
-            keys.forEach((item, index) => {
-                let key = item, value = req.body[item]
+            for (let i = 0; i < keys.length; i++) {
+                let item = keys[i]
+                let key = item
+                let value = req.body[item]
                 switch (item) {
-                    case 'id': value = uuid.v1(); break;
+                    case 'id': value = insertId; break;
                     case 'isShow': value = 0; break;
                 }
-                if (!value) return
                 reqsql += key
                 paramsSql += `'${value}'`
-                if (index === keys.length - 1) {
+                if (i === keys.length - 1) {
                     reqsql += ')'
                     paramsSql += ')'
                 } else {
                     reqsql += ','
                     paramsSql += ','
                 }
-            })
+            }
             reqsql += paramsSql
         }
-        return reqsql
+        return { reqsql, insertData: { id: insertId, ...req.body } }
     },
     sqlUpdate: (req, res, tableDB, targetId) => {
         let keys = Object.keys(req.body)
@@ -107,7 +109,7 @@ const actions = {
                 reqsql += ','
             }
         })
-        return reqsql
+        return { reqsql, updatedData: req.body }
     }
 }
 module.exports = actions;
