@@ -1,7 +1,13 @@
 <template>
   <div id="container"></div>
   <div class="ttDialog">
-    <el-dialog v-model="dialogVisible" :title="dialogTitle" width="400px">
+    <el-dialog v-model="dialogVisible" width="400px">
+      <template #title>
+        <div>
+          {{ dialogTitle }}
+          <span v-if="formData.marker == 'marker_abnormal'" class="font-sizePx12 text-danger">异常</span>
+        </div>
+      </template>
       <el-form :model="formData" label-position="right" label-width="70px">
         <el-form-item label="挂牌号:">
           {{ formData.listing }}
