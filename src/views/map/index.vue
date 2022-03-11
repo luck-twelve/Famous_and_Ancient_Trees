@@ -59,6 +59,7 @@ import {
   Sunrise
 } from '@element-plus/icons-vue'
 import { getMapInfo } from '@/api/map'
+import { getImgByName } from '@/api/image'
 import { ref, onMounted, reactive, toRefs } from 'vue'
 import dayjs from 'dayjs'
 import LSDV from './LSDV/index.vue'
@@ -103,9 +104,15 @@ onMounted(async () => {
   })
   const mapInfo = await getMapInfo() // 档案数据
   if (mapInfo.data.data?.length) {
+    let markerIcon = {
+      marker_normal: await getImgByName('marker_normal'),
+      marker_abnormal: await getImgByName('marker_abnormal')
+    }
     mapInfo.data.data.forEach((item) => {
       const pointItem = new BMapGL.Point(item.longitude, item.latitude)
-      const marker = new BMapGL.Marker(pointItem, { icon: new BMapGL.Icon(item.marker, new BMapGL.Size(15, 15)) }) // 创建标注对象并添加到地图
+      const marker = new BMapGL.Marker(pointItem, {
+        icon: new BMapGL.Icon(markerIcon[item.marker].data.img, new BMapGL.Size(15, 15))
+      }) // 创建标注对象并添加到地图
       marker.addEventListener('click', function (e) {
         state.dialogTitle = item.tree_nameZh
         state.formData = item

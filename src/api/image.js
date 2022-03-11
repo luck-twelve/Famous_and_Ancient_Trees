@@ -1,8 +1,8 @@
 import request from '../utils/axiosReq'
 
-export function getMarkerImg() {
+export function getImgByName(name) {
     return request({
-        url: '/image/getMarker',
-        method: 'get',
+        url: `/image/getImage?name=${name}`,
+        method: 'get'
     })
 }

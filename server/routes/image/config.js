@@ -2,15 +2,17 @@
 const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 var pool = mysql.createPool(mysqlconfig);
+const { query } = require('../functions'); // 引入已经封装好的全局函数
 
 var imageControll = {
-    getMarker: function (req, res, next) {
+    getImage: function (req, res, next) {
+        console.log(req)
         pool.getConnection(function (err, connection) {
-            connection.query(`SELECT * FROM image WHERE name='marker'`, [], function (err, result) {
+            query(connection, `SELECT * FROM images WHERE name=?`, 'imageControll', [req.query.name], function (result) {
                 return res.json({
                     code: 200,
-                    msg: '操作成功',
-                    data: result?.[0],
+                    msg: '',
+                    img: result?.[0].value,
                     flag: true
                 })
             })
