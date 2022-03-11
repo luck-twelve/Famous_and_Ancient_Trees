@@ -56,18 +56,22 @@ const actions = {
     sqlAdd: (req, res, tableDB) => {
         let reqsql = ''
         let keys = Object.keys(req.body)
-        if (keys.indexOf('id') === -1) {
-            keys.push('id')
-        }
         if (!keys?.length) {
             reqsql = `INSERT INTO ${tableDB}(id, isShow) VALUES('${uuid.v1()}', 0)`
         } else {
+            if (keys.indexOf('id') === -1) {
+                keys.push('id')
+            }
+            if (keys.indexOf('isShow') === -1) {
+                keys.push('isShow')
+            }
             reqsql = `INSERT INTO ${tableDB}(`
             let paramsSql = ' VALUES('
             keys.forEach((item, index) => {
                 let key = item, value = req.body[item]
-                if (item == 'id') {
-                    value = uuid.v1()
+                switch (item) {
+                    case 'id': value = uuid.v1(); break;
+                    case 'isShow': value = 0; break;
                 }
                 if (!value) return
                 reqsql += key
