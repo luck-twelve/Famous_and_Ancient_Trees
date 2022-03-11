@@ -92,7 +92,7 @@ const dialog = reactive({
 })
 const handleClose = () => {
   dialog.visiable = false
-  getList()
+  getList(formData)
 }
 /**
  * 新增
@@ -132,20 +132,36 @@ const handleSave = async (isSubmit) => {
 const handleSabmit = async () => {
   let row = dialog.data
   if (
-    row.tree_species &&
-    row.tree_owner &&
-    row.longitude &&
-    row.latitude &&
-    row.tree_area &&
-    row.tree_location &&
-    row.keeper
+    !row.tree_species ||
+    !row.tree_owner ||
+    !row.longitude ||
+    !row.latitude ||
+    !row.tree_area ||
+    !row.tree_location ||
+    !row.keeper
   ) {
-    const insertId = await handleSave(true)
-    await updateArchivesStatusReq({ id: insertId })
-    handleClose()
-  } else {
     ElMessage({ message: '请填写完整表单', type: 'warning' })
+    return
   }
+  if (checkLong(row.longitude) !== true) {
+    ElMessage({ message: checkLong(row.longitude), type: 'warning' })
+    return
+  }
+  if (checkLat(row.latitude) !== true) {
+    ElMessage({ message: checkLat(row.latitude), type: 'warning' })
+    return
+  }
+  let point = new BMapGL.Point(row.longitude, row.latitude)
+  const gc = new BMapGL.Geocoder()
+  gc.getLocation(point, function (rs) {
+    const addComp = rs.addressComponents
+    dialog.data.company_province = addComp.province
+    dialog.data.company_city = addComp.city
+    dialog.data.company_district = addComp.district
+  })
+  const insertId = await handleSave(true)
+  await updateArchivesStatusReq({ id: insertId })
+  handleClose()
 }
 
 /**
@@ -153,7 +169,7 @@ const handleSabmit = async () => {
  */
 const handleDelete = (row) => {
   deleteArchivesTreeReq(row.id).then(({ data }) => {
-    getList()
+    getList(formData)
   })
 }
 
@@ -220,6 +236,23 @@ const initForm = () => {
     keeper: '', // 管辖单位或个人
     status: '' // 保护现状及建议
   }
+}
+
+// 校验经度是否符合规范
+function checkLong(lng) {
+  var longrg = /^(\-|\+)?(((\d|[1-9]\d|1[0-7]\d|0{1,3})\.\d{0,6})|(\d|[1-9]\d|1[0-7]\d|0{1,3})|180\.0{0,6}|180)$/
+  if (!longrg.test(lng)) {
+    return '经度整数部分不超过179,小数部分不超过6位!'
+  }
+  return true
+}
+// 校验纬度是否符合规范
+function checkLat(lat) {
+  var latreg = /^(\-|\+)?([0-8]?\d{1}\.\d{0,6}|90\.0{0,6}|[0-8]?\d{1}|90)$/
+  if (!latreg.test(lat)) {
+    return '纬度整数部分不超过89,小数部分不超过6位!'
+  }
+  return true
 }
 </script>
 

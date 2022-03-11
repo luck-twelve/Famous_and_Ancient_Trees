@@ -54,12 +54,12 @@
         经度
         <i class="marker mr">*</i>
         ：
-        <el-input v-model="data.longitude" maxlength="18" class="widthPx-130"></el-input>
+        <el-input v-model="data.longitude" maxlength="18" class="widthPx-130" @change="longChange"></el-input>
         <el-divider direction="vertical"></el-divider>
         纬度
         <i class="marker mr">*</i>
         ：
-        <el-input v-model="data.latitude" maxlength="18" class="widthPx-130"></el-input>
+        <el-input v-model="data.latitude" maxlength="18" class="widthPx-130" @change="latChange"></el-input>
         <el-divider direction="vertical"></el-divider>
         小地名：
         <el-input v-model="data.location_aliasName" class="widthPx-150"></el-input>
@@ -113,7 +113,7 @@
 </template>
 
 <script setup>
-import { reactive, inject, toRefs, watch } from 'vue'
+import { reactive, inject, toRefs } from 'vue'
 const form = reactive(inject('dialogInfo'))
 const { data } = toRefs(form)
 </script>
