@@ -40,7 +40,13 @@ const asyncMenus = [
             //     path: 'new-archives',
             //     component: () => import('@/views/mainpages/archives/newArchives/index.vue'),
             //     meta: { title: 'New Archives', noCache: true, roles: ['worker'] }
-            // }
+            // },
+            {
+                name: 'ArchivesSpecies',
+                path: 'archives-species',
+                component: () => import('@/views/mainpages/archives/archives-species.vue'),
+                meta: { title: 'Archives Species', noCache: true, roles: ['admin'] }
+            }
         ]
     },
     // {

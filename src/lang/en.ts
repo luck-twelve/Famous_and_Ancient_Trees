@@ -14,6 +14,7 @@ export default {
     Archives: 'Archives',
     'Archives List': 'Archives List',
     'New Archives': 'New Archives',
+    'Archives Species': 'Archives Species',
     Curing: 'Curing',
     'Curing List': 'Curing List',
     Abnormal: 'Abnormal',

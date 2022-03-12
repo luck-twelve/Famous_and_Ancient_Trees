@@ -18,7 +18,7 @@
         </span>
       </template>
       <el-select v-model="data.tree_species" placeholder="请选择" clearable class="widthPx-200">
-        <el-option label="松柏类" value="songbai"></el-option>
+        <el-option label="松柏" value="松柏"></el-option>
       </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="权属">
@@ -29,10 +29,10 @@
         </span>
       </template>
       <el-select v-model="data.tree_owner" placeholder="请选择" clearable class="widthPx-200">
-        <el-option label="国有" value="STATE_OWNED"></el-option>
-        <el-option label="集体" value="COLLECTIVE"></el-option>
-        <el-option label="个人" value="PERSONAL"></el-option>
-        <el-option label="其他" value="OTHERS"></el-option>
+        <el-option label="国有" value="国有"></el-option>
+        <el-option label="集体" value="集体"></el-option>
+        <el-option label="个人" value="个人"></el-option>
+        <el-option label="其他" value="其他"></el-option>
       </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="古树命名" :span="2">
@@ -82,8 +82,8 @@
         </span>
       </template>
       <el-select v-model="data.tree_area" placeholder="请选择" clearable class="widthPx-200">
-        <el-option label="城市" value="CITY"></el-option>
-        <el-option label="农村" value="COUNTRY_SIDE"></el-option>
+        <el-option label="城市" value="城市"></el-option>
+        <el-option label="农村" value="农村"></el-option>
       </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="坐落">
@@ -94,10 +94,10 @@
         </span>
       </template>
       <el-select v-model="data.tree_location" placeholder="请选择" clearable class="widthPx-200">
-        <el-option label="单位庭院" value="UNIT_COURTYYARD"></el-option>
-        <el-option label="个人宅院" value="PERSONAL_HOUSE"></el-option>
-        <el-option label="寺院" value="TEMPLE"></el-option>
-        <el-option label="其他" value="OTHERS"></el-option>
+        <el-option label="单位庭院" value="单位庭院"></el-option>
+        <el-option label="个人宅院" value="个人宅院"></el-option>
+        <el-option label="寺院" value="寺院"></el-option>
+        <el-option label="其他" value="其他"></el-option>
       </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="管辖单位/个人" :span="2">

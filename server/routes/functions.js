@@ -25,7 +25,7 @@ const actions = {
         sql += ' limit ?,?'
         let params = []
         let pageStart = ((data.pageNum - 1) * data.pageSize) || 0
-        let pageEnd = (data.pageNum * data.pageSize) || 10
+        let pageEnd = parseInt(data.pageSize) || 10
         params = params.concat([pageStart, pageEnd])
         return { reqSql: sql, reqParams: params, noLimitSql: noLimit }
     },
@@ -97,7 +97,8 @@ const actions = {
         return { reqsql, insertData: { id: insertId, ...req.body } }
     },
     sqlUpdate: (req, res, tableDB, targetId) => {
-        let keys = Object.keys(req.body)
+        let reqBody = req.body
+        let keys = Object.keys(reqBody)
         if (!keys?.length) return res.json({
             code: -200,
             msg: '操作失败',
@@ -106,16 +107,23 @@ const actions = {
         })
         let reqsql = `UPDATE ${tableDB} SET `
         keys.splice(keys.indexOf(targetId), 1)
-        keys.forEach((item, index) => {
-            if (!req.body[item]) return
-            reqsql += `${item}='${req.body[item]}'`
-            if (index === keys.length - 1) {
-                reqsql += ` WHERE ${targetId}='${req.body[targetId]}'`
+        if (tableDB.includes('archives_tree')) {
+            if (keys.indexOf('marker') === -1) {
+                keys.push('marker')
+                reqBody['marker'] = 'marker_normal'
+            }
+        }
+        for (let i = 0; i < keys.length; i++) {
+            let item = keys[i]
+            if (!reqBody[item]) return
+            reqsql += `${item}='${reqBody[item]}'`
+            if (i === keys.length - 1) {
+                reqsql += ` WHERE ${targetId}='${reqBody[targetId]}'`
             } else {
                 reqsql += ','
             }
-        })
-        return { reqsql, updatedData: req.body }
+        }
+        return { reqsql, updatedData: reqBody }
     }
 }
 module.exports = actions;

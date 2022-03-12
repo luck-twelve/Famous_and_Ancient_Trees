@@ -1,9 +1,9 @@
 <template>
   <div class="ttDialog">
     <div class="top-20">
-      <el-dialog v-model="visiable" title="档案管理" width="70%" :before-close="handleClose">
+      <el-dialog v-model="visible" title="档案管理" width="70%" :before-close="handleClose">
         <el-scrollbar>
-          <new-tree v-if="visiable"></new-tree>
+          <new-tree v-if="visible"></new-tree>
         </el-scrollbar>
         <template #footer>
           <span class="dialog-footer">
@@ -21,13 +21,13 @@ import { toRefs } from 'vue'
 import NewTree from './newArchives/newTree.vue'
 
 const props = defineProps({
-  visiable: {
+  visible: {
     require: true,
     default: false,
     type: Boolean
   }
 })
-const { visiable } = toRefs(props)
+const { visible } = toRefs(props)
 
 const emit = defineEmits(['handleClose', 'handleSave', 'handleSubmit'])
 const handleClose = () => {

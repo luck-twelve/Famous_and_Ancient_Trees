@@ -114,6 +114,21 @@ const archivesApi = (router) => {
     router.delete('/archives/deleteArchivesTree', function (req, res, next) {
         archivesControll.deleteArchivesTree(req, res, next)
     })
+
+
+    /* archivesSpecies controller */
+    /**
+     * @api {post} /api/archives/getArchivesSpecies 获取树种列表
+     * @apiDescription 获取树种列表
+     * @apiName getArchivesSpecies
+     * @apiGroup archivesSpecies
+     * @apiSuccess {json} archivesSpeciesList 树种列表
+     * @apiSampleRequest http://localhost:3000/api/archives/getArchivesSpecies
+     * @apiVersion 1.0.0
+     */
+    router.post('/archives/getArchivesSpecies', function (req, res, next) {
+        archivesControll.getArchivesSpecies(req, res, next)
+    })
 }
 
 module.exports = archivesApi;

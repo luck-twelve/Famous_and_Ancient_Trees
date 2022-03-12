@@ -14,6 +14,7 @@ export default {
     Archives: '档案管理',
     'Archives List': '档案列表',
     'New Archives': '新建档案',
+    'Archives Species': '树种列表',
     Curing: '养护管理',
     'Curing List': '养护列表',
     Abnormal: '异常上报',

@@ -19,6 +19,12 @@
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </template>
+      <el-table-column label="状态" width="80px" align="center">
+        <template #default="{ row }">
+          <el-tag v-if="row.isShow == 1" type="success">正常</el-tag>
+          <el-tag v-if="row.isShow == 0" type="warning">草稿</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="140px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
@@ -37,10 +43,10 @@
     </tt-table>
   </div>
   <archives-list-dialog
-    v-model:visiable="visiable"
+    v-model:visible="visible"
     @handle-close="handleClose"
     @handle-save="handleSave"
-    @handle-submit="handleSabmit"
+    @handle-submit="handleSubmit"
   ></archives-list-dialog>
 </template>
 
@@ -75,30 +81,29 @@ const state = reactive({
   list: {},
   tableColumn: [
     { label: '编号', prop: 'id', width: '250px', align: 'center', sortable: true },
-    { label: '古树命名', prop: 'tree_nameZh', width: '150px' },
+    { label: '古树命名', prop: 'tree_nameZh', minWidth: '130px' },
     { label: '树种', prop: 'tree_species', width: '120px', sortable: true },
-    { label: '省份', prop: 'company_province', width: '80px', sortable: true },
-    { label: '权属', prop: 'tree_owner', minWidth: '150px' },
-    { label: '管辖单位/个人', prop: 'keeper', minWidth: '150px' }
+    { label: '省份', prop: 'company_province', align: 'center', width: '80px', sortable: true },
+    { label: '权属', prop: 'tree_owner', align: 'center', width: '80px', sortable: true }
   ],
   listLoading: true
 })
 
 // 弹窗
 const dialog = reactive({
-  visiable: false,
+  visible: false,
   type: 'add',
   data: {}
 })
 const handleClose = () => {
-  dialog.visiable = false
+  dialog.visible = false
   getList(formData)
 }
 /**
  * 新增
  */
 const handleAdd = () => {
-  dialog.visiable = true
+  dialog.visible = true
   dialog.type = 'add'
   dialog.data = initForm()
 }
@@ -106,7 +111,7 @@ const handleAdd = () => {
  * 编辑
  */
 const handleEdit = (row) => {
-  dialog.visiable = true
+  dialog.visible = true
   dialog.type = 'edit'
   dialog.data = row
 }
@@ -129,7 +134,7 @@ const handleSave = async (saveData) => {
 /**
  * 提交
  */
-const handleSabmit = async () => {
+const handleSubmit = async () => {
   let row = dialog.data
   if (
     !row.tree_species ||
@@ -199,7 +204,7 @@ const getList = (params = {}) => {
 }
 
 //导出属性到页面中使用
-let { visiable } = toRefs(dialog)
+let { visible } = toRefs(dialog)
 let { list, listLoading, tableColumn } = toRefs(state)
 
 const initForm = () => {

@@ -23,8 +23,8 @@
     </el-descriptions-item>
     <el-descriptions-item label="分布">
       <el-select v-model="data.tree_distribution" placeholder="请选择" class="widthPx-200">
-        <el-option label="散生" value="GROW_SCATTERED"></el-option>
-        <el-option label="群状" value="GROUP_SHAPE"></el-option>
+        <el-option label="散生" value="散生"></el-option>
+        <el-option label="群状" value="群状"></el-option>
       </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="林分平均胸围（地围）">
@@ -60,10 +60,10 @@
       <div class="rowSC mt-1">
         坡向：
         <el-select v-model="data.crown_slopeDirection" class="widthPx-150" placeholder="请选择">
-          <el-option label="东" value="EAST"></el-option>
-          <el-option label="西" value="WEST"></el-option>
-          <el-option label="南" value="SOUTH"></el-option>
-          <el-option label="北" value="NORTH"></el-option>
+          <el-option label="东" value="东"></el-option>
+          <el-option label="西" value="西"></el-option>
+          <el-option label="南" value="南"></el-option>
+          <el-option label="北" value="北"></el-option>
         </el-select>
         <el-divider direction="vertical"></el-divider>
         坡度：
@@ -82,11 +82,11 @@
         <el-divider direction="vertical"></el-divider>
         紧密度：
         <el-select v-model="data.site_compactness" class="widthPx-200" placeholder="请选择">
-          <el-option label="极紧密" value="TIGHT_QUITE"></el-option>
-          <el-option label="紧密" value="TIGHT"></el-option>
-          <el-option label="中等" value="MODERATE"></el-option>
-          <el-option label="较疏松" value="LOOSE"></el-option>
-          <el-option label="疏松" value="LOOSE_QUITE"></el-option>
+          <el-option label="极紧密" value="极紧密"></el-option>
+          <el-option label="紧密" value="紧密"></el-option>
+          <el-option label="中等" value="中等"></el-option>
+          <el-option label="较疏松" value="较疏松"></el-option>
+          <el-option label="疏松" value="疏松"></el-option>
         </el-select>
       </div>
     </el-descriptions-item>

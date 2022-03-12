@@ -17,7 +17,7 @@ var archivesControll = {
                         code: 200,
                         data: result,
                         total: total,
-                        msg: "操作成功",
+                        msg: "查询成功",
                         flag: true
                     })
                 })
@@ -71,6 +71,9 @@ var archivesControll = {
     },
 
 
+    /**
+     * 古树名木管理
+     */
     getArchivesTree: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body)
@@ -80,7 +83,7 @@ var archivesControll = {
                         code: 200,
                         data: result,
                         total: total,
-                        msg: "操作成功",
+                        msg: "查询成功",
                         flag: true
                     })
                 })
@@ -95,7 +98,7 @@ var archivesControll = {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: insertData,
-                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    msg: result?.affectedRows > 0 ? "新增成功" : '新增失败',
                     flag: result?.affectedRows > 0,
                     showFlag: true
                 })
@@ -109,7 +112,7 @@ var archivesControll = {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: updatedData,
-                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    msg: result?.affectedRows > 0 ? "保存成功" : '保存失败',
                     flag: result?.affectedRows > 0,
                     showFlag: true
                 })
@@ -124,7 +127,7 @@ var archivesControll = {
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
                     flag: result?.affectedRows > 0,
-                    showFlag: true
+                    showFlag: false
                 })
             })
         })
@@ -132,6 +135,68 @@ var archivesControll = {
     deleteArchivesTree: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             query(connection, sql.deleteArchivesTree, 'deleteArchivesTree', [req.query.id], result => {
+                return res.json({
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
+                })
+            })
+        })
+    },
+
+
+    /**
+     * 树种管理
+     */
+    getArchivesSpecies: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesSpecies, req.body)
+            query(connection, reqSql, 'getArchivesSpecies', reqParams, result => {
+                getTotal(noLimitSql, pool).then(total => {
+                    return res.json({
+                        code: 200,
+                        data: result,
+                        total: total,
+                        msg: "查询成功",
+                        flag: true
+                    })
+                })
+            })
+        })
+    },
+    addArchivesSpecies: function (req, res, next) {
+        console.log(sqlAdd(req, res, 'archives_tree'))
+        let { reqsql, insertData } = sqlAdd(req, res, 'archives_tree')
+        pool.getConnection(function (err, connection) {
+            query(connection, reqsql, 'addArchivesSpecies', [], result => {
+                return res.json({
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    data: insertData,
+                    msg: result?.affectedRows > 0 ? "新增成功" : '新增失败',
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
+                })
+            })
+        })
+    },
+    updateArchivesSpecies: function (req, res, next) {
+        let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_tree', 'id')
+        pool.getConnection(function (err, connection) {
+            query(connection, reqsql, 'updateArchivesSpecies', [], result => {
+                return res.json({
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    data: updatedData,
+                    msg: result?.affectedRows > 0 ? "保存成功" : '保存失败',
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
+                })
+            })
+        })
+    },
+    deleteArchivesSpecies: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            query(connection, sql.deleteArchivesSpecies, 'deleteArchivesSpecies', [req.query.id], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
