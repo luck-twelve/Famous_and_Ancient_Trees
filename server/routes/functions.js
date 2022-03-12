@@ -66,6 +66,11 @@ const actions = {
             if (keys.indexOf('isShow') === -1) {
                 keys.push('isShow')
             }
+            if (tableDB.includes('archives_tree')) {
+                if (keys.indexOf('marker') === -1) {
+                    keys.push('marker')
+                }
+            }
             reqsql = `INSERT INTO ${tableDB}(`
             let paramsSql = ' VALUES('
             for (let i = 0; i < keys.length; i++) {
@@ -75,6 +80,7 @@ const actions = {
                 switch (item) {
                     case 'id': value = insertId; break;
                     case 'isShow': value = 0; break;
+                    case 'marker': value = 'marker_normal'; break;
                 }
                 reqsql += key
                 paramsSql += `'${value}'`
