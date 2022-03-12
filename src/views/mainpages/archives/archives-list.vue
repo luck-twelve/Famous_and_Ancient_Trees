@@ -76,8 +76,8 @@ const state = reactive({
   tableColumn: [
     { label: '编号', prop: 'id', width: '250px', align: 'center', sortable: true },
     { label: '古树命名', prop: 'tree_nameZh', width: '150px' },
-    { label: '树种', prop: 'tree_species', width: '150px', sortable: true },
-    { label: '树龄', prop: 'tree_ageReal', width: '120px', sortable: true },
+    { label: '树种', prop: 'tree_species', width: '120px', sortable: true },
+    { label: '省份', prop: 'company_province', width: '80px', sortable: true },
     { label: '权属', prop: 'tree_owner', minWidth: '150px' },
     { label: '管辖单位/个人', prop: 'keeper', minWidth: '150px' }
   ],
@@ -114,9 +114,9 @@ provide('dialogInfo', dialog)
 /**
  * 保存
  */
-const handleSave = async (isSubmit) => {
+const handleSave = async (saveData) => {
   return new Promise((resolve, reject) => {
-    updateArchivesTreeReq(dialog.data).then(({ data }) => {
+    updateArchivesTreeReq(saveData || dialog.data).then(({ data }) => {
       if (data.flag) {
         dialog.data = Object.assign(initForm(), data.data)
         resolve(data.data.id)
@@ -151,17 +151,29 @@ const handleSabmit = async () => {
     ElMessage({ message: checkLat(row.latitude), type: 'warning' })
     return
   }
-  let point = new BMapGL.Point(row.longitude, row.latitude)
-  const gc = new BMapGL.Geocoder()
-  gc.getLocation(point, function (rs) {
-    const addComp = rs.addressComponents
-    dialog.data.company_province = addComp.province
-    dialog.data.company_city = addComp.city
-    dialog.data.company_district = addComp.district
-  })
-  const insertId = await handleSave(true)
+  const { province, city, district } = await getAddr(row)
+  dialog.data.company_province = province
+  dialog.data.company_city = city
+  dialog.data.company_district = district
+  const insertId = await handleSave(dialog.data)
   await updateArchivesStatusReq({ id: insertId })
   handleClose()
+}
+// 获取经纬度下省份
+const getAddr = (row) => {
+  return new Promise((resolve, reject) => {
+    let point = new BMapGL.Point(row.longitude, row.latitude)
+    const gc = new BMapGL.Geocoder()
+    gc.getLocation(point, function (rs) {
+      let addComp = rs.addressComponents
+      let province = addComp.province[0] + addComp.province[1]
+      if (addComp.province[2] === '江' || addComp.province[2] === '古') {
+        province += addComp.province[2]
+      }
+      addComp.province = province
+      resolve(addComp)
+    })
+  })
 }
 
 /**
@@ -243,6 +255,8 @@ function checkLong(lng) {
   var longrg = /^(\-|\+)?(((\d|[1-9]\d|1[0-7]\d|0{1,3})\.\d{0,6})|(\d|[1-9]\d|1[0-7]\d|0{1,3})|180\.0{0,6}|180)$/
   if (!longrg.test(lng)) {
     return '经度整数部分不超过179,小数部分不超过6位!'
+  } else if (lng < 73 || lng > 135) {
+    return '请输入中国境内的经度(73°~135°)'
   }
   return true
 }
@@ -251,6 +265,8 @@ function checkLat(lat) {
   var latreg = /^(\-|\+)?([0-8]?\d{1}\.\d{0,6}|90\.0{0,6}|[0-8]?\d{1}|90)$/
   if (!latreg.test(lat)) {
     return '纬度整数部分不超过89,小数部分不超过6位!'
+  } else if (lat < 4 || lat > 53) {
+    return '请输入中国境内的纬度(4°~53°)'
   }
   return true
 }

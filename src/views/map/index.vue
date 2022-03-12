@@ -15,6 +15,9 @@
         <el-form-item label="树种:">
           {{ formData.tree_species }}
         </el-form-item>
+        <el-form-item label="地理位置:">
+          {{ formData.company_province }}{{ formData.company_city }}{{ formData.company_district }}
+        </el-form-item>
         <el-form-item label="小地名:">
           {{ formData.location_aliasName }}
         </el-form-item>
@@ -66,11 +69,14 @@ import {
 } from '@element-plus/icons-vue'
 import { getMapInfo } from '@/api/map'
 import { getImgByName } from '@/api/image'
-import { ref, onMounted, reactive, toRefs } from 'vue'
+import { ref, onMounted, reactive, toRefs, provide } from 'vue'
 import dayjs from 'dayjs'
 import LSDV from './LSDV/index.vue'
 
 const drawer = ref(false)
+const maps = reactive({
+  list: []
+})
 
 const state = reactive({
   dialogTitle: '',
@@ -108,16 +114,20 @@ onMounted(async () => {
   map.setMapStyleV2({
     styleId: 'fe459dd0763a4cb32ce06e07cdddc06a'
   })
-  const mapInfo = await getMapInfo() // 档案数据
-  if (mapInfo.data.data?.length) {
+  const mapInfos = await getMapInfo() // 档案数据
+  const mapInfo = mapInfos.data.data
+  maps.list = mapInfo
+  if (mapInfo.length) {
+    let marker_normal = await getImgByName('marker_normal')
+    let marker_abnormal = await getImgByName('marker_abnormal')
     let markerIcon = {
-      marker_normal: await getImgByName('marker_normal'),
-      marker_abnormal: await getImgByName('marker_abnormal')
+      marker_normal: marker_normal.data.img,
+      marker_abnormal: marker_abnormal.data.img
     }
-    mapInfo.data.data.forEach((item) => {
+    mapInfo.forEach((item) => {
       const pointItem = new BMapGL.Point(item.longitude, item.latitude)
       const marker = new BMapGL.Marker(pointItem, {
-        icon: new BMapGL.Icon(markerIcon[item.marker].data.img, new BMapGL.Size(15, 15))
+        icon: new BMapGL.Icon(markerIcon[item.marker], new BMapGL.Size(15, 15))
       }) // 创建标注对象并添加到地图
       marker.addEventListener('click', function (e) {
         state.dialogTitle = item.tree_nameZh
@@ -128,6 +138,8 @@ onMounted(async () => {
     })
   }
 })
+
+provide('maps', maps)
 
 const handleStac = () => {
   drawer.value = true
