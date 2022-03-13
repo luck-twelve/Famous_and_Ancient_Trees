@@ -1,22 +1,24 @@
 <template>
   <div id="container"></div>
+  <input ref="inputCopy" value="" style="opacity: 0; position: absolute" />
   <div class="ttDialog">
-    <el-dialog v-model="dialogVisible" width="400px">
+    <el-dialog v-model="dialogVisible" width="450px">
       <template #title>
         <div>
           {{ dialogTitle }}
           <span v-if="formData.marker == 'marker_abnormal'" class="font-sizePx12 text-danger">异常</span>
         </div>
       </template>
-      <el-form :model="formData" label-position="right" label-width="70px">
-        <el-form-item label="挂牌号:">
-          {{ formData.listing }}
+      <el-form :model="formData" label-position="right" label-width="80px">
+        <el-form-item label="编号:">
+          {{ formData.id }}
+          <el-icon class="cs-p" @click="() => copyText(formData.id)"><copy-document /></el-icon>
         </el-form-item>
         <el-form-item label="树种:">
-          {{ formData.tree_species }}
+          {{ formData.tree_speciesStr }}
         </el-form-item>
         <el-form-item label="地理位置:">
-          {{ formData.company_province }}{{ formData.company_city }}{{ formData.company_district }}
+          {{ formData.company_city }}{{ formData.company_district }}（{{ formData.company_province }}）
         </el-form-item>
         <el-form-item label="小地名:">
           {{ formData.location_aliasName }}
@@ -65,13 +67,16 @@ import {
   PartlyCloudy,
   Pouring,
   Sunny,
-  Sunrise
+  Sunrise,
+  CopyDocument
 } from '@element-plus/icons-vue'
 import { getMapInfo } from '@/api/map'
 import { getImgByName } from '@/api/image'
-import { ref, onMounted, reactive, toRefs, provide } from 'vue'
+import { ref, onMounted, reactive, toRefs, provide, getCurrentInstance } from 'vue'
+import { ElMessage } from 'element-plus'
 import dayjs from 'dayjs'
 import LSDV from './LSDV/index.vue'
+let { proxy } = getCurrentInstance()
 
 const drawer = ref(false)
 const maps = reactive({
@@ -150,6 +155,15 @@ const handleStac = () => {
     .then((res) => {
       state.weather = res
     })
+}
+
+// 复制文本
+const copyText = (text) => {
+  const input = proxy.$refs.inputCopy
+  input.value = text // 修改文本框的内容
+  input.select() // 选中文本
+  document.execCommand('copy') // 执行浏览器复制命令
+  ElMessage({ message: '复制成功', type: 'success' })
 }
 </script>
 

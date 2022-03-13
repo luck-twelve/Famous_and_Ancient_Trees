@@ -1,6 +1,11 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" :model="formData" class="demo-form-inline">
+      <el-form-item prop="id">
+        <el-input v-model="formData.id" clearable>
+          <template #prepend>编号</template>
+        </el-input>
+      </el-form-item>
       <el-form-item prop="tree_nameZh">
         <el-input v-model="formData.tree_nameZh" clearable>
           <template #prepend>树名</template>
@@ -19,8 +24,9 @@
       </template>
       <el-table-column label="状态" width="80px" align="center">
         <template #default="{ row }">
-          <el-tag v-if="row.isShow == 1" type="success">正常</el-tag>
+          <el-tag v-if="row.isShow == 1 && row.marker == 'marker_normal'" type="success">正常</el-tag>
           <el-tag v-if="row.isShow == 0" type="warning">草稿</el-tag>
+          <el-tag v-if="row.marker == 'marker_abnormal'" type="error">异常</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="140px" align="center" fixed="right">
@@ -123,7 +129,6 @@ provide('dialogInfo', dialog)
  */
 const handleSave = async (saveData) => {
   return new Promise((resolve, reject) => {
-    dialog.data.tree_speciesStr = undefined
     updateArchivesTreeReq(saveData || dialog.data).then(({ data }) => {
       if (data.flag) {
         dialog.data = Object.assign(initForm(), data.data)
