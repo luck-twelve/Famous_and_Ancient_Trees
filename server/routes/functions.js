@@ -53,7 +53,7 @@ const actions = {
             callback(result, err)
         })
     },
-    sqlAdd: (req, res, tableDB) => {
+    sqlAdd: (req, res, tableDB, setMarker) => {
         let reqsql = ''
         let keys = Object.keys(req.body)
         let insertId = uuid.v1()
@@ -66,7 +66,7 @@ const actions = {
             if (keys.indexOf('isShow') === -1) {
                 keys.push('isShow')
             }
-            if (tableDB.includes('archives_tree')) {
+            if (setMarker) {
                 if (keys.indexOf('marker') === -1) {
                     keys.push('marker')
                 }
@@ -96,7 +96,7 @@ const actions = {
         }
         return { reqsql, insertData: { id: insertId, ...req.body } }
     },
-    sqlUpdate: (req, res, tableDB, targetId) => {
+    sqlUpdate: (req, res, tableDB, targetId, setMarker) => {
         let reqBody = req.body
         let keys = Object.keys(reqBody)
         if (!keys?.length) return res.json({
@@ -107,7 +107,7 @@ const actions = {
         })
         let reqsql = `UPDATE ${tableDB} SET `
         keys.splice(keys.indexOf(targetId), 1)
-        if (tableDB.includes('archives_tree')) {
+        if (setMarker) {
             if (keys.indexOf('marker') === -1) {
                 keys.push('marker')
                 reqBody['marker'] = 'marker_normal'

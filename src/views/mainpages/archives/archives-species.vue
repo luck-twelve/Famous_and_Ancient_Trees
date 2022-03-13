@@ -31,7 +31,7 @@
       </el-table-column>
     </tt-table>
     <el-dialog v-model="visible" :title="`${dialogType}树种`" width="450px" :before-close="handleClose">
-      <el-form :model="dialogData" label-width="80px">
+      <el-form ref="dialogForm" :model="dialogData" label-width="80px">
         <el-form-item label="树种名称" prop="name" :rules="formRulesMixin.isNotNull">
           <el-input v-model="dialogData.name" clearable />
         </el-form-item>
@@ -42,7 +42,7 @@
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="handleClose">取 消</el-button>
-          <el-button type="primary" @click="handleSave">确 定</el-button>
+          <el-button type="primary" @click="handleCommit">确 定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -51,9 +51,10 @@
 
 <script setup>
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
-import { toRefs, reactive, onBeforeMount } from 'vue'
+import { toRefs, reactive, onBeforeMount, getCurrentInstance } from 'vue'
 import { getArchivesSpeciesListReq, updateArchivesSpeciesReq, deleteArchivesSpeciesReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
+let { proxy } = getCurrentInstance()
 
 /**
  * 搜索
@@ -71,7 +72,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '70px', sortable: true },
+    { label: '编号', prop: 'id', width: '250px', sortable: true },
     { label: '树种名称', prop: 'name', minWidth: '130px' },
     { label: '字典值', prop: 'value', minWidth: '120px', sortable: true }
   ],
@@ -106,16 +107,17 @@ const handleEdit = (row) => {
 /**
  * 保存
  */
-const handleSave = async (saveData) => {
-  return new Promise((resolve, reject) => {
-    updateArchivesSpeciesReq(saveData || dialog.data).then(({ data }) => {
-      if (data.flag) {
-        dialog.data = Object.assign(initForm(), data.data)
-        resolve(data.data.id)
-      } else {
-        reject()
-      }
-    })
+const handleCommit = async () => {
+  proxy.$refs['dialogForm'].validate((valid) => {
+    if (valid) {
+      updateArchivesSpeciesReq(dialog.dialogData).then(({ data }) => {
+        if (data.flag) {
+          handleClose()
+        }
+      })
+    } else {
+      return false
+    }
   })
 }
 

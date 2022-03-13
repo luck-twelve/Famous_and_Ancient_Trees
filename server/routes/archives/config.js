@@ -92,7 +92,7 @@ var archivesControll = {
     },
     addArchivesTree: function (req, res, next) {
         console.log(sqlAdd(req, res, 'archives_tree'))
-        let { reqsql, insertData } = sqlAdd(req, res, 'archives_tree')
+        let { reqsql, insertData } = sqlAdd(req, res, 'archives_tree', true)
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addArchivesTree', [], result => {
                 return res.json({
@@ -106,7 +106,7 @@ var archivesControll = {
         })
     },
     updateArchivesTree: function (req, res, next) {
-        let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_tree', 'id')
+        let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_tree', 'id', true)
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesTree', [], result => {
                 return res.json({
@@ -166,8 +166,8 @@ var archivesControll = {
         })
     },
     addArchivesSpecies: function (req, res, next) {
-        console.log(sqlAdd(req, res, 'archives_tree'))
-        let { reqsql, insertData } = sqlAdd(req, res, 'archives_tree')
+        console.log(sqlAdd(req, res, 'archives_Species'))
+        let { reqsql, insertData } = sqlAdd(req, res, 'archives_Species')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addArchivesSpecies', [], result => {
                 return res.json({
@@ -181,7 +181,7 @@ var archivesControll = {
         })
     },
     updateArchivesSpecies: function (req, res, next) {
-        let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_tree', 'id')
+        let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_Species', 'id')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesSpecies', [], result => {
                 return res.json({
