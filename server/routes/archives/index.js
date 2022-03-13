@@ -151,6 +151,17 @@ const archivesApi = (router) => {
     router.put('/archives/updateArchivesSpecies', function (req, res, next) {
         archivesControll.updateArchivesSpecies(req, res, next)
     })
+    /**
+     * @api {delete} /api/archives/deleteArchivesSpecies 删除树种
+     * @apiDescription 新增树种
+     * @apiName deleteArchivesSpecies
+     * @apiGroup archivesSpecies
+     * @apiSampleRequest http://localhost:3000/api/archives/deleteArchivesSpecies
+     * @apiVersion 1.0.0
+     */
+    router.delete('/archives/deleteArchivesSpecies', function (req, res, next) {
+        archivesControll.deleteArchivesSpecies(req, res, next)
+    })
 }
 
 module.exports = archivesApi;

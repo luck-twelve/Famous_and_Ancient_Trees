@@ -4,6 +4,15 @@ const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
 const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate } = require('../functions'); // 引入已经封装好的全局函数
 var pool = mysql.createPool(mysqlconfig);
+pool.on('acquire', function (connection) {
+    console.log('connection %d accuired', connection.threadId);
+});
+pool.on('connection', function (connection) {
+    connection.query('SET SESSION auto_increment_increment=1')
+});
+pool.on('enqueue', function () {
+    console.log('Waiting for available connection slot');
+});
 
 //引入token 
 var vertoken = require('../../token')

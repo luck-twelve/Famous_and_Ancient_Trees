@@ -7,9 +7,7 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="tree_species">
-        <el-input v-model="formData.tree_species" clearable>
-          <template #prepend>树种</template>
-        </el-input>
+        <tt-select v-model="formData.tree_species" label="树种" :options="speciesOptions" op-label="name"></tt-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
@@ -52,16 +50,20 @@
 
 <script setup>
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
-import { toRefs, reactive, onBeforeMount, provide } from 'vue'
+import TtSelect from '@/components/tt-components/select'
+import { ref, toRefs, reactive, onBeforeMount, provide } from 'vue'
 import {
   getArchivesTreeListReq,
   updateArchivesTreeReq,
   updateArchivesStatusReq,
   deleteArchivesTreeReq
 } from '@/api/archives'
+import { getArchivesSpeciesListReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
 import { ElMessage } from 'element-plus'
+
+const speciesOptions = ref([])
 
 /**
  * 搜索
@@ -82,7 +84,7 @@ const state = reactive({
   tableColumn: [
     { label: '编号', prop: 'id', width: '250px', align: 'center', sortable: true },
     { label: '古树命名', prop: 'tree_nameZh', minWidth: '130px' },
-    { label: '树种', prop: 'tree_species', width: '120px', sortable: true },
+    { label: '树种', prop: 'tree_speciesStr', width: '120px', sortable: true },
     { label: '省份', prop: 'company_province', align: 'center', width: '80px', sortable: true },
     { label: '权属', prop: 'tree_owner', align: 'center', width: '80px', sortable: true }
   ],
@@ -121,6 +123,7 @@ provide('dialogInfo', dialog)
  */
 const handleSave = async (saveData) => {
   return new Promise((resolve, reject) => {
+    dialog.data.tree_speciesStr = undefined
     updateArchivesTreeReq(saveData || dialog.data).then(({ data }) => {
       if (data.flag) {
         dialog.data = Object.assign(initForm(), data.data)
@@ -192,12 +195,22 @@ const handleDelete = (row) => {
 
 // 初始化
 onBeforeMount(() => {
-  getList()
+  getArchivesSpeciesListReq({
+    pageNum: 1,
+    pageSize: 1000
+  }).then(({ data }) => {
+    speciesOptions.value = data.data
+    getList()
+  })
 })
 
 const getList = (params = {}) => {
   state.listLoading = true
   getArchivesTreeListReq(params).then(({ data }) => {
+    data.data.forEach((item) => {
+      let speries = speciesOptions.value.find((xx) => xx.value === item.tree_species)
+      item.tree_speciesStr = speries?.name || item.tree_species
+    })
     state.list = data
     state.listLoading = false
   })
@@ -231,6 +244,7 @@ const initForm = () => {
     tree_type: '', // 类别 - ANCIENT / FAMOUS
     tree_distribution: '', // 分布 - GROW_SCATTERED / GROUP_SHAPE
     tree_species: '', // 树种
+    tree_speciesStr: '',
     tree_nameZh: '', // 中文名
     tree_nameEn: '', // 英文名
     tree_nameAlias: '', // 别名

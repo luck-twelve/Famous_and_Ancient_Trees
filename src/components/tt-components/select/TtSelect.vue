@@ -2,7 +2,7 @@
   <div class="el-input el-input-group tt-input-group--prepend">
     <div class="el-input-group__prepend">{{ label }}</div>
     <el-select v-model="model" clearable @change="handleClick">
-      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+      <el-option v-for="item in options" :key="item" :label="item[opLabel]" :value="item[opValue]"></el-option>
     </el-select>
   </div>
 </template>
@@ -31,6 +31,14 @@ const props = defineProps({
   clearable: {
     default: true,
     type: Boolean
+  },
+  opLabel: {
+    default: 'label',
+    type: String
+  },
+  opValue: {
+    default: 'value',
+    type: String
   }
 })
 const emit = defineEmits(['update:modelValue'])

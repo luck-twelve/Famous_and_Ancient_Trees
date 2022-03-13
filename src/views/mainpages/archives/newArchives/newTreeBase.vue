@@ -18,7 +18,7 @@
         </span>
       </template>
       <el-select v-model="data.tree_species" placeholder="请选择" clearable class="widthPx-200">
-        <el-option label="松柏" value="松柏"></el-option>
+        <el-option v-for="item in speciesOptions" :key="item.id" :label="item.name" :value="item.value"></el-option>
       </el-select>
     </el-descriptions-item>
     <el-descriptions-item label="权属">
@@ -113,9 +113,18 @@
 </template>
 
 <script setup>
-import { reactive, inject, toRefs } from 'vue'
+import { reactive, inject, toRefs, ref } from 'vue'
+import { getArchivesSpeciesListReq } from '@/api/archives'
 const form = reactive(inject('dialogInfo'))
 const { data } = toRefs(form)
+
+const speciesOptions = ref([])
+getArchivesSpeciesListReq({
+  pageNum: 1,
+  pageSize: 1000
+}).then(({ data }) => {
+  speciesOptions.value = data.data
+})
 </script>
 
 <style scoped>
