@@ -57,8 +57,9 @@ const actions = {
         let reqsql = ''
         let keys = Object.keys(req.body)
         let insertId = uuid.v1()
+        let isShow = tableDB === 'user' ? 1 : 0
         if (!keys?.length) {
-            reqsql = `INSERT INTO ${tableDB}(id, isShow) VALUES('${insertId}', 0)`
+            reqsql = `INSERT INTO ${tableDB}(id, isShow) VALUES('${insertId}', ${isShow})`
         } else {
             if (keys.indexOf('id') === -1) {
                 keys.push('id')
@@ -79,7 +80,7 @@ const actions = {
                 let value = req.body[item]
                 switch (item) {
                     case 'id': value = insertId; break;
-                    case 'isShow': value = 0; break;
+                    case 'isShow': value = isShow; break;
                     case 'marker': value = 'marker_normal'; break;
                 }
                 reqsql += key

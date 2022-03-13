@@ -2,7 +2,7 @@
 const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
-const { query, getFiltersql, getTotal } = require('../functions'); // 引入sql过滤函数
+const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate } = require('../functions'); // 引入已经封装好的全局函数
 var pool = mysql.createPool(mysqlconfig);
 
 //引入token 
@@ -118,13 +118,9 @@ var userControll = {
         })
     },
     addUser: function (req, res, next) {
-        const params = [];
-        params[0] = req.body.username
-        params[1] = req.body.password
-        params[2] = req.body.avatar
-        params[3] = req.body.roles
+        let { reqsql } = sqlAdd(req, res, 'user')
         pool.getConnection(function (err, connection) {
-            query(connection, sql.addUser, 'addUser', params, result => {
+            query(connection, reqsql, 'addUser', [], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
