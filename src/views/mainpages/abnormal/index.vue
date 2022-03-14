@@ -88,7 +88,7 @@ const state = reactive({
     { label: '树名', prop: 'tree_name', minWidth: '130px' },
     { label: '经度', prop: 'longitude', minWidth: '120px', sortable: true },
     { label: '纬度', prop: 'latitude', minWidth: '120px', sortable: true },
-    { label: '上传用户', prop: 'uid', minWidth: '120px', sortable: true },
+    { label: '上传用户', prop: 'username', minWidth: '120px', sortable: true },
     { label: '上传时间', prop: 'create_time', minWidth: '150px', sortable: true }
   ],
   listLoading: true
