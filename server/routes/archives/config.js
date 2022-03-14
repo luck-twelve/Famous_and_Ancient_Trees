@@ -20,7 +20,7 @@ var archivesControll = {
                         code: 200,
                         data: result,
                         total: total,
-                        msg: "查询成功",
+                        msg: "",
                         flag: true
                     })
                 })
@@ -94,7 +94,6 @@ var archivesControll = {
         })
     },
     addArchivesTree: function (req, res, next) {
-        console.log(sqlAdd(req, res, 'archives_tree'))
         let { reqsql, insertData } = sqlAdd(req, res, 'archives_tree', true)
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addArchivesTree', [], result => {
@@ -169,7 +168,6 @@ var archivesControll = {
         })
     },
     addArchivesSpecies: function (req, res, next) {
-        console.log(sqlAdd(req, res, 'archives_Species'))
         let { reqsql, insertData } = sqlAdd(req, res, 'archives_Species')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addArchivesSpecies', [], result => {

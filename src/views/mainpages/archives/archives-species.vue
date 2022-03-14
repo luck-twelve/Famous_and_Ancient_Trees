@@ -72,7 +72,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '250px', sortable: true },
+    { label: '编号', prop: 'id', width: '250px' },
     { label: '树种名称', prop: 'name', minWidth: '130px' },
     { label: '字典值', prop: 'value', minWidth: '120px', sortable: true }
   ],

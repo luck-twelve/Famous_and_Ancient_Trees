@@ -6,7 +6,6 @@ const { query } = require('../functions'); // 引入已经封装好的全局函�
 
 var imageControll = {
     getImage: function (req, res, next) {
-        console.log(req)
         pool.getConnection(function (err, connection) {
             query(connection, `SELECT * FROM images WHERE name=?`, 'imageControll', [req.query.name], function (result) {
                 return res.json({

@@ -13,6 +13,7 @@ const archivesApi = require('./archives')
 const fileApi = require('./files')
 const imageApi = require('./image')
 const mapApi = require('./map')
+const abnormalApi = require('./abnormal')
 
 userApi(router)
 menuApi(router)
@@ -20,5 +21,6 @@ archivesApi(router)
 fileApi(router)
 imageApi(router)
 mapApi(router)
+abnormalApi(router)
 
 module.exports = router;

@@ -1,9 +1,9 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" :model="formData">
-      <el-form-item prop="name">
-        <el-input v-model="formData.name" clearable>
-          <template #prepend>树种名称</template>
+      <el-form-item prop="username">
+        <el-input v-model="formData.username" clearable>
+          <template #prepend>上报人</template>
         </el-input>
       </el-form-item>
       <el-form-item>
@@ -30,13 +30,25 @@
         </template>
       </el-table-column>
     </tt-table>
-    <el-dialog v-model="visible" :title="`${dialogType}树种`" width="450px" :before-close="handleClose">
+    <el-dialog v-model="visible" :title="`${dialogType}异常信息`" width="450px" :before-close="handleClose">
       <el-form ref="dialogForm" :model="dialogData" label-width="80px">
-        <el-form-item label="树种名称" prop="name" :rules="formRulesMixin.isNotNull">
-          <el-input v-model="dialogData.name" clearable />
+        <el-form-item label="树名" prop="tree_name" :rules="formRulesMixin.isNotNull">
+          <el-input v-model="dialogData.tree_name" clearable />
         </el-form-item>
-        <el-form-item label="字典值" prop="value" :rules="formRulesMixin.isNotNull">
-          <el-input v-model="dialogData.value" clearable />
+        <el-form-item label="经度" prop="longitude" :rules="formRulesMixin.isNotNull">
+          <el-input v-model="dialogData.longitude" clearable />
+        </el-form-item>
+        <el-form-item label="纬度" prop="latitude" :rules="formRulesMixin.isNotNull">
+          <el-input v-model="dialogData.latitude" clearable />
+        </el-form-item>
+        <el-form-item label="异常情况" prop="ab_condition" :rules="formRulesMixin.isNotNull">
+          <el-input v-model="dialogData.ab_condition" clearable />
+        </el-form-item>
+        <el-form-item label="造成原因" prop="reason" :rules="formRulesMixin.isNotNull">
+          <el-input v-model="dialogData.reason" clearable placeholder="没有则填 “未知”" />
+        </el-form-item>
+        <el-form-item label="期望解决" prop="resolve" :rules="formRulesMixin.isNotNull">
+          <el-input v-model="dialogData.resolve" clearable placeholder="没有则填 “无”" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -52,7 +64,7 @@
 <script setup>
 import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount, getCurrentInstance } from 'vue'
-import { getArchivesSpeciesListReq, updateArchivesSpeciesReq, deleteArchivesSpeciesReq } from '@/api/archives'
+import { getAbnormalListReq, updateAbnormalReq, deleteAbnormalReq } from '@/api/abnormal'
 import TtTable from '@/components/tt-components/table'
 let { proxy } = getCurrentInstance()
 
@@ -72,9 +84,12 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '250px', sortable: true },
-    { label: '树种名称', prop: 'name', minWidth: '130px' },
-    { label: '字典值', prop: 'value', minWidth: '120px', sortable: true }
+    { label: '编号', prop: 'id', width: '250px' },
+    { label: '树名', prop: 'tree_name', minWidth: '130px' },
+    { label: '经度', prop: 'longitude', minWidth: '120px', sortable: true },
+    { label: '纬度', prop: 'latitude', minWidth: '120px', sortable: true },
+    { label: '上传用户', prop: 'uid', minWidth: '120px', sortable: true },
+    { label: '上传时间', prop: 'create_time', minWidth: '120px', sortable: true }
   ],
   listLoading: true
 })
@@ -93,7 +108,7 @@ const handleClose = () => {
  */
 const handleAdd = () => {
   dialog.visible = true
-  dialog.dialogType = '新增'
+  dialog.dialogType = '上传'
   dialog.dialogData = initForm()
 }
 /**
@@ -110,7 +125,7 @@ const handleEdit = (row) => {
 const handleCommit = async () => {
   proxy.$refs['dialogForm'].validate((valid) => {
     if (valid) {
-      updateArchivesSpeciesReq(dialog.dialogData).then(({ data }) => {
+      updateAbnormalReq(dialog.dialogData).then(({ data }) => {
         if (data.flag) {
           handleClose()
         }
@@ -125,7 +140,7 @@ const handleCommit = async () => {
  * 删除
  */
 const handleDelete = (row) => {
-  deleteArchivesSpeciesReq(row.id).then(({ data }) => {
+  deleteAbnormalReq(row.id).then(({ data }) => {
     getList(formData)
   })
 }
@@ -137,7 +152,7 @@ onBeforeMount(() => {
 
 const getList = (params = {}) => {
   state.listLoading = true
-  getArchivesSpeciesListReq(params).then(({ data }) => {
+  getAbnormalListReq(params).then(({ data }) => {
     state.list = data
     state.listLoading = false
   })
@@ -149,9 +164,13 @@ let { list, listLoading, tableColumn } = toRefs(state)
 
 const initForm = () => {
   return {
-    id: '', // 树种编号
-    name: '', // 名称
-    value: '' // 值
+    id: '', // 编号
+    tree_name: '', // 树名
+    longitude: '', // 经度
+    latitude: '', // 纬度
+    reason: '', // 造成原因
+    ab_condition: '', // 异常情况
+    resolve: '' // 期望解决
   }
 }
 </script>
