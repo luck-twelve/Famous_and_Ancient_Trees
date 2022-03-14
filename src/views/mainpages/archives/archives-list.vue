@@ -29,7 +29,7 @@
           <el-tag v-if="row.marker == 'marker_abnormal'" type="error">异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="140px" align="center" fixed="right">
+      <el-table-column label="操作" width="130px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
           <el-popconfirm
@@ -88,7 +88,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '250px', align: 'center' },
+    { label: '编号', prop: 'id', width: '160px' },
     { label: '古树命名', prop: 'tree_nameZh', minWidth: '130px' },
     { label: '树种', prop: 'tree_speciesStr', width: '120px', sortable: true },
     { label: '省份', prop: 'company_province', align: 'center', width: '80px', sortable: true },

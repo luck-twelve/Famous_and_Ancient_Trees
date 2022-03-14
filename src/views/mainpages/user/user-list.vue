@@ -23,7 +23,7 @@
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </template>
-      <el-table-column label="操作" width="140px" align="center" fixed="right">
+      <el-table-column label="操作" width="130px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
           <el-popconfirm
@@ -78,7 +78,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '250px', align: 'center' },
+    { label: '编号', prop: 'id', width: '160px' },
     { label: '用户名', prop: 'username', width: '120px' },
     { label: '头像', prop: 'avatar', minWidth: '450px' },
     { label: '用户权限', prop: 'roles', width: '110px', align: 'center', sortable: true }

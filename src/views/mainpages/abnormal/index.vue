@@ -14,7 +14,7 @@
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">异常上报</el-button>
       </template>
-      <el-table-column label="操作" width="140px" align="center" fixed="right">
+      <el-table-column label="操作" width="130px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
           <el-popconfirm
@@ -31,7 +31,7 @@
       </el-table-column>
     </tt-table>
     <el-dialog v-model="visible" :title="`${dialogType}异常信息`" width="450px" :before-close="handleClose">
-      <el-form ref="dialogForm" :model="dialogData" label-width="80px">
+      <el-form v-if="visible" ref="dialogForm" :model="dialogData" label-width="80px">
         <el-form-item label="树名" prop="tree_name" :rules="formRulesMixin.isNotNull">
           <el-input v-model="dialogData.tree_name" clearable />
         </el-form-item>
@@ -84,12 +84,12 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '250px' },
+    { label: '编号', prop: 'id', width: '160px' },
     { label: '树名', prop: 'tree_name', minWidth: '130px' },
     { label: '经度', prop: 'longitude', minWidth: '120px', sortable: true },
     { label: '纬度', prop: 'latitude', minWidth: '120px', sortable: true },
     { label: '上传用户', prop: 'uid', minWidth: '120px', sortable: true },
-    { label: '上传时间', prop: 'create_time', minWidth: '120px', sortable: true }
+    { label: '上传时间', prop: 'create_time', minWidth: '150px', sortable: true }
   ],
   listLoading: true
 })

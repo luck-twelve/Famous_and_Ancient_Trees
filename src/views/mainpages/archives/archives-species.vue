@@ -14,7 +14,7 @@
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </template>
-      <el-table-column label="操作" width="140px" align="center" fixed="right">
+      <el-table-column label="操作" width="130px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
           <el-popconfirm
@@ -31,7 +31,7 @@
       </el-table-column>
     </tt-table>
     <el-dialog v-model="visible" :title="`${dialogType}树种`" width="450px" :before-close="handleClose">
-      <el-form ref="dialogForm" :model="dialogData" label-width="80px">
+      <el-form v-if="visible" ref="dialogForm" :model="dialogData" label-width="80px">
         <el-form-item label="树种名称" prop="name" :rules="formRulesMixin.isNotNull">
           <el-input v-model="dialogData.name" clearable />
         </el-form-item>
@@ -72,7 +72,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '250px' },
+    { label: '编号', prop: 'id', width: '160px' },
     { label: '树种名称', prop: 'name', minWidth: '130px' },
     { label: '字典值', prop: 'value', minWidth: '120px', sortable: true }
   ],
