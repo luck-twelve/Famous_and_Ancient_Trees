@@ -1,5 +1,5 @@
 <template>
-  <el-card shadow="never" class="card-wrap">
+  <el-card shadow="never" :class="['card-wrap', { multiple: multiple }]">
     <template v-if="!noHeader" #header>
       <div class="card-header">
         <div>
@@ -36,7 +36,15 @@
     </template>
 
     <!-- v-loading="loading" -->
-    <el-table :data="list.data" border stripe>
+    <el-table
+      ref="ttTable"
+      :data="list.data"
+      border
+      stripe
+      :highlight-current-row="multiple"
+      @select="handleSelect"
+      @current-change="handleSelectCurrent"
+    >
       <el-table-column v-if="multiple" type="selection" width="35" />
       <template v-for="item in formThead" :key="item.prop">
         <el-table-column
@@ -68,7 +76,7 @@
 import { Refresh, Filter, Sort } from '@element-plus/icons-vue'
 import { reactive, toRefs, ref, getCurrentInstance, onMounted } from 'vue'
 let { proxy } = getCurrentInstance()
-const emit = defineEmits(['pagination'])
+const emit = defineEmits(['pagination', 'selectionChange'])
 
 const props = defineProps({
   noHeader: {
@@ -113,6 +121,10 @@ const props = defineProps({
   searchData: {
     type: Object,
     default: () => {}
+  },
+  defaultPageSize: {
+    type: Number,
+    default: 10
   }
 })
 
@@ -159,11 +171,39 @@ const refreshTable = () => {
 }
 
 /**
+ * 单选
+ */
+const selectioned = ref({})
+const handleSelect = (selection, row) => {
+  if (!props.multiple) return
+  proxy.$refs['ttTable'].clearSelection()
+  if (selection.length === 0) {
+    // 判断selection是否有值存在
+    return
+  }
+  if (row) {
+    selectioned.value = row
+    emit('selectionChange', row)
+    proxy.$refs['ttTable'].toggleRowSelection(row, true)
+  }
+}
+const handleSelectCurrent = (val) => {
+  if (!props.multiple) return
+  proxy.$refs['ttTable'].clearSelection()
+  if (val) {
+    selectioned.value = val
+    emit('selectionChange', val)
+    proxy.$refs['ttTable'].toggleRowSelection(val, true)
+  }
+}
+
+/**
  * 分页
  */
+const { defaultPageSize } = toRefs(props)
 const paginData = reactive({
   pageNum: 1,
-  pageSize: 10
+  pageSize: defaultPageSize.value
 })
 const handleSizeChange = (val) => {
   paginData.pageSize = val
@@ -196,5 +236,13 @@ const { formThead, checkboxVal } = toRefs(state)
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+:deep(.has-gutter) {
+  .el-checkbox {
+    display: none;
+  }
+}
+.multiple:deep(.el-table__body) tr:hover > td {
+  cursor: pointer;
 }
 </style>

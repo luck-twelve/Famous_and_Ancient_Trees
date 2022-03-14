@@ -18,8 +18,18 @@
         <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
       </el-form-item>
     </el-form>
-    <tt-table :list="list" :loading="listLoading" :column="tableColumn" :search-data="formData" @pagination="getList">
-      <template #header>
+    <tt-table
+      :list="list"
+      :loading="listLoading"
+      :column="tableColumn"
+      :search-data="formData"
+      :no-header="isDialog"
+      :multiple="isDialog"
+      :default-page-size="isDialog ? 5 : 10"
+      @pagination="getList"
+      @selection-change="handleSelectionChange"
+    >
+      <template v-if="!isDialog" #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </template>
       <el-table-column label="状态" width="80px" align="center">
@@ -29,7 +39,7 @@
           <el-tag v-if="row.marker == 'marker_abnormal'" type="error">异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="130px" align="center" fixed="right">
+      <el-table-column v-if="!isDialog" label="操作" width="130px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
           <el-popconfirm
@@ -68,6 +78,15 @@ import { getArchivesSpeciesListReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
 import { ElMessage } from 'element-plus'
+const emit = defineEmits(['selectionChange'])
+
+const props = defineProps({
+  isDialog: {
+    type: Boolean,
+    default: false
+  }
+})
+let { isDialog } = toRefs(props)
 
 const speciesOptions = ref([])
 
@@ -96,6 +115,13 @@ const state = reactive({
   ],
   listLoading: true
 })
+
+/**
+ * 多选
+ */
+const handleSelectionChange = (val) => {
+  emit('selectionChange', val)
+}
 
 // 弹窗
 const dialog = reactive({
@@ -205,7 +231,12 @@ onBeforeMount(() => {
     pageSize: 1000
   }).then(({ data }) => {
     speciesOptions.value = data.data
-    getList()
+    if (isDialog.value) {
+      getList({
+        pageNum: 1,
+        pageSize: 5
+      })
+    } else getList()
   })
 })
 

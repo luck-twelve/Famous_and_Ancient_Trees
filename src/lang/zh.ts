@@ -17,7 +17,7 @@ export default {
     'Archives Species': '树种列表',
     Curing: '养护管理',
     'Curing List': '养护列表',
-    Abnormal: '异常上报',
+    Abnormal: '异常反馈',
 
     'Setting Switch': '设置文件测试',
     Example: '例子',
