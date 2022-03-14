@@ -2,7 +2,7 @@
 const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
-const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate } = require('../functions'); // 引入已经封装好的全局函数
+const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate, formatDate } = require('../functions'); // 引入已经封装好的全局函数
 var pool = mysql.createPool(mysqlconfig);
 pool.on('acquire', function (connection) {
     console.log('connection %d accuired', connection.threadId);
@@ -82,6 +82,10 @@ var archivesControll = {
             const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body)
             query(connection, reqSql, 'getArchivesTree', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
+                    result?.forEach(item => {
+                        item.create_time = formatDate(item.create_time)
+                        item.update_time = formatDate(item.update_time)
+                    })
                     return res.json({
                         code: 200,
                         data: result,
@@ -111,6 +115,8 @@ var archivesControll = {
         let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_tree', 'id', true)
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesTree', [], result => {
+                updatedData.create_time = formatDate(updatedData.create_time)
+                updatedData.update_time = formatDate(updatedData.update_time)
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: updatedData,
@@ -156,6 +162,10 @@ var archivesControll = {
             const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesSpecies, req.body)
             query(connection, reqSql, 'getArchivesSpecies', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
+                    result?.forEach(item => {
+                        item.create_time = formatDate(item.create_time)
+                        item.update_time = formatDate(item.update_time)
+                    })
                     return res.json({
                         code: 200,
                         data: result,
@@ -185,6 +195,8 @@ var archivesControll = {
         let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_Species', 'id')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesSpecies', [], result => {
+                updatedData.create_time = formatDate(updatedData.create_time)
+                updatedData.create_time = formatDate(updatedData.update_time)
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: updatedData,

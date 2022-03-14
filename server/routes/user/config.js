@@ -2,7 +2,7 @@
 const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
-const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate } = require('../functions'); // 引入已经封装好的全局函数
+const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate, formatDate } = require('../functions'); // 引入已经封装好的全局函数
 var pool = mysql.createPool(mysqlconfig);
 
 //引入token 
@@ -105,6 +105,10 @@ var userControll = {
             const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getUsers, req.body)
             query(connection, reqSql, 'getUserList', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
+                    result?.forEach(item => {
+                        item.create_time = formatDate(item.create_time)
+                        item.update_time = formatDate(item.update_time)
+                    })
                     return res.json({
                         code: 200,
                         data: result,
