@@ -12,7 +12,7 @@
     </el-form>
     <tt-table :list="list" :loading="listLoading" :column="tableColumn" :search-data="formData" @pagination="getList">
       <template #header>
-        <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleAdd">异常上报</el-button>
       </template>
       <el-table-column label="操作" width="140px" align="center" fixed="right">
         <template #default="{ row }">

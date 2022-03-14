@@ -98,7 +98,6 @@ var userControll = {
             code: 200,
             msg: "退出登录成功",
             flag: true,
-            showFlag: true
         })
     },
     getUserList: function (req, res, next) {

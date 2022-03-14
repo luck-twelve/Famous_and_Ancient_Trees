@@ -46,7 +46,7 @@ let { emptyGif } = toRefs(state)
 
 .dashboard-editor-container {
   background-color: #e3e3e3;
-  min-height: 100vh;
+  height: calc(100vh - 50px - 30px - 2px - 16px * 2);
   padding: 50px 60px 0;
   .pan-info-roles {
     font-size: 12px;

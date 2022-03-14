@@ -14,7 +14,6 @@
             {{ getI18nName('navbar', 'changePassword') }}
           </span>
         </el-dropdown-item>
-        <el-divider style="margin: 6px 0"></el-divider>
         <el-dropdown-item :icon="SwitchButton" @click="logOut">
           <span class="py-1">
             {{ getI18nName('navbar', 'logOut') }}
@@ -25,21 +24,18 @@
   </el-dropdown>
   <sub-pass :dialog-visible="dialog.dialogVisible" @close="closeDialog"></sub-pass>
 </template>
-, Edit
+
 <script setup>
 import { CaretBottom, Edit, SwitchButton } from '@element-plus/icons-vue'
 import SubPass from './SubPass.vue'
-
+import { getCurrentInstance, reactive } from 'vue'
+import { ElMessage } from 'element-plus'
+import { useStore } from 'vuex'
 import useI18n from '@/hooks/useI18n'
 const { getI18nName } = useI18n()
 
-import { getCurrentInstance } from 'vue'
-import { ElMessage } from 'element-plus'
-import { useStore } from 'vuex'
 const store = useStore()
 let { proxy } = getCurrentInstance()
-
-import { reactive } from 'vue'
 
 /**
  * 修改密码弹窗
