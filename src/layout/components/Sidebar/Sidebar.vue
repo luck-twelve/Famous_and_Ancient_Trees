@@ -28,6 +28,9 @@ import SidebarItem from './SidebarItem.vue'
 //导入配置文件
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
+//get scss variable
+import scssExportJson from '@/styles/variables-to-js.scss'
+
 const store = useStore()
 const route = useRoute()
 let routes = computed(() => {
@@ -54,8 +57,6 @@ const dillScssExportToJson = (scssExportJson) => {
   return scssJson
 }
 
-//get scss variable
-import scssExportJson from '@/styles/variables-to-js.scss'
 let scssJson = dillScssExportToJson(scssExportJson)
 const activeMenu = computed(() => {
   const { meta, fullPath } = route

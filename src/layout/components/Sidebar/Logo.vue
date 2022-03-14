@@ -15,13 +15,13 @@
 
 <script setup>
 import { toRefs, reactive, computed } from 'vue'
+import { useStore } from 'vuex'
 defineProps({
   collapse: {
     type: Boolean,
     required: true
   }
 })
-import { useStore } from 'vuex'
 let store = useStore()
 let settings = computed(() => {
   return store.state.app.settings

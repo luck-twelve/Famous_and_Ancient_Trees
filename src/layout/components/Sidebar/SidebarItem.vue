@@ -26,7 +26,6 @@
 
 <script setup>
 import { getCurrentInstance } from 'vue'
-let { proxy } = getCurrentInstance()
 /*初始化参数比如引入组件，proxy,state等*/
 import Link from './Link.vue'
 import Item from './Item.jsx'
@@ -34,6 +33,7 @@ import { isExternal } from '@/utils/validate'
 import path from 'path'
 
 import useI18n from '@/hooks/useI18n'
+let { proxy } = getCurrentInstance()
 const { generateTitle } = useI18n()
 
 defineProps({
