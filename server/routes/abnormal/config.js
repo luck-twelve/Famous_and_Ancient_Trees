@@ -39,7 +39,7 @@ var abnormalControll = {
         })
     },
     updateAbnormal: function (req, res, next) {
-        let { reqsql, updatedData } = sqlUpdate(req, res, 'abnormal_info', 'id', true)
+        let { reqsql, updatedData } = sqlUpdate(req, res, 'abnormal_info', 'id')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateAbnormal', [], result => {
                 return res.json({

@@ -108,6 +108,14 @@ const actions = {
         })
         let reqsql = `UPDATE ${tableDB} SET `
         keys.splice(keys.indexOf(targetId), 1)
+        if (keys.indexOf('create_time') !== -1) {
+            keys.splice(keys.indexOf('create_time'), 1)
+            console.log(keys)
+        }
+        if (keys.indexOf('update_time') !== -1) {
+            keys.splice(keys.indexOf('update_time'), 1)
+            console.log(keys)
+        }
         if (setMarker) {
             if (keys.indexOf('marker') === -1) {
                 keys.push('marker')
