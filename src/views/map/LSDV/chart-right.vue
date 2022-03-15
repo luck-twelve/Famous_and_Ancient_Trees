@@ -2,7 +2,7 @@
   <el-card shadow="always" class="widthPC-45">
     <template #header>
       <div class="rowSS">
-        <img src="@/assets/LSDV_images/earth.png" class="title-logo" />
+        <img src="@/assets/LSDV_images/analysis_r.png" class="title-logo" />
         <div class="ml-1">
           <h4><b>古树资源</b></h4>
           <span class="font-sizePx12">Ancient tree resources</span>
