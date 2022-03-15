@@ -9,7 +9,7 @@
         </div>
       </div>
     </template>
-    <div class="rowSS">
+    <div class="rowBS">
       <div class="group-item font-sizePx12">
         <span class="mb-1"><b>古树总数</b></span>
         <div class="rowSE">
@@ -54,7 +54,7 @@
       </div>
     </div>
     <div style="position: relative">
-      <div class="chart-tips"><b>提示</b></div>
+      <div class="chart-tips"><b>最近一周</b></div>
       <div id="echarts1" class="chart-1 mt-1"></div>
     </div>
     <div style="position: relative">
@@ -74,7 +74,7 @@ const initEchartsF = () => {
   echarts1.value = echarts.init(document.getElementById('echarts1'))
   echarts2.value = echarts.init(document.getElementById('echarts2'))
   let option1 = {
-    color: ['#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80', '#8d98b3', '#97b552'],
+    color: ['#4575b4', '#abd9e9', '#ffb980', '#d87a80', '#8d98b3', '#97b552'],
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -145,7 +145,7 @@ const initEchartsF = () => {
     ]
   }
   let option2 = {
-    color: ['#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80', '#8d98b3', '#97b552'],
+    color: ['#4575b4', '#abd9e9'],
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -229,7 +229,7 @@ onMounted(() => {
 }
 
 .group-item {
-  width: 33%;
+  width: 110px;
 }
 .group-num {
   font-size: 26px;

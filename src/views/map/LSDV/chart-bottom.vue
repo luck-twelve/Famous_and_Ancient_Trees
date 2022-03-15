@@ -26,7 +26,7 @@
         </div>
       </div>
       <div style="position: relative">
-        <div class="chart-tips"><b>提示</b></div>
+        <div class="chart-tips"><b>上周新增异常反馈情况</b></div>
         <div id="echartsb2" class="chart-b-2"></div>
       </div>
     </div>
@@ -44,7 +44,7 @@ const initEchartsF = () => {
   echarts1.value = echarts.init(document.getElementById('echartsb1'))
   echarts2.value = echarts.init(document.getElementById('echartsb2'))
   let option1 = {
-    color: ['#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80', '#8d98b3', '#97b552'],
+    color: ['#d87a80', '#ffb980', '#abd9e9', '#5ab1ef', '#4575b4'],
     series: [
       {
         name: 'Access From',
@@ -95,7 +95,7 @@ const initEchartsF = () => {
     ]
   }
   let option2 = {
-    color: ['#2ec7c9', '#b6a2de', '#5ab1ef', '#ffb980', '#d87a80', '#8d98b3', '#97b552'],
+    color: ['#4575b4'],
     tooltip: {
       trigger: 'axis',
       axisPointer: {
@@ -115,7 +115,7 @@ const initEchartsF = () => {
     xAxis: [
       {
         type: 'category',
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
         axisTick: {
           alignWithLabel: true
         },
