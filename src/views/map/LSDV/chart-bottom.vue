@@ -4,26 +4,15 @@
       <div class="rowSS">
         <img src="@/assets/LSDV_images/earth.png" class="title-logo" />
         <div class="ml-1">
-          <h4><b>古树资源</b></h4>
+          <h4><b>古树名木分布分析</b></h4>
           <span class="font-sizePx12">Ancient tree resources</span>
         </div>
       </div>
     </template>
     <div class="rowSC">
-      <div id="echartsb1" class="chart-b-1 ml-3"></div>
-      <div class="group-item font-sizePx12">
-        <span class="mb-1"><b>古树总数</b></span>
-        <div class="rowSE">
-          <span class="group-num"><b>5,018</b></span>
-          <span class="group-num-text"><b>起</b></span>
-        </div>
-        <div class="group-desc mt">
-          <span>较上个月</span>
-          <span>
-            <top class="icon" />
-            9.4%
-          </span>
-        </div>
+      <div style="position: relative">
+        <div class="chart-tips-1"><b>全国古树数量Top10</b></div>
+        <div id="echartsb1" class="chart-b-1 ml mt-2"></div>
       </div>
       <div style="position: relative">
         <div class="chart-tips"><b>上周新增异常反馈情况</b></div>
@@ -36,7 +25,13 @@
 <script setup>
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
-import { Top, Bottom } from '@element-plus/icons-vue'
+
+const props = defineProps({
+  topTen: {
+    type: Array,
+    default: () => []
+  }
+})
 
 let echarts1 = ref(null)
 let echarts2 = ref(null)
@@ -44,17 +39,33 @@ const initEchartsF = () => {
   echarts1.value = echarts.init(document.getElementById('echartsb1'))
   echarts2.value = echarts.init(document.getElementById('echartsb2'))
   let option1 = {
-    color: ['#d87a80', '#ffb980', '#abd9e9', '#5ab1ef', '#4575b4'],
+    color: [
+      '#a50026',
+      '#d73027',
+      '#f46d43',
+      '#fdae61',
+      '#fee090',
+      '#abd9e9',
+      '#74add1',
+      '#5ab1ef',
+      '#4575b4',
+      '#313695'
+    ],
+    legend: {
+      orient: 'vertical',
+      left: 'right'
+    },
     series: [
       {
-        name: 'Access From',
+        name: 'Top Ten',
         type: 'pie',
-        radius: ['60%', '73%'],
+        radius: ['60%', '83%'],
+        center: ['26%', '50%'],
         avoidLabelOverlap: false,
         itemStyle: {
           borderRadius: 10,
           borderColor: '#fff',
-          borderWidth: 2
+          borderWidth: 1
         },
         label: {
           show: false,
@@ -76,21 +87,15 @@ const initEchartsF = () => {
             show: true, // 文字至于中间时，这里需为true
             textStyle: {
               // 设置文字样式
-              fontSize: '12',
-              fontWeight: 700
+              fontSize: '14',
+              fontWeight: 600
             }
           }
         },
         labelLine: {
           show: false
         },
-        data: [
-          { value: 1048, name: 'Search Engine' },
-          { value: 735, name: 'Direct' },
-          { value: 580, name: 'Email' },
-          { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' }
-        ]
+        data: props.topTen
       }
     ]
   }
@@ -166,42 +171,25 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.widthPC-100 {
-  // height: 300px;
-}
+// .widthPC-100 {
+//   height: 300px;
+// }
 .title-logo {
   width: 30px;
 }
 
-.group-item {
-  width: 110px;
+.chart-tips-1 {
+  position: absolute;
+  top: 12px;
+  left: 16px;
 }
-.group-num {
-  font-size: 26px;
-}
-.group-desc {
-  .icon {
-    width: 12px;
-    height: 12px;
-    margin-top: -2px;
-    margin-right: -3px;
-    vertical-align: middle;
-  }
-  span:nth-child(1) {
-    color: #666;
-  }
-  span:nth-child(2) {
-    color: #67c23a;
-  }
-}
-
 .chart-tips {
   position: absolute;
   top: 0;
   left: 16px;
 }
 .chart-b-1 {
-  width: 150px;
+  width: 280px;
   height: 150px;
 }
 .chart-b-2 {

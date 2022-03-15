@@ -4,7 +4,7 @@
       <el-card shadow="always" class="widthPC-100 mb-1">
         <div id="myMap" ref="myMap"></div>
       </el-card>
-      <chart-bottom></chart-bottom>
+      <chart-bottom :top-ten="topTen"></chart-bottom>
     </div>
     <chart-right></chart-right>
   </div>
@@ -58,21 +58,15 @@ const mapData = []
 maps.list.forEach((item) => {
   mapData.push(item.company_province)
 })
-function getWordCnt(arr) {
-  // 计算重复省份的个数
-  return arr.reduce(function (prev, next) {
-    prev[next] = prev[next] + 1 || 1
-    return prev
-  }, {})
-}
 let allProvince = Object.keys(getWordCnt(mapData))
-console.log(allProvince)
 allProvince.forEach((item) => {
-  let show = defaultData.find((itm) => itm.name === item)
-  if (show) {
-    show.value = getWordCnt(mapData)[item]
+  let itemData = defaultData.find((itm) => itm.name === item)
+  if (itemData) {
+    itemData.value = getWordCnt(mapData)[item]
   }
 })
+let topAll = defaultData.sort(compare('value'))
+let topTen = topAll.slice(0, 10)
 
 const chart = ref(null)
 const mapOption = ref({
@@ -113,18 +107,12 @@ const mapOption = ref({
   visualMap: {
     left: 'right',
     min: 0,
-    max: 5,
+    max: topTen[0].value,
     inRange: {
-      // '#ffffbf',
-      // '#fee090',
-      // '#fdae61',
-      // '#f46d43',
-      // '#d73027',
-      // '#a50026'
       color: ['#ffffbf', '#fee090', '#fdae61', '#f46d43', '#d73027', '#a50026']
     },
-    text: ['High', 'Low'],
-    calculable: true
+    text: ['', ''],
+    calculable: false
   },
 
   //配置属性
@@ -151,6 +139,21 @@ onMounted(() => {
   chart.value = proxy.$echarts.init(document.getElementById('myMap'), 'macarons')
   chart.value.setOption(mapOption.value)
 })
+// 计算重复省份的个数
+function getWordCnt(arr) {
+  return arr.reduce(function (prev, next) {
+    prev[next] = prev[next] + 1 || 1
+    return prev
+  }, {})
+}
+// 降序排列数组对象
+function compare(property) {
+  return function (a, b) {
+    var value1 = a[property]
+    var value2 = b[property]
+    return value2 - value1
+  }
+}
 </script>
 
 <style lang="scss" scoped>
