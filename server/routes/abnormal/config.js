@@ -88,5 +88,28 @@ var abnormalControll = {
             })
         })
     },
+
+    // 获取每月异常情况
+    getAbnormalListEM: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            query(connection, sql.getAbnormalListEM, 'getAbnormalListEM', [], result => {
+                let arr = []
+                for (let i = 0; i < 12; i++) {
+                    const m = result.find(xx => xx.col_month == i + 1)
+                    if (m) {
+                        arr.push(m.count)
+                    } else {
+                        arr.push(0)
+                    }
+                }
+                return res.json({
+                    code: 200,
+                    msg: '',
+                    data: arr,
+                    flag: true
+                })
+            })
+        })
+    }
 };
 module.exports = abnormalControll;

@@ -30,3 +30,11 @@ export function deleteAbnormalReq(data) {
         method: 'delete',
     })
 }
+
+
+export function getAbnormalListEMReq() {
+    return request({
+        url: '/abnormal/getAbnormalListEM',
+        method: 'get',
+    })
+}

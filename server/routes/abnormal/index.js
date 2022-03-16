@@ -51,6 +51,19 @@ const abnormalApi = (router) => {
     router.delete('/abnormal/deleteAbnormal', function (req, res, next) {
         abnormalControll.deleteAbnormal(req, res, next)
     })
+
+    /**
+     * @api {get} /api/abnormal/getAbnormalListEM
+     * @apiDescription 获取每月异常信息列表
+     * @apiName getAbnormalListEM
+     * @apiGroup Abnormal
+     * @apiSuccess {json} abnormalList 每月异常信息列表
+     * @apiSampleRequest http://localhost:3000/api/abnormal/getAbnormalListEM
+     * @apiVersion 1.0.0
+     */
+    router.get('/abnormal/getAbnormalListEM', function (req, res, next) {
+        abnormalControll.getAbnormalListEM(req, res, next)
+    })
 }
 
 module.exports = abnormalApi;

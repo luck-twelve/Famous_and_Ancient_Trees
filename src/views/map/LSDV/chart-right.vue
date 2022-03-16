@@ -54,7 +54,8 @@
       </div>
     </div>
     <div style="position: relative">
-      <div class="chart-tips"><b>最近一周</b></div>
+      <div class="chart-tips"><b>最近一周古树录入情况</b></div>
+      <!-- 上周新增异常反馈情况 -->
       <div id="echarts1" class="chart-1 mt-1"></div>
     </div>
     <div style="position: relative">
@@ -112,7 +113,7 @@ const initEchartsF = () => {
           opacity: 0
         }
       },
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
     },
     yAxis: {
       type: 'value',

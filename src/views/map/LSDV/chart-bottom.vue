@@ -15,7 +15,7 @@
         <div id="echartsb1" class="chart-b-1 ml mt-2"></div>
       </div>
       <div style="position: relative">
-        <div class="chart-tips"><b>上周新增异常反馈情况</b></div>
+        <div class="chart-tips"><b>2022年录入情况分析</b></div>
         <div id="echartsb2" class="chart-b-2"></div>
       </div>
     </div>
@@ -25,6 +25,7 @@
 <script setup>
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
+import { getAbnormalListEMReq } from '@/api/abnormal'
 
 const props = defineProps({
   topTen: {
@@ -33,9 +34,14 @@ const props = defineProps({
   }
 })
 
+onMounted(async () => {
+  const EMData = await getAbnormalListEMReq()
+  initEchartsF(EMData.data.data)
+})
+
 let echarts1 = ref(null)
 let echarts2 = ref(null)
-const initEchartsF = () => {
+const initEchartsF = (EMData) => {
   echarts1.value = echarts.init(document.getElementById('echartsb1'))
   echarts2.value = echarts.init(document.getElementById('echartsb2'))
   let option1 = {
@@ -120,7 +126,7 @@ const initEchartsF = () => {
     xAxis: [
       {
         type: 'category',
-        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
         axisTick: {
           alignWithLabel: true
         },
@@ -156,18 +162,14 @@ const initEchartsF = () => {
       {
         name: 'Direct',
         type: 'bar',
-        barWidth: '15%',
-        data: [10, 52, 200, 334, 390, 330, 220]
+        barWidth: '25%',
+        data: EMData
       }
     ]
   }
   echarts1.value.setOption(option1)
   echarts2.value.setOption(option2)
 }
-
-onMounted(() => {
-  initEchartsF()
-})
 </script>
 
 <style lang="scss" scoped>
