@@ -4,14 +4,14 @@
       <el-card shadow="always" class="widthPC-100 mb-1">
         <div id="myMap" ref="myMap"></div>
       </el-card>
-      <chart-bottom :top-ten="topTen"></chart-bottom>
+      <chart-bottom></chart-bottom>
     </div>
     <chart-right></chart-right>
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref, getCurrentInstance, reactive, inject, toRefs } from 'vue'
+import { onMounted, ref, getCurrentInstance, reactive, provide, inject, toRefs } from 'vue'
 import ChartBottom from './chart-bottom.vue'
 import ChartRight from './chart-right.vue'
 
@@ -67,6 +67,7 @@ allProvince.forEach((item) => {
 })
 let topAll = defaultData.sort(compare('value'))
 let topTen = topAll.slice(0, 10)
+provide('topTen', topTen)
 
 const chart = ref(null)
 const mapOption = ref({

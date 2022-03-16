@@ -30,7 +30,7 @@
   </div>
   <el-button class="ab-btn" @click="handleStac">数据统计</el-button>
   <div class="drawer-wrap">
-    <el-drawer v-show="drawer" v-model="drawer" size="100%" direction="ttb" :before-close="close">
+    <el-drawer v-model="drawer" size="100%" direction="ttb" :before-close="close">
       <template #title>
         <div class="rowBC">
           <b style="color: #333">数据统计</b>
@@ -53,7 +53,7 @@
           </div>
         </div>
       </template>
-      <LSDV v-show="drawer"></LSDV>
+      <LSDV v-if="drawer"></LSDV>
     </el-drawer>
   </div>
 </template>
