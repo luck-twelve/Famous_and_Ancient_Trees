@@ -30,7 +30,7 @@
   </div>
   <el-button class="ab-btn" @click="handleStac">数据统计</el-button>
   <div class="drawer-wrap">
-    <el-drawer v-if="drawer" v-model="drawer" size="100%" direction="ttb" :before-close="close">
+    <el-drawer v-show="drawer" v-model="drawer" size="100%" direction="ttb" :before-close="close">
       <template #title>
         <div class="rowBC">
           <b style="color: #333">数据统计</b>
@@ -53,7 +53,7 @@
           </div>
         </div>
       </template>
-      <LSDV v-if="drawer"></LSDV>
+      <LSDV v-show="drawer"></LSDV>
     </el-drawer>
   </div>
 </template>
@@ -142,12 +142,8 @@ onMounted(async () => {
       map.addOverlay(marker)
     })
   }
-})
 
-provide('maps', maps)
-
-const handleStac = () => {
-  drawer.value = true
+  // 初始化天气
   fetch('https://www.yiketianqi.com/free/day?appid=79875459&appsecret=jy5xrNDW&vue=1')
     .then((res) => {
       return res.json()
@@ -155,6 +151,12 @@ const handleStac = () => {
     .then((res) => {
       state.weather = res
     })
+})
+
+provide('maps', maps)
+
+const handleStac = () => {
+  drawer.value = true
 }
 
 // 复制文本

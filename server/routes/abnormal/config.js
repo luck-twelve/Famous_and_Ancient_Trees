@@ -99,7 +99,7 @@ var abnormalControll = {
                     if (m) {
                         arr.push(m.count)
                     } else {
-                        arr.push(0)
+                        arr.push('')
                     }
                 }
                 return res.json({

@@ -110,7 +110,7 @@ const initEchartsF = (EMData) => {
     tooltip: {
       trigger: 'axis',
       axisPointer: {
-        type: 'cross',
+        type: 'shadow',
         label: {
           backgroundColor: '#304156'
         }
@@ -155,14 +155,39 @@ const initEchartsF = (EMData) => {
             color: 'rgba(255, 255, 255, 0.6)',
             opacity: 0
           }
+        },
+        splitLine: {
+          //修改背景线条样式
+          show: true, //是否展示
+          lineStyle: {
+            color: '#eee' //线条颜色
+            // type: 'dashed' //线条样式，默认是实现，dashed是虚线
+          }
         }
       }
     ],
     series: [
       {
-        name: 'Direct',
+        name: '',
         type: 'bar',
-        barWidth: '25%',
+        barWidth: '30%',
+        barGap: 0,
+        label: {
+          show: true,
+          position: 'top',
+          distance: '12',
+          align: 'center',
+          verticalAlign: 'bottem',
+          rotate: 0,
+          formatter: '  {c}  {name|{a}}',
+          fontSize: 12,
+          rich: {
+            name: {}
+          }
+        },
+        emphasis: {
+          focus: 'series'
+        },
         data: EMData
       }
     ]

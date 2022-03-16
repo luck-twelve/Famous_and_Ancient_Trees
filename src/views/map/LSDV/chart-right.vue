@@ -54,7 +54,7 @@
       </div>
     </div>
     <div style="position: relative">
-      <div class="chart-tips"><b>最近一周古树录入情况</b></div>
+      <div class="chart-tips"><b>最近一周古树异常情况</b></div>
       <!-- 上周新增异常反馈情况 -->
       <div id="echarts1" class="chart-1 mt-1"></div>
     </div>
@@ -94,6 +94,7 @@ const initEchartsF = () => {
     },
     legend: {
       data: ['Line 1', 'Line 2'],
+      left: 'right',
       textStyle: {
         fontSize: 10, // 字体大小
         color: '#666'
@@ -125,6 +126,14 @@ const initEchartsF = () => {
         lineStyle: {
           color: 'rgba(255, 255, 255, 0.6)',
           opacity: 0
+        }
+      },
+      splitLine: {
+        //修改背景线条样式
+        show: true, //是否展示
+        lineStyle: {
+          color: '#eee' //线条颜色
+          // type: 'dashed' //线条样式，默认是实现，dashed是虚线
         }
       }
     },
@@ -165,6 +174,7 @@ const initEchartsF = () => {
     },
     legend: {
       data: ['城市', '农村'],
+      left: 'right',
       textStyle: {
         fontSize: 10, // 字体大小
         color: '#666'
@@ -182,6 +192,14 @@ const initEchartsF = () => {
         lineStyle: {
           color: 'rgba(255, 255, 255, 0.6)',
           opacity: 0
+        }
+      },
+      splitLine: {
+        //修改背景线条样式
+        show: true, //是否展示
+        lineStyle: {
+          color: '#eee' //线条颜色
+          // type: 'dashed' //线条样式，默认是实现，dashed是虚线
         }
       }
     },
