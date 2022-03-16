@@ -115,6 +115,19 @@ const archivesApi = (router) => {
         archivesControll.deleteArchivesTree(req, res, next)
     })
 
+    /**
+     * @api {get} /api/archives/getArchivesListEM
+     * @apiDescription 获取全年异常信息列表
+     * @apiName getArchivesListEM
+     * @apiGroup Archives
+     * @apiSuccess {json} archivesList 每月异常信息列表
+     * @apiSampleRequest http://localhost:3000/api/archives/getArchivesListEM
+     * @apiVersion 1.0.0
+     */
+    router.get('/archives/getArchivesListEM', function (req, res, next) {
+        archivesControll.getArchivesListEM(req, res, next)
+    })
+
 
     /* archivesSpecies controller */
     /**

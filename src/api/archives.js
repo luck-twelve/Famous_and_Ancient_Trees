@@ -38,6 +38,14 @@ export function deleteArchivesTreeReq(data) {
     })
 }
 
+// 全年古树录入情况
+export function getArchivesListEMReq(data) {
+    return request({
+        url: '/archives/getArchivesListEM',
+        method: 'get',
+        data
+    })
+}
 
 /**
  * 树种管理

@@ -2,7 +2,7 @@
 const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
-const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate, formatDate } = require('../functions'); // 引入已经封装好的全局函数
+const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate, formatDate, getLastMonthToday, getDate } = require('../functions'); // 引入已经封装好的全局函数
 const { getUsername } = require('../token_info')
 var pool = mysql.createPool(mysqlconfig);
 pool.on('acquire', function (connection) {
@@ -93,19 +93,31 @@ var abnormalControll = {
     getAbnormalListEM: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             query(connection, sql.getAbnormalListEM, 'getAbnormalListEM', [], result => {
-                let arr = []
-                for (let i = 0; i < 12; i++) {
-                    const m = result.find(xx => xx.col_month == i + 1)
-                    if (m) {
-                        arr.push(m.count)
+                const start = getLastMonthToday();
+                const end = '2022-03-16';
+                let startTime = getDate(start);
+                const endTime = getDate(end);
+                let dayMap = []
+                let countMap = []
+                while ((endTime.getTime() - startTime.getTime()) >= 0) {
+                    const month = startTime.getMonth().toString().length == 1 ? "0" + startTime.getMonth().toString() : startTime.getMonth();
+                    const day = startTime.getDate().toString().length == 1 ? "0" + startTime.getDate() : startTime.getDate();
+                    dayMap.push(`${month}月${day}日`);
+                    startTime.setDate(startTime.getDate() + 1);
+                    const countItem = result.find(xx => xx.day == `${month}-${day}`)
+                    if (countItem) {
+                        countMap.push(countItem.count)
                     } else {
-                        arr.push('')
+                        countMap.push(0)
                     }
                 }
                 return res.json({
                     code: 200,
                     msg: '',
-                    data: arr,
+                    data: {
+                        dayMap,
+                        countMap,
+                    },
                     flag: true
                 })
             })

@@ -54,7 +54,7 @@
       </div>
     </div>
     <div style="position: relative">
-      <div class="chart-tips"><b>最近一周古树异常情况</b></div>
+      <div class="chart-tips"><b>近30天古树异常情况</b></div>
       <!-- 上周新增异常反馈情况 -->
       <div id="echarts1" class="chart-1 mt-1"></div>
     </div>
@@ -69,17 +69,24 @@
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
 import { Top, Bottom } from '@element-plus/icons-vue'
+import { getAbnormalListEMReq } from '@/api/abnormal'
+
+onMounted(async () => {
+  const EMData = await getAbnormalListEMReq()
+  const { dayMap, countMap } = EMData.data.data
+  initEchartsF(dayMap, countMap)
+})
+
 let echarts1 = ref(null)
 let echarts2 = ref(null)
-const initEchartsF = () => {
+const initEchartsF = (dayMap, countMap) => {
   echarts1.value = echarts.init(document.getElementById('echarts1'))
   echarts2.value = echarts.init(document.getElementById('echarts2'))
   let option1 = {
     color: ['#4575b4', '#abd9e9', '#ffb980', '#d87a80', '#8d98b3', '#97b552'],
     tooltip: {
-      trigger: 'axis',
+      trigger: 'item',
       axisPointer: {
-        type: 'cross',
         label: {
           backgroundColor: '#304156'
         }
@@ -93,7 +100,7 @@ const initEchartsF = () => {
       containLabel: true
     },
     legend: {
-      data: ['Line 1', 'Line 2'],
+      data: ['新增', '已解决'],
       left: 'right',
       textStyle: {
         fontSize: 10, // 字体大小
@@ -105,7 +112,8 @@ const initEchartsF = () => {
       type: 'category',
       boundaryGap: false,
       axisLabel: {
-        color: '#666'
+        color: '#666',
+        fontSize: 10
       },
       axisLine: {
         show: true,
@@ -114,17 +122,18 @@ const initEchartsF = () => {
           opacity: 0
         }
       },
-      data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+      data: dayMap
     },
     yAxis: {
       type: 'value',
       axisLabel: {
-        show: false
+        show: true,
+        color: '#666'
       },
       axisLine: {
         show: true,
         lineStyle: {
-          color: 'rgba(255, 255, 255, 0.6)',
+          color: '#eee',
           opacity: 0
         }
       },
@@ -139,18 +148,25 @@ const initEchartsF = () => {
     },
     series: [
       {
-        name: 'Line 1',
-        data: [103, 204, 82, 901, 537, 727, 539, 428],
+        name: '新增',
+        data: countMap,
         type: 'line',
-        smooth: true,
-        showSymbol: false
+        smooth: true
       },
       {
-        name: 'Line 2',
-        data: [203, 104, 182, 101, 237, 927, 839, 850],
+        name: '已解决',
+        data: countMap,
         type: 'line',
-        smooth: true,
-        showSymbol: false
+        smooth: true
+        // markPoint: {
+        //   data: [
+        //     { type: 'max', name: '最多' },
+        //     { type: 'min', name: '最少' }
+        //   ]
+        // },
+        // markLine: {
+        //   data: [{ type: 'average', name: '平均' }]
+        // }
       }
     ]
   }
@@ -233,10 +249,6 @@ const initEchartsF = () => {
   echarts1.value.setOption(option1)
   echarts2.value.setOption(option2)
 }
-
-onMounted(() => {
-  initEchartsF()
-})
 </script>
 
 <style lang="scss" scoped>

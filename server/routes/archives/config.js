@@ -152,6 +152,28 @@ var archivesControll = {
             })
         })
     },
+    // 获取全年异常情况
+    getArchivesListEM: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            query(connection, sql.getArchivesListEM, 'getArchivesListEM', [], result => {
+                let arr = []
+                for (let i = 0; i < 12; i++) {
+                    const m = result.find(xx => xx.col_month == i + 1)
+                    if (m) {
+                        arr.push(m.count)
+                    } else {
+                        arr.push('')
+                    }
+                }
+                return res.json({
+                    code: 200,
+                    msg: '',
+                    data: arr,
+                    flag: true
+                })
+            })
+        })
+    },
 
 
     /**

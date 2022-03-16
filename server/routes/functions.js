@@ -147,6 +147,25 @@ const actions = {
         localTime = localTime.substr(0, localTime.lastIndexOf('.'));
         localTime = localTime.replace('T', ' ');
         return localTime;
+    },
+    // 30天前的今天
+    getLastMonthToday: () => {
+        var lastMonthToday = new Date(
+            new Date().getTime() - 30 * 24 * 60 * 60 * 1000
+        );
+        var lastMonthYear = lastMonthToday.getFullYear();
+        var lastMonth = lastMonthToday.getMonth() + 1;
+        var lastMonthDay =
+            lastMonthToday.getDate < 10
+                ? "0" + lastMonthToday.getDate
+                : lastMonthToday.getDate();
+        return lastMonthYear + "-" + lastMonth + "-" + lastMonthDay;
+    },
+    // 字符串转日期
+    getDate: (datestr) => {
+        var temp = datestr.split("-");
+        var date = new Date(temp[0], temp[1], temp[2]);
+        return date;
     }
 }
 module.exports = actions;

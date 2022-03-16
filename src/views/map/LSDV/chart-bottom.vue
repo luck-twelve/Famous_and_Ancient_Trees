@@ -15,7 +15,7 @@
         <div id="echartsb1" class="chart-b-1 ml mt-2"></div>
       </div>
       <div style="position: relative">
-        <div class="chart-tips"><b>2022年录入情况分析</b></div>
+        <div class="chart-tips"><b>2022年录入情况</b></div>
         <div id="echartsb2" class="chart-b-2"></div>
       </div>
     </div>
@@ -25,7 +25,7 @@
 <script setup>
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
-import { getAbnormalListEMReq } from '@/api/abnormal'
+import { getArchivesListEMReq } from '@/api/archives'
 
 const props = defineProps({
   topTen: {
@@ -35,7 +35,7 @@ const props = defineProps({
 })
 
 onMounted(async () => {
-  const EMData = await getAbnormalListEMReq()
+  const EMData = await getArchivesListEMReq()
   initEchartsF(EMData.data.data)
 })
 
@@ -61,9 +61,12 @@ const initEchartsF = (EMData) => {
       orient: 'vertical',
       left: 'right'
     },
+    tooltip: {
+      trigger: 'item'
+    },
     series: [
       {
-        name: 'Top Ten',
+        name: '',
         type: 'pie',
         radius: ['60%', '83%'],
         center: ['26%', '50%'],
@@ -108,13 +111,7 @@ const initEchartsF = (EMData) => {
   let option2 = {
     color: ['#4575b4'],
     tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'shadow',
-        label: {
-          backgroundColor: '#304156'
-        }
-      }
+      trigger: 'item'
     },
     grid: {
       left: '3%',
@@ -126,7 +123,7 @@ const initEchartsF = (EMData) => {
     xAxis: [
       {
         type: 'category',
-        data: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
+        data: ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月'],
         axisTick: {
           alignWithLabel: true
         },
