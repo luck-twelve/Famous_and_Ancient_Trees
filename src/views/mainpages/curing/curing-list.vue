@@ -1,59 +1,70 @@
 <template>
-  <div class="app-container">
-    <el-form :inline="true" :model="formData" class="demo-form-inline">
-      <el-form-item prop="treeName">
-        <el-input v-model="formData.treeName" clearable>
-          <template #prepend>树名</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item prop="treeType">
-        <el-input v-model="formData.treeType" clearable>
-          <template #prepend>树种</template>
-        </el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
-      </el-form-item>
-    </el-form>
-    <tt-table no-header :list="list" :loading="listLoading" :column="tableColumn" :search-data="formData"></tt-table>
-  </div>
+  <el-row :gutter="20">
+    <el-col v-for="item in options" :key="item" :span="6">
+      <el-card :body-style="{ padding: '0px' }">
+        <img :src="item.backImg" class="image" />
+        <div style="padding: 14px">
+          <span>{{ item.title }}</span>
+          <div class="bottom">
+            <div class="desc">{{ item.desc }}</div>
+            <el-button type="text" class="button">详情</el-button>
+          </div>
+        </div>
+      </el-card>
+    </el-col>
+  </el-row>
 </template>
 
-<script setup>
-import { Search } from '@element-plus/icons-vue'
-import { toRefs, reactive } from 'vue'
-import TtTable from '@/components/tt-components/table'
+<script lang="ts" setup>
+import { ref } from 'vue'
 
-/**
- * 搜索
- */
-const formData = reactive({
-  treeName: '',
-  treeType: ''
-})
-const handleSearch = () => {
-  console.log(formData)
-}
+const options = [
+  {
+    title: '春季养护方案',
+    desc: '春季养护方案',
+    backImg: '@/assets/curing_images/spring.png'
+  },
+  {
+    title: '夏季养护方案',
+    desc: '夏季养护方案',
+    backImg: '@/assets/curing_images/summer.png'
+  },
+  {
+    title: '秋季养护方案',
+    desc: '秋季养护方案',
+    backImg: '@/assets/curing_images/autumn.png'
+  },
+  {
+    title: '冬季养护方案',
+    desc: '冬季养护方案',
+    backImg: '@/assets/curing_images/winter.png'
+  }
+]
 
-/**
- * table
- */
-const state = reactive({
-  list: {},
-  tableColumn: [
-    { label: 'ID', prop: 'id', width: '80px', align: 'center', sortable: true },
-    { label: '树名', prop: 'treeName', width: '140px' },
-    { label: '树种', prop: 'treeType', width: '140px', sortable: true },
-    { label: '树龄', prop: 'treeAge', width: '120px', sortable: true },
-    { label: '地理位置', prop: 'treeLocation', minWidth: '220px' },
-    { label: '责任单位', prop: 'treeAdminister', minWidth: '220px' }
-    // { label: '历史传说', prop: 'treeHistoryLegend', minWidth: '300px' }
-  ],
-  listLoading: true
-})
-
-//导出属性到页面中使用
-let { list, listLoading, tableColumn } = toRefs(state)
+const currentDate = ref(new Date())
 </script>
 
-<style scoped lang="scss"></style>
+<style>
+.desc {
+  font-size: 13px;
+  color: #999;
+}
+
+.bottom {
+  margin-top: 13px;
+  line-height: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.button {
+  padding: 0;
+  min-height: auto;
+}
+
+.image {
+  width: 100%;
+  display: block;
+}
+</style>
