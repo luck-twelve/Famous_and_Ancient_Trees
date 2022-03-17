@@ -22,22 +22,22 @@ const options = [
   {
     title: '春季养护方案',
     desc: '春季养护方案',
-    backImg: '@/assets/curing_images/spring.png'
+    backImg: `http://ywcd.cc/wp-content/uploads/2022/03/1647500963-spring.png`
   },
   {
     title: '夏季养护方案',
     desc: '夏季养护方案',
-    backImg: '@/assets/curing_images/summer.png'
+    backImg: `http://ywcd.cc/wp-content/uploads/2022/03/1647500963-summer.png`
   },
   {
     title: '秋季养护方案',
     desc: '秋季养护方案',
-    backImg: '@/assets/curing_images/autumn.png'
+    backImg: `http://ywcd.cc/wp-content/uploads/2022/03/1647500962-autumn.png`
   },
   {
     title: '冬季养护方案',
     desc: '冬季养护方案',
-    backImg: '@/assets/curing_images/winter.png'
+    backImg: `http://ywcd.cc/wp-content/uploads/2022/03/1647500963-winter.png`
   }
 ]
 
