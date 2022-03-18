@@ -64,7 +64,7 @@ const currentDate = ref(new Date())
 }
 
 .image {
-  width: 100%;
+  height: 237.5px;
   display: block;
 }
 </style>
