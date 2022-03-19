@@ -7,7 +7,7 @@
           <span>{{ item.title }}</span>
           <div class="bottom">
             <div class="desc">{{ item.desc }}</div>
-            <el-button type="text" class="button">详情</el-button>
+            <el-button type="text" class="button">详 情</el-button>
           </div>
         </div>
       </el-card>
