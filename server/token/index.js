@@ -25,7 +25,7 @@ var getToken = function (token) {
             })
         } else {
             //第二种  改版后的
-            var info = jwt.verify(token, jwtScrect);
+            var info = jwt?.verify(token, jwtScrect);
             resolve(info);  //解析返回的值（sign 传入的值）
         }
     })
