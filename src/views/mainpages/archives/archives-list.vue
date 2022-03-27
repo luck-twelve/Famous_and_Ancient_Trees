@@ -12,7 +12,16 @@
         </el-input>
       </el-form-item>
       <el-form-item prop="tree_species">
-        <tt-select v-model="formData.tree_species" label="树种" :options="speciesOptions" op-label="name"></tt-select>
+        <tt-select
+          v-model="formData.tree_species"
+          class="widthPx-180"
+          label="树种"
+          :options="speciesOptions"
+          op-label="name"
+        ></tt-select>
+      </el-form-item>
+      <el-form-item prop="isShow">
+        <tt-select v-model="formData.isShow" class="widthPx-180" label="状态" :options="statusOptions"></tt-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" :icon="Search" @click="handleSearch">搜索</el-button>
@@ -34,24 +43,53 @@
       </template>
       <el-table-column label="状态" width="80px" align="center">
         <template #default="{ row }">
-          <el-tag v-if="row.isShow == 1 && row.marker == 'marker_normal'" type="success">正常</el-tag>
           <el-tag v-if="row.isShow == 0" type="warning">草稿</el-tag>
-          <el-tag v-if="row.marker == 'marker_abnormal'" type="error">异常</el-tag>
+          <el-tag v-if="row.isShow == 1 && row.marker == 'marker_normal'" type="success">正常</el-tag>
+          <el-tag v-if="row.isShow == 2" type="info">待审核</el-tag>
+          <el-tag v-if="row.isShow == 3" type="danger">已驳回</el-tag>
+          <el-tag v-if="row.marker == 'marker_abnormal'" type="danger">异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column v-if="!isDialog" label="操作" width="130px" align="center" fixed="right">
+      <el-table-column v-if="!isDialog" label="更多" width="55px" align="center" fixed="right">
         <template #default="{ row }">
-          <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
-          <el-popconfirm
-            :icon="InfoFilled"
-            placement="left"
-            title="删除后将无法恢复，是否确认删除?"
-            @confirm="handleDelete(row)"
-          >
-            <template #reference>
-              <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
+          <el-dropdown trigger="click" placement="bottom-end">
+            <el-button type="text" :icon="MoreFilled" style="color: #606266"></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <el-button
+                    v-if="row.isShow == 2"
+                    type="text"
+                    :icon="Finished"
+                    style="color: #e6a23c"
+                    @click="handleVerify(row)"
+                  >
+                    审核
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button type="text" :icon="Document" style="color: #606266" @click="handleLook(row)">
+                    查看
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-popconfirm
+                    :icon="InfoFilled"
+                    placement="left"
+                    title="删除后将无法恢复，是否确认删除?"
+                    @confirm="handleDelete(row)"
+                  >
+                    <template #reference>
+                      <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
+                    </template>
+                  </el-popconfirm>
+                </el-dropdown-item>
+              </el-dropdown-menu>
             </template>
-          </el-popconfirm>
+          </el-dropdown>
         </template>
       </el-table-column>
     </tt-table>
@@ -61,11 +99,13 @@
     @handle-close="handleClose"
     @handle-save="handleSave"
     @handle-submit="handleSubmit"
+    @handle-verify-no="handleVerifyNo"
+    @handle-verify-yes="handleVerifyYes"
   ></archives-list-dialog>
 </template>
 
 <script setup>
-import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
+import { Search, Plus, MoreFilled, Document, Edit, Finished, Delete, InfoFilled } from '@element-plus/icons-vue'
 import TtSelect from '@/components/tt-components/select'
 import { ref, toRefs, reactive, onBeforeMount, provide } from 'vue'
 import {
@@ -88,14 +128,14 @@ const props = defineProps({
 })
 let { isDialog } = toRefs(props)
 
-const speciesOptions = ref([])
-
 /**
  * 搜索
  */
 const formData = reactive({
+  id: '',
   tree_nameZh: '',
-  tree_species: ''
+  tree_species: '',
+  isShow: ''
 })
 const handleSearch = () => {
   getList(formData)
@@ -107,7 +147,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '160px' },
+    { label: '编号', prop: 'id', width: '260px' },
     { label: '古树命名', prop: 'tree_nameZh', minWidth: '130px' },
     { label: '树种', prop: 'tree_speciesStr', width: '120px', sortable: true },
     { label: '省份', prop: 'company_province', align: 'center', width: '80px', sortable: true },
@@ -142,11 +182,27 @@ const handleAdd = () => {
   dialog.data = initForm()
 }
 /**
+ * 查看
+ */
+const handleLook = (row) => {
+  dialog.visible = true
+  dialog.type = 'look'
+  dialog.data = row
+}
+/**
  * 编辑
  */
 const handleEdit = (row) => {
   dialog.visible = true
   dialog.type = 'edit'
+  dialog.data = row
+}
+/**
+ * 审核
+ */
+const handleVerify = (row) => {
+  dialog.visible = true
+  dialog.type = 'verify'
   dialog.data = row
 }
 provide('dialogInfo', dialog)
@@ -195,24 +251,25 @@ const handleSubmit = async () => {
   dialog.data.company_city = city
   dialog.data.company_district = district
   const insertId = await handleSave(dialog.data)
-  await updateArchivesStatusReq({ id: insertId })
+  await updateArchivesStatusReq({ id: insertId, isShow: 2 })
   handleClose()
 }
-// 获取经纬度下省份
-const getAddr = (row) => {
-  return new Promise((resolve, reject) => {
-    let point = new BMapGL.Point(row.longitude, row.latitude)
-    const gc = new BMapGL.Geocoder()
-    gc.getLocation(point, function (rs) {
-      let addComp = rs.addressComponents
-      let province = addComp.province[0] + addComp.province[1]
-      if (addComp.province[2] === '江' || addComp.province[2] === '古') {
-        province += addComp.province[2]
-      }
-      addComp.province = province
-      resolve(addComp)
-    })
-  })
+
+/**
+ * 驳回
+ */
+const handleVerifyNo = async (val) => {
+  let { id, reason } = val
+  await updateArchivesStatusReq({ id, reason, isShow: 3 })
+  handleClose()
+}
+
+/**
+ * 审批通过
+ */
+const handleVerifyYes = async (id) => {
+  await updateArchivesStatusReq({ id, isShow: 1 })
+  handleClose()
 }
 
 /**
@@ -224,7 +281,15 @@ const handleDelete = (row) => {
   })
 }
 
+const statusOptions = ref([
+  { label: '草稿', value: '0' },
+  { label: '审核通过', value: '1' },
+  { label: '待审核', value: '2' },
+  { label: '已驳回', value: '3' }
+])
+
 // 初始化
+const speciesOptions = ref([])
 onBeforeMount(() => {
   getArchivesSpeciesListReq({
     pageNum: 1,
@@ -303,6 +368,23 @@ const initForm = () => {
     keeper: '', // 管辖单位或个人
     status: '' // 保护现状及建议
   }
+}
+
+// 获取经纬度下省份
+const getAddr = (row) => {
+  return new Promise((resolve, reject) => {
+    let point = new BMapGL.Point(row.longitude, row.latitude)
+    const gc = new BMapGL.Geocoder()
+    gc.getLocation(point, function (rs) {
+      let addComp = rs.addressComponents
+      let province = addComp.province[0] + addComp.province[1]
+      if (addComp.province[2] === '江' || addComp.province[2] === '古') {
+        province += addComp.province[2]
+      }
+      addComp.province = province
+      resolve(addComp)
+    })
+  })
 }
 
 // 校验经度是否符合规范
