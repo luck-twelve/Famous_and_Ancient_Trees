@@ -78,7 +78,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '160px' },
+    { label: '编号', prop: 'id', width: '260px' },
     { label: '用户名', prop: 'username', width: '120px' },
     { label: '头像', prop: 'avatar', minWidth: '450px' },
     { label: '用户权限', prop: 'roles', width: '110px', align: 'center', sortable: true }
