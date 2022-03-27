@@ -39,7 +39,6 @@
     <el-table
       ref="ttTable"
       :data="list.data"
-      border
       stripe
       :highlight-current-row="multiple"
       @select="handleSelect"
