@@ -83,8 +83,6 @@ var archivesControll = {
             query(connection, reqSql, 'getArchivesTree', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
                     result?.forEach(item => {
-                        item.canEdit = true
-                        item.canDel = true
                         item.create_time = formatDate(item.create_time)
                         item.update_time = formatDate(item.update_time)
                     })
@@ -130,9 +128,16 @@ var archivesControll = {
         })
     },
     updateArchivesStatus: function (req, res, next) {
-        let reqsql = 'UPDATE archives_tree SET isShow=1 WHERE id=?'
+        let reqsql = 'UPDATE archives_tree SET isShow=?'
+        let reqParams = [req.body.isShow]
+        if (req.body.reason) {
+            reqsql += ' ,reson=?'
+            reqParams.push(req.body.reson)
+        }
+        reqsql += ' WHERE id=?'
+        reqParams.push(req.body.id)
         pool.getConnection(function (err, connection) {
-            query(connection, reqsql, 'updateArchivesStatus', [req.body.id], result => {
+            query(connection, reqsql, 'updateArchivesStatus', reqParams, result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
