@@ -32,7 +32,7 @@
     </tt-table>
     <el-dialog v-model="visible" :title="`${dialogType}异常反馈`" width="450px" :before-close="handleClose">
       <el-form v-if="visible" ref="dialogForm" :model="dialogData" label-width="80px">
-        <el-form-item label="树名" prop="tree_name" :rules="formRulesMixin.isNotNull">
+        <el-form-item label="古树名称" prop="tree_name" :rules="formRulesMixin.isNotNull">
           <el-input v-model="dialogData.tree_name" disabled>
             <template #append>
               <el-button type="primary" :icon="Search" @click="abVisible = true">选择</el-button>
@@ -103,7 +103,7 @@ const state = reactive({
   list: {},
   tableColumn: [
     { label: '编号', prop: 'id', width: '160px' },
-    { label: '树名', prop: 'tree_name', minWidth: '130px' },
+    { label: '古树名称', prop: 'tree_name', minWidth: '130px' },
     { label: '挂牌号', prop: 'listing', minWidth: '130px' },
     { label: '经度', prop: 'longitude', minWidth: '120px', sortable: true },
     { label: '纬度', prop: 'latitude', minWidth: '120px', sortable: true },
@@ -238,4 +238,16 @@ function checkLat(lat) {
 }
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.app-container {
+  &:deep(.el-input-group__append) {
+    background-color: var(--el-color-primary);
+    color: var(--el-color-white);
+    border: 1px solid var(--el-color-primary);
+    &:hover {
+      background-color: var(--el-color-primary-light-2);
+      border: 1px solid var(--el-color-primary-light-2);
+    }
+  }
+}
+</style>
