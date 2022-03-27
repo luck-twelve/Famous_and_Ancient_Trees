@@ -44,7 +44,9 @@ const handleSubmit = () => {
 </script>
 
 <style lang="scss" scoped>
-.ab-dialog:deep(.el-dialog) {
-  margin: 10px auto 0 auto !important;
+.ab-dialog {
+  &:deep(.el-dialog) {
+    margin: 10px auto 0 auto !important;
+  }
 }
 </style>
