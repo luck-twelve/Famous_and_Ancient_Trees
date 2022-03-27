@@ -118,6 +118,7 @@ import { getArchivesSpeciesListReq } from '@/api/archives'
 const form = reactive(inject('dialogInfo'))
 const { data } = toRefs(form)
 
+// 树种列表
 const speciesOptions = ref([])
 getArchivesSpeciesListReq({
   pageNum: 1,
