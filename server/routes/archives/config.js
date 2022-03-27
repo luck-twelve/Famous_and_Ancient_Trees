@@ -83,6 +83,8 @@ var archivesControll = {
             query(connection, reqSql, 'getArchivesTree', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
                     result?.forEach(item => {
+                        item.canEdit = true
+                        item.canDel = true
                         item.create_time = formatDate(item.create_time)
                         item.update_time = formatDate(item.update_time)
                     })
