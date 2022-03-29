@@ -78,6 +78,7 @@ var archivesControll = {
      * 古树名木管理
      */
     getArchivesTree: function (req, res, next) {
+        // vertoken
         pool.getConnection(function (err, connection) {
             const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body)
             query(connection, reqSql, 'getArchivesTree', reqParams, result => {
