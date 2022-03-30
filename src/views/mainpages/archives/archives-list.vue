@@ -46,7 +46,17 @@
           <el-tag v-if="row.isShow == 0" type="warning">草稿</el-tag>
           <el-tag v-if="row.isShow == 1 && row.marker == 'marker_normal'" type="success">正常</el-tag>
           <el-tag v-if="row.isShow == 2" type="info">待审核</el-tag>
-          <el-tag v-if="row.isShow == 3" type="danger">已驳回</el-tag>
+          <el-popover
+            v-if="row.isShow == 3"
+            placement="top-end"
+            title=""
+            trigger="hover"
+            :content="`原因：${row.reason}`"
+          >
+            <template #reference>
+              <el-tag type="danger">已驳回</el-tag>
+            </template>
+          </el-popover>
           <el-tag v-if="row.marker == 'marker_abnormal'" type="danger">异常</el-tag>
         </template>
       </el-table-column>
