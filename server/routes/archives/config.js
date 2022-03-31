@@ -3,13 +3,13 @@ const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
 const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate, formatDate } = require('../functions'); // 引入已经封装好的全局函数
+const { getUsername } = require('../token_info')
 var pool = mysql.createPool(mysqlconfig);
 pool.on('acquire', function (connection) {
     console.log('connection %d accuired', connection.threadId);
 });
 
 //引入token 
-var vertoken = require('../../token')
 var archivesControll = {
     getArchives: function (req, res, next) {
         pool.getConnection(function (err, connection) {
@@ -77,8 +77,11 @@ var archivesControll = {
     /**
      * 古树名木管理
      */
-    getArchivesTree: function (req, res, next) {
-        // vertoken
+    getArchivesTree: async function (req, res, next) {
+        let token_name = await getUsername(req)
+        if (token_name !== 'Admin') {
+            req.body['create_user'] = token_name
+        }
         pool.getConnection(function (err, connection) {
             const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body)
             query(connection, reqSql, 'getArchivesTree', reqParams, result => {
@@ -98,7 +101,10 @@ var archivesControll = {
             })
         })
     },
-    addArchivesTree: function (req, res, next) {
+    addArchivesTree: async function (req, res, next) {
+        let token_name = await getUsername(req)
+        req.body['create_user'] = token_name
+        req.body['update_user'] = token_name
         let { reqsql, insertData } = sqlAdd(req, res, 'archives_tree', true)
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addArchivesTree', [], result => {
@@ -112,7 +118,9 @@ var archivesControll = {
             })
         })
     },
-    updateArchivesTree: function (req, res, next) {
+    updateArchivesTree: async function (req, res, next) {
+        let token_name = await getUsername(req)
+        req.body['update_user'] = token_name
         let { reqsql, updatedData } = sqlUpdate(req, res, 'archives_tree', 'id', true)
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesTree', [], result => {
@@ -128,15 +136,16 @@ var archivesControll = {
             })
         })
     },
-    updateArchivesStatus: function (req, res, next) {
+    updateArchivesStatus: async function (req, res, next) {
         let reqsql = 'UPDATE archives_tree SET isShow=?'
         let reqParams = [req.body.isShow]
         if (req.body.reason) {
             reqsql += ' ,reson=?'
             reqParams.push(req.body.reson)
         }
-        reqsql += ' WHERE id=?'
-        reqParams.push(req.body.id)
+        reqsql += ', update_user=? WHERE id=?'
+        let token_name = await getUsername(req)
+        reqParams.push(token_name, req.body.id)
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'updateArchivesStatus', reqParams, result => {
                 return res.json({
@@ -148,9 +157,10 @@ var archivesControll = {
             })
         })
     },
-    deleteArchivesTree: function (req, res, next) {
+    deleteArchivesTree: async function (req, res, next) {
+        let token_name = await getUsername(req)
         pool.getConnection(function (err, connection) {
-            query(connection, sql.deleteArchivesTree, 'deleteArchivesTree', [req.query.id], result => {
+            query(connection, sql.deleteArchivesTree, 'deleteArchivesTree', [token_name, req.query.id], result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

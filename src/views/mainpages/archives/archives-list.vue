@@ -86,16 +86,7 @@
                   <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item>
-                  <el-popconfirm
-                    :icon="InfoFilled"
-                    placement="left"
-                    title="删除后将无法恢复，是否确认删除?"
-                    @confirm="handleDelete(row)"
-                  >
-                    <template #reference>
-                      <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
-                    </template>
-                  </el-popconfirm>
+                  <el-button type="text" :icon="Delete" style="color: red" @click="handleDelete(row)">删除</el-button>
                 </el-dropdown-item>
               </el-dropdown-menu>
             </template>
@@ -127,7 +118,7 @@ import {
 import { getArchivesSpeciesListReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 const emit = defineEmits(['selectionChange'])
 
 const props = defineProps({
@@ -160,8 +151,9 @@ const state = reactive({
     { label: '编号', prop: 'id', width: '260px' },
     { label: '古树命名', prop: 'tree_nameZh', minWidth: '130px' },
     { label: '树种', prop: 'tree_speciesStr', width: '120px', sortable: true },
-    { label: '省份', prop: 'company_province', align: 'center', width: '80px', sortable: true },
-    { label: '权属', prop: 'tree_owner', align: 'center', width: '80px', sortable: true }
+    { label: '省份', prop: 'company_province', align: 'center', width: '100px', sortable: true },
+    { label: '权属', prop: 'tree_owner', align: 'center', width: '100px', sortable: true },
+    { label: '建档人', prop: 'create_user', align: 'center', width: '100px', sortable: true }
   ],
   listLoading: true
 })
@@ -286,8 +278,15 @@ const handleVerifyYes = async (id) => {
  * 删除
  */
 const handleDelete = (row) => {
-  deleteArchivesTreeReq(row.id).then(({ data }) => {
-    getList(formData)
+  ElMessageBox.confirm('删除后将无法恢复，是否确认删除?', '警告', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+    showClose: false
+  }).then(() => {
+    deleteArchivesTreeReq(row.id).then(({ data }) => {
+      getList(formData)
+    })
   })
 }
 
