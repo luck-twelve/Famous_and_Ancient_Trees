@@ -148,11 +148,12 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '260px' },
-    { label: '古树命名', prop: 'tree_nameZh', minWidth: '130px' },
+    // { label: '编号', prop: 'id', width: '260px' },
+    { label: '古树命名', prop: 'tree_nameZh', width: '140px' },
     { label: '树种', prop: 'tree_speciesStr', width: '120px', sortable: true },
-    { label: '省份', prop: 'company_province', align: 'center', width: '100px', sortable: true },
-    { label: '权属', prop: 'tree_owner', align: 'center', width: '100px', sortable: true },
+    { label: '省份', prop: 'company_province', width: '100px', sortable: true },
+    { label: '权属', prop: 'tree_owner', width: '100px', sortable: true },
+    { label: '管辖单位或个人', prop: 'keeper', minWidth: '230px', sortable: true },
     { label: '建档人', prop: 'create_user', align: 'center', width: '100px', sortable: true }
   ],
   listLoading: true

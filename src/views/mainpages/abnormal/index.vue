@@ -102,7 +102,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '160px' },
+    // { label: '编号', prop: 'id', width: '160px' },
     { label: '古树名称', prop: 'tree_name', minWidth: '130px' },
     { label: '挂牌号', prop: 'listing', minWidth: '130px' },
     { label: '经度', prop: 'longitude', minWidth: '120px', sortable: true },
