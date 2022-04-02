@@ -148,7 +148,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    // { label: '编号', prop: 'id', width: '260px' },
+    // { label: '编号', prop: 'id', width: '260px' } ,
     { label: '古树命名', prop: 'tree_nameZh', width: '140px' },
     { label: '树种', prop: 'tree_speciesStr', width: '120px', sortable: true },
     { label: '省份', prop: 'company_province', width: '100px', sortable: true },
