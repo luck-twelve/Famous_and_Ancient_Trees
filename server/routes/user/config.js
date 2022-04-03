@@ -121,6 +121,7 @@ var userControll = {
         })
     },
     addUser: function (req, res, next) {
+        req.body.password = `fa123456`
         switch (req.body.roles) {
             case 'admin': req.body.tag = 'danger'; break;
             case 'worker': req.body.tag = 'warning'; break;
