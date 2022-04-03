@@ -1,6 +1,11 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" :model="formData">
+      <el-form-item prop="id">
+        <el-input v-model="formData.id" clearable>
+          <template #prepend>编号</template>
+        </el-input>
+      </el-form-item>
       <el-form-item prop="name">
         <el-input v-model="formData.name" clearable>
           <template #prepend>树种名称</template>
@@ -14,6 +19,9 @@
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </template>
+      <el-table-column label="编号" width="260px">
+        <template #default="{ row }">{{ row.id }}</template>
+      </el-table-column>
       <el-table-column label="操作" width="130px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
@@ -60,6 +68,7 @@ let { proxy } = getCurrentInstance()
  * 搜索
  */
 const formData = reactive({
+  id: '',
   tree_species: ''
 })
 const handleSearch = () => {
@@ -72,9 +81,11 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '160px' },
+    // { label: '编号', prop: 'id', width: '260px' },
     { label: '树种名称', prop: 'name', minWidth: '130px' },
-    { label: '字典值', prop: 'value', minWidth: '120px', sortable: true }
+    { label: '字典值', prop: 'value', minWidth: '120px', sortable: true },
+    { label: '创建时间', prop: 'create_time', align: 'center', width: '160px', sortable: true },
+    { label: '更新时间', prop: 'update_time', align: 'center', width: '160px', sortable: true }
   ],
   listLoading: true
 })

@@ -1,6 +1,11 @@
 <template>
   <div class="app-container">
     <el-form :inline="true" :model="formData" class="demo-form-inline">
+      <el-form-item prop="id">
+        <el-input v-model="formData.id" clearable>
+          <template #prepend>编号</template>
+        </el-input>
+      </el-form-item>
       <el-form-item prop="username">
         <el-input v-model="formData.username" clearable>
           <template #prepend>用户名</template>
@@ -31,6 +36,21 @@
       <el-table-column label="用户权限" align="center">
         <template #default="{ row }">
           <el-tag :type="row.tag">{{ row.roles }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="创建时间" align="center" width="160px">
+        <template #default="{ row }">
+          {{ row.create_time }}
+        </template>
+      </el-table-column>
+      <el-table-column label="更新时间" align="center" width="160px">
+        <template #default="{ row }">
+          {{ row.update_time }}
+        </template>
+      </el-table-column>
+      <el-table-column label="编号" min-width="260px">
+        <template #default="{ row }">
+          {{ row.id }}
         </template>
       </el-table-column>
       <el-table-column label="操作" width="130px" align="center" fixed="right">
@@ -70,6 +90,7 @@ import UserListDialog from './user-list-dialog.vue'
  * 搜索
  */
 const formData = reactive({
+  id: '',
   username: '',
   roles: ''
 })
@@ -88,7 +109,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', minWidth: '260px' },
+    // { label: '编号', prop: 'id', minWidth: '260px' },
     { label: '用户名', prop: 'username', width: '120px' }
   ],
   listLoading: false
