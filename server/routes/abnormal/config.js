@@ -37,7 +37,16 @@ var abnormalControll = {
         })
     },
     addAbnormal: async function (req, res, next) {
-        req.body['username'] = await getUsername(req)
+        let token_name = await getUsername(req)
+        if (!(req.body.username === token_name || req.body.username === 'Admin' || req.body.username === 'worker')) {
+            return res.json({
+                code: -200,
+                msg: '操作失败，你没有此权限',
+                flag: false,
+                showFlag: true
+            })
+        }
+        req.body['username'] = token_name
         let { reqsql, insertData } = sqlAdd(req, res, 'abnormal_info')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addAbnormal', [], result => {
@@ -54,7 +63,7 @@ var abnormalControll = {
     },
     updateAbnormal: async function (req, res, next) {
         let token_name = await getUsername(req)
-        if (req.body.username !== token_name || req.body.username !== 'Admin') {
+        if (!(req.body.username === token_name || req.body.username === 'Admin' || req.body.username === 'worker')) {
             return res.json({
                 code: -200,
                 msg: '操作失败，你没有此权限',
@@ -77,7 +86,16 @@ var abnormalControll = {
             })
         })
     },
-    deleteAbnormal: function (req, res, next) {
+    deleteAbnormal: async function (req, res, next) {
+        let token_name = await getUsername(req)
+        if (!(req.body.username === token_name || req.body.username === 'Admin' || req.body.username === 'worker')) {
+            return res.json({
+                code: -200,
+                msg: '操作失败，你没有此权限',
+                flag: false,
+                showFlag: true
+            })
+        }
         pool.getConnection(function (err, connection) {
             query(connection, sql.deleteAbnormal, 'deleteAbnormal', [req.query.id], result => {
                 connection.query(sql.deleteAbTree, [req.query.listing])

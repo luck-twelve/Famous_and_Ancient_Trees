@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 var uuid = require('node-uuid');
 const actions = {
-    getFiltersql: (sql, data, isShow) => {
+    getFiltersql: (sql, data, type) => {
         if (Object.keys(data).length > 0) {
             for (let i of Object.keys(data)) {
                 if (i == 'pageNum' || i == 'pageSize') continue
@@ -20,6 +20,9 @@ const actions = {
             sql += ` and isShow!=99`
         } else {
             sql += ' WHERE isShow!=99'
+        }
+        if (type === 'all') {
+            sql += ' or isShow=1'
         }
         let noLimit = sql
         sql += ' limit ?,?'

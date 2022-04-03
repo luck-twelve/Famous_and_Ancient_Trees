@@ -20,7 +20,7 @@
           op-label="name"
         ></tt-select>
       </el-form-item>
-      <el-form-item prop="isShow">
+      <el-form-item v-if="!isDialog" prop="isShow">
         <tt-select v-model="formData.isShow" class="widthPx-180" label="状态" :options="statusOptions"></tt-select>
       </el-form-item>
       <el-form-item>
@@ -57,7 +57,7 @@
               <el-tag type="warning">已驳回</el-tag>
             </template>
           </el-popover>
-          <el-tag v-if="row.marker == 'marker_abnormal'" type="danger">异常</el-tag>
+          <el-tag v-if="row.isShow == 1 && row.marker == 'marker_abnormal'" type="danger">异常</el-tag>
         </template>
       </el-table-column>
       <el-table-column label="编号" width="260px">
@@ -71,7 +71,7 @@
               <el-dropdown-menu>
                 <el-dropdown-item>
                   <el-button
-                    v-if="row.isShow == 2"
+                    v-if="roles.includes('admin') && row.isShow == 2"
                     type="text"
                     :icon="Finished"
                     style="color: #e6a23c"
@@ -122,6 +122,14 @@ import { getArchivesSpeciesListReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
 import ArchivesListDialog from './archives-list-dialog.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
+
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
+const roles = computed(() => {
+  return store.state.user.roles
+})
+
 const emit = defineEmits(['selectionChange'])
 
 const props = defineProps({
@@ -319,6 +327,11 @@ onBeforeMount(() => {
 })
 
 const getList = (params = {}) => {
+  if (isDialog.value) {
+    Object.assign(params, {
+      isShow: 1
+    })
+  }
   state.listLoading = true
   getArchivesTreeListReq(params).then(({ data }) => {
     data.data.forEach((item) => {

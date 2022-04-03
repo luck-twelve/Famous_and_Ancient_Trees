@@ -83,7 +83,7 @@ var archivesControll = {
             req.body['create_user'] = token_name
         }
         pool.getConnection(function (err, connection) {
-            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body)
+            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getArchivesTree, req.body, 'all')
             query(connection, reqSql, 'getArchivesTree', reqParams, result => {
                 getTotal(noLimitSql, pool).then(total => {
                     result?.forEach(item => {
