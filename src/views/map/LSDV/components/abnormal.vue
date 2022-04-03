@@ -1,6 +1,6 @@
 <template>
   <div style="position: relative">
-    <div class="chart-tips"><b>近30天古树异常情况</b></div>
+    <div class="chart-tips"><b>近30天新增异常情况</b></div>
     <!-- 上周新增异常反馈情况 -->
     <div id="echarts_ab" class="chart-ab mt-1"></div>
   </div>
@@ -23,13 +23,13 @@ const initEchartsF = (dayMap, countMap) => {
   let option_ab = {
     color: ['#4575b4', '#abd9e9', '#ffb980', '#d87a80', '#8d98b3', '#97b552'],
     tooltip: {
-      trigger: 'item',
-      axisPointer: {
-        type: 'cross',
-        label: {
-          backgroundColor: '#304156'
-        }
-      }
+      trigger: 'item'
+      // axisPointer: {
+      //   type: 'cross',
+      //   label: {
+      //     backgroundColor: '#304156'
+      //   }
+      // }
     },
     grid: {
       left: '16px',
@@ -39,7 +39,7 @@ const initEchartsF = (dayMap, countMap) => {
       containLabel: true
     },
     legend: {
-      data: ['新增', '已解决'],
+      // data: ['新增', '已解决'],
       left: 'right',
       textStyle: {
         fontSize: 10, // 字体大小
@@ -88,24 +88,24 @@ const initEchartsF = (dayMap, countMap) => {
       {
         name: '新增',
         data: countMap,
-        type: 'line',
-        smooth: true
-      },
-      {
-        name: '已解决',
-        data: countMap,
-        type: 'line',
-        smooth: true
-        // markPoint: {
-        //   data: [
-        //     { type: 'max', name: '最多' },
-        //     { type: 'min', name: '最少' }
-        //   ]
-        // },
-        // markLine: {
-        //   data: [{ type: 'average', name: '平均' }]
-        // }
+        type: 'line'
+        // smooth: true
       }
+      // {
+      //   name: '已解决',
+      //   data: countMap,
+      //   type: 'line',
+      //   smooth: true
+      //   // markPoint: {
+      //   //   data: [
+      //   //     { type: 'max', name: '最多' },
+      //   //     { type: 'min', name: '最少' }
+      //   //   ]
+      //   // },
+      //   // markLine: {
+      //   //   data: [{ type: 'average', name: '平均' }]
+      //   // }
+      // }
     ]
   }
   echarts_ab.value.setOption(option_ab)
