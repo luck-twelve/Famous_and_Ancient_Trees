@@ -32,7 +32,7 @@
     </tt-table>
     <el-dialog v-model="visible" :title="`${dialogType}异常反馈`" width="450px" :before-close="handleClose">
       <el-form v-if="visible" ref="dialogForm" :model="dialogData" label-width="80px">
-        <el-form-item label="古树名称" prop="tree_name" :rules="formRulesMixin.isNotNull">
+        <el-form-item label="选择古树" prop="tree_name" :rules="formRulesMixin.isNotNull">
           <el-input v-model="dialogData.tree_name" disabled>
             <template #append>
               <el-button type="primary" :icon="Search" @click="abVisible = true">选择</el-button>
@@ -181,7 +181,7 @@ const handleCommit = async () => {
  * 删除
  */
 const handleDelete = (row) => {
-  deleteAbnormalReq(row.id).then(({ data }) => {
+  deleteAbnormalReq(row).then(() => {
     getList(formData)
   })
 }

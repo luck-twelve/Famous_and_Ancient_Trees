@@ -26,7 +26,7 @@ export function updateAbnormalReq(data) {
 }
 export function deleteAbnormalReq(data) {
     return request({
-        url: `/abnormal/deleteAbnormal?id=${data}`,
+        url: `/abnormal/deleteAbnormal?id=${data.id}&listing=${data.listing}`,
         method: 'delete',
     })
 }

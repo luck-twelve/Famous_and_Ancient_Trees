@@ -41,6 +41,7 @@ var abnormalControll = {
         let { reqsql, insertData } = sqlAdd(req, res, 'abnormal_info')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addAbnormal', [], result => {
+                connection.query(sql.addAbTree, [insertData.listing])
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: insertData,
@@ -79,6 +80,7 @@ var abnormalControll = {
     deleteAbnormal: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             query(connection, sql.deleteAbnormal, 'deleteAbnormal', [req.query.id], result => {
+                connection.query(sql.deleteAbTree, [req.query.listing])
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
