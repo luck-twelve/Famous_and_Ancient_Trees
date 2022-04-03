@@ -121,6 +121,11 @@ var userControll = {
         })
     },
     addUser: function (req, res, next) {
+        switch (req.body.roles) {
+            case 'admin': req.body.tag = 'danger'; break;
+            case 'worker': req.body.tag = 'warning'; break;
+            case 'people': req.body.tag = 'success'; break;
+        }
         let { reqsql } = sqlAdd(req, res, 'user')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addUser', [], result => {
@@ -134,12 +139,17 @@ var userControll = {
         })
     },
     updateUser: function (req, res, next) {
+        let reqBody = req.body
         const params = [];
-        params[0] = req.body.username
-        params[1] = req.body.password
-        params[2] = req.body.avatar
-        params[3] = req.body.roles
-        params[4] = req.body.id
+        params[0] = reqBody.username
+        params[1] = reqBody.avatar
+        params[2] = reqBody.roles
+        switch (reqBody.roles) {
+            case 'admin': params[3] = 'danger'; break;
+            case 'worker': params[3] = 'warning'; break;
+            case 'people': params[3] = 'success'; break;
+        }
+        params[4] = reqBody.id
         pool.getConnection(function (err, connection) {
             query(connection, sql.updateUser, 'updateUser', params, result => {
                 return res.json({

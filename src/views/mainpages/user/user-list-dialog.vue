@@ -10,9 +10,9 @@
       <el-form-item prop="username" label="用户名" :rules="formRulesMixin.isNotNull">
         <el-input v-model="form.username" maxlength="12" show-word-limit clearable />
       </el-form-item>
-      <el-form-item prop="password" label="密码" :rules="[...formRulesMixin.desc, ...formRulesMixin.passwordValid]">
+      <!-- <el-form-item prop="password" label="密码" :rules="[...formRulesMixin.desc, ...formRulesMixin.passwordValid]">
         <el-input v-model="form.password" type="password" maxlength="18" show-password clearable />
-      </el-form-item>
+      </el-form-item> -->
       <el-form-item prop="avatar" label="头像">
         <!-- action="http://localhost:3000/api/file/setAvatar" -->
         <el-upload
@@ -91,7 +91,7 @@ const emit = defineEmits(['update:dialogVisible', 'success'])
 const handleClose = () => {
   form.id = ''
   form.username = ''
-  form.password = ''
+  // form.password = ''
   form.avatar = 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg'
   form.roles = 'people'
   imageUrl.value = ''

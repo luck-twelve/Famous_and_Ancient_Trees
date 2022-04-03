@@ -23,6 +23,16 @@
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
       </template>
+      <el-table-column label="头像" align="center">
+        <template #default="{ row }">
+          <el-avatar shape="square" :src="row.avatar" />
+        </template>
+      </el-table-column>
+      <el-table-column label="用户权限" align="center">
+        <template #default="{ row }">
+          <el-tag :type="row.tag">{{ row.roles }}</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" width="130px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
@@ -78,10 +88,8 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    { label: '编号', prop: 'id', width: '260px' },
-    { label: '用户名', prop: 'username', width: '120px' },
-    { label: '头像', prop: 'avatar', minWidth: '450px' },
-    { label: '用户权限', prop: 'roles', width: '110px', align: 'center', sortable: true }
+    { label: '编号', prop: 'id', minWidth: '260px' },
+    { label: '用户名', prop: 'username', width: '120px' }
   ],
   listLoading: false
 })
