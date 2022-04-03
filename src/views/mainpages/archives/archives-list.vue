@@ -54,13 +54,16 @@
             :content="`原因：${row.reason}`"
           >
             <template #reference>
-              <el-tag type="danger">已驳回</el-tag>
+              <el-tag type="warning">已驳回</el-tag>
             </template>
           </el-popover>
           <el-tag v-if="row.marker == 'marker_abnormal'" type="danger">异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column v-if="!isDialog" label="更多" width="55px" align="center" fixed="right">
+      <el-table-column label="编号" width="260px">
+        <template #default="{ row }">{{ row.id }}</template>
+      </el-table-column>
+      <el-table-column v-if="!isDialog" label="更多" align="center" width="55px" fixed="right">
         <template #default="{ row }">
           <el-dropdown trigger="click" placement="bottom-end">
             <el-button type="text" :icon="MoreFilled" style="color: #606266"></el-button>
@@ -148,7 +151,7 @@ const handleSearch = () => {
 const state = reactive({
   list: {},
   tableColumn: [
-    // { label: '编号', prop: 'id', width: '260px' } ,
+    // { label: '编号', prop: 'id', width: '260px' },
     { label: '古树命名', prop: 'tree_nameZh', width: '140px' },
     { label: '树种', prop: 'tree_speciesStr', width: '120px', sortable: true },
     { label: '省份', prop: 'company_province', width: '100px', sortable: true },
