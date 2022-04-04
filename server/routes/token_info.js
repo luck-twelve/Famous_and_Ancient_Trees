@@ -28,6 +28,17 @@ const tokenControll = {
             }
         })
     },
+    getUserRoles: (req) => {
+        return new Promise((resolve, reject) => {
+            try {
+                vertoken.getToken(req.headers['authorize_token']).then(token => {
+                    resolve(token.roles)
+                })
+            } catch {
+                reject()
+            }
+        })
+    },
     getTokenInfo: (connection, req, res) => {
         vertoken.getToken(req.headers['authorize_token']).then(token => {
             connection.query('SELECT username,avatar,roles,isShow FROM user WHERE id=?', token.id, function (err, info) {

@@ -22,7 +22,7 @@
       <el-table-column label="编号" width="260px">
         <template #default="{ row }">{{ row.id }}</template>
       </el-table-column>
-      <el-table-column label="操作" width="130px" align="center" fixed="right">
+      <!-- <el-table-column label="操作" width="130px" align="center" fixed="right">
         <template #default="{ row }">
           <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
           <el-popconfirm
@@ -35,6 +35,23 @@
               <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
             </template>
           </el-popconfirm>
+        </template>
+      </el-table-column> -->
+      <el-table-column label="更多" align="center" width="55px" fixed="right">
+        <template #default="{ row }">
+          <el-dropdown trigger="click" placement="bottom-end">
+            <el-button type="text" :icon="MoreFilled" style="color: #606266"></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button type="text" :icon="Delete" style="color: red" @click="handleDelete(row)">删除</el-button>
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
         </template>
       </el-table-column>
     </tt-table>
@@ -58,10 +75,12 @@
 </template>
 
 <script setup>
-import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
+import { Search, Plus, Edit, Delete, InfoFilled, MoreFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount, getCurrentInstance } from 'vue'
 import { getArchivesSpeciesListReq, updateArchivesSpeciesReq, deleteArchivesSpeciesReq } from '@/api/archives'
 import TtTable from '@/components/tt-components/table'
+import { ElMessageBox } from 'element-plus'
+
 let { proxy } = getCurrentInstance()
 
 /**
@@ -136,8 +155,15 @@ const handleCommit = async () => {
  * 删除
  */
 const handleDelete = (row) => {
-  deleteArchivesSpeciesReq(row.id).then(({ data }) => {
-    getList(formData)
+  ElMessageBox.confirm('删除后将无法恢复，是否确认删除?', '警告', {
+    confirmButtonText: '确认',
+    cancelButtonText: '取消',
+    type: 'warning',
+    showClose: false
+  }).then(() => {
+    deleteArchivesSpeciesReq(row.id).then(({ data }) => {
+      getList(formData)
+    })
   })
 }
 

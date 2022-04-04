@@ -3,7 +3,7 @@ const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
 const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate, formatDate, getLastMonthToday, getDate } = require('../functions'); // 引入已经封装好的全局函数
-const { getUsername } = require('../token_info')
+const { getUsername, getUserRoles } = require('../token_info')
 var pool = mysql.createPool(mysqlconfig);
 pool.on('acquire', function (connection) {
     console.log('connection %d accuired', connection.threadId);
@@ -13,7 +13,8 @@ var abnormalControll = {
     getAbnormalList: async function (req, res, next) {
         let defaultSql = sql.getAbnormalList
         let token_name = await getUsername(req)
-        if (token_name !== 'Admin') {
+        let token_roles = await getUserRoles(req)
+        if (token_roles !== 'Admin') {
             req.body['username'] = undefined
             defaultSql += ` WHERE username='${token_name}'`
         }
@@ -37,8 +38,8 @@ var abnormalControll = {
         })
     },
     addAbnormal: async function (req, res, next) {
-        let token_name = await getUsername(req)
-        if (!(req.body.username === token_name || req.body.username === 'Admin' || req.body.username === 'worker')) {
+        let token_roles = await getUserRoles(req)
+        if (!(token_roles === 'Admin' || token_roles === 'worker')) {
             return res.json({
                 code: -200,
                 msg: '操作失败，你没有此权限',
@@ -46,6 +47,7 @@ var abnormalControll = {
                 showFlag: true
             })
         }
+        let token_name = await getUsername(req)
         req.body['username'] = token_name
         let { reqsql, insertData } = sqlAdd(req, res, 'abnormal_info')
         pool.getConnection(function (err, connection) {
@@ -62,8 +64,10 @@ var abnormalControll = {
         })
     },
     updateAbnormal: async function (req, res, next) {
+        let get_name = req.body.create_user
         let token_name = await getUsername(req)
-        if (!(req.body.username === token_name || req.body.username === 'Admin' || req.body.username === 'worker')) {
+        let token_roles = await getUserRoles(req)
+        if (!(get_name === token_name || token_roles === 'Admin')) {
             return res.json({
                 code: -200,
                 msg: '操作失败，你没有此权限',
@@ -87,8 +91,10 @@ var abnormalControll = {
         })
     },
     deleteAbnormal: async function (req, res, next) {
+        let get_name = req.body.create_user
         let token_name = await getUsername(req)
-        if (!(req.body.username === token_name || req.body.username === 'Admin' || req.body.username === 'worker')) {
+        let token_roles = await getUserRoles(req)
+        if (!(get_name === token_name || token_roles === 'Admin')) {
             return res.json({
                 code: -200,
                 msg: '操作失败，你没有此权限',
