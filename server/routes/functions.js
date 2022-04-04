@@ -6,23 +6,26 @@ const actions = {
             for (let i of Object.keys(data)) {
                 if (i == 'pageNum' || i == 'pageSize') continue
                 if (data[i]) {
-                    if (!sql.includes(' WHERE ')) {
-                        sql += ' WHERE '
+                    if (sql.includes(' WHERE ')) {
+                        sql += ' AND '
                     } else {
-                        sql += ' and '
+                        sql += ' WHERE '
                     }
                     sql += `${i}='${data[i]}'`
                 }
             }
         }
         if (sql.includes(' WHERE ')) {
-            // sql += ` and isShow=${isShow}`
-            sql += ` and isShow!=99`
+            sql += ` AND`
         } else {
-            sql += ' WHERE isShow!=99'
+            sql += ` WHERE`
         }
-        if (type === 'all') {
+        sql += ` isShow!=99`
+        if (type === 'all') { // 查询所有用户正常档案
             sql += ' or isShow=1'
+        }
+        if (data.create_user === 'Admin') { // 如果是管理员，则查询其他用户未审核档案
+            sql += ' or isShow=2'
         }
         let noLimit = sql
         sql += ' limit ?,?'

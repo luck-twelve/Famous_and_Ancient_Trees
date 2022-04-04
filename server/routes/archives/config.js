@@ -3,7 +3,7 @@ const mysql = require('mysql'); // 引入mysql
 const mysqlconfig = require('../../config/mysql'); // 引入mysql连接配置
 const sql = require('./sql'); // 引入sql语句
 const { query, getFiltersql, getTotal, sqlAdd, sqlUpdate, formatDate } = require('../functions'); // 引入已经封装好的全局函数
-const { getUsername } = require('../token_info')
+const { getUsername, getUserRoles } = require('../token_info')
 var pool = mysql.createPool(mysqlconfig);
 pool.on('acquire', function (connection) {
     console.log('connection %d accuired', connection.threadId);
@@ -79,7 +79,8 @@ var archivesControll = {
      */
     getArchivesTree: async function (req, res, next) {
         let token_name = await getUsername(req)
-        if (token_name !== 'Admin') {
+        let token_roles = await getUserRoles(req)
+        if (token_roles !== 'Admin') {
             req.body['create_user'] = token_name
         }
         pool.getConnection(function (err, connection) {

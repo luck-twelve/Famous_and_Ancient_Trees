@@ -12,11 +12,17 @@
       </el-tab-pane>
       <el-tab-pane v-if="type == 'look'" label="其他资料" name="other">
         <el-descriptions :column="2" border>
-          <el-descriptions-item label="特殊状况描述" :span="2">
-            <el-input v-model="data.special_conditions" :rows="4" type="textarea"></el-input>
+          <el-descriptions-item label="创建人">
+            {{ data.create_user }}
           </el-descriptions-item>
-          <el-descriptions-item label="保护现状及建议" :span="2">
-            <el-input v-model="data.status" :rows="4" type="textarea"></el-input>
+          <el-descriptions-item label="创建时间">
+            {{ data.create_time }}
+          </el-descriptions-item>
+          <el-descriptions-item label="更新人">
+            {{ data.update_user }}
+          </el-descriptions-item>
+          <el-descriptions-item label="更新时间">
+            {{ data.update_time }}
           </el-descriptions-item>
         </el-descriptions>
       </el-tab-pane>
