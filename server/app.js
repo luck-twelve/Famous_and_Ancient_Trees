@@ -8,7 +8,7 @@ var logger = require('morgan');
 var app = express();
 
 // 引入日志-log4js
-var con = require('./log/setlog.js');
+var con = require('./config/log.js');
 app.use(con.netLog()); //netLog方法的参数为 "none"(默认), "debug", "info", "warn", "error", "fatal"
 global.console = con //赋值给全局对象,也可以不覆盖console,使用其他自定义的名字
 

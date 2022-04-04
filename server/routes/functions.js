@@ -46,7 +46,7 @@ const actions = {
     },
     query: (connection, sql, action, params, callback) => {
         connection.query(sql, params, function (err, result) {
-            console.log(JSON.stringify(result))
+            console.log(`\n ` + JSON.stringify(result))
             // console.group(action)
             // console.dir({
             //     sql: sql,
