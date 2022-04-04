@@ -32,7 +32,7 @@ function appenderFull(filename) {
     }
 }
 
-var appenders = { default: appenderFull("./logs/default") };
+var appenders = { default: appenderFull("./server/logs/default") };
 var categories = { default: { appenders: ["default"], level: log4js.levels.ALL } };
 
 for (const kind of Kinds) {
@@ -40,7 +40,7 @@ for (const kind of Kinds) {
         if (LogType.hasOwnProperty(type)) {
             type = LogType[type];
             let key = kind + "_" + type;
-            appenders[key] = appenderFull(`./logs/${type}/${type}`);
+            appenders[key] = appenderFull(`./server/logs/${type}/${type}`);
             categories[key] = { appenders: [key], level: type === LogType.NONE ? log4js.levels.ALL : type }
         }
     }
@@ -53,7 +53,7 @@ log4js.configure({
 
 /**
    * 添加日志接口，对应的日志类型将指定日志的输出文件，例如"none"类型的日志，将把日志内容指定输出到'./logs/business/none/none.log'文件，
-   * "error"类型的日志，将把日志内容指定输出到'./logs/business/error/error.log'文件。
+   * "error"类型的日志，将把日志内容指定输出到'./server/logs/business/error/error.log'文件。
    * @param {LogType|String} type -- 日志的类型："none", "debug", "info", "warn", "error", "fatal"。
    *                                 如果该值不为枚举中的值，那么日志的类型默认设置为"none"类型，且将该参数
    *                                 作为日志内容的开头部分。
@@ -98,7 +98,7 @@ const DEFAULT_FORMAT = ':remote-addr - -'
     + ' ":user-agent"';
 
 /**
- * 添加网络通讯日志接口，如果日志类型为"none"，那么所有的日志内容指定输出到'./logs/net/none/none.log'文件，
+ * 添加网络通讯日志接口，如果日志类型为"none"，那么所有的日志内容指定输出到'./server/logs/net/none/none.log'文件，
  * 如果是其他类型的日志，那么相应类型的日志将记录到对应名字的文件，例如"error"类型的日志，将把日志内容指定输出到'./logs/net/error/error.log'文件。
  * @param {LogType} type -- 日志的类型："none", "debug", "info", "warn", "error", "fatal"。
  *                          如果该值不为枚举中的值，那么日志的类型默认设置为"none"类型。

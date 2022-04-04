@@ -7,3 +7,5 @@ dist-ssr
 *.local
 yarn*
 package-lock*
+
+logs
