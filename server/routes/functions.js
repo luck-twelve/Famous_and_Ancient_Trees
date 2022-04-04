@@ -46,16 +46,17 @@ const actions = {
     },
     query: (connection, sql, action, params, callback) => {
         connection.query(sql, params, function (err, result) {
-            console.group(action)
-            console.dir({
-                sql: sql,
-                params: JSON.stringify(params),
-                result: result?.length ? '' : JSON.stringify(result)
-            })
-            if (result?.length > 0) {
-                console.table(result)
-            }
-            console.groupEnd()
+            console.log(JSON.stringify(result))
+            // console.group(action)
+            // console.dir({
+            //     sql: sql,
+            //     params: JSON.stringify(params),
+            //     result: result?.length ? '' : JSON.stringify(result)
+            // })
+            // if (result?.length > 0) {
+            //     console.table(result)
+            // }
+            // console.groupEnd()
             callback(result, err)
         })
     },
