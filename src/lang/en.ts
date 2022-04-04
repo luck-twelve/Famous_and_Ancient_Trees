@@ -9,8 +9,6 @@ export default {
     Map: 'Map',
     User: 'User',
     'User List': 'User List',
-    Declare: 'Declare',
-    'Declare List': 'Declare List',
     Archives: 'Archives',
     'Archives List': 'Archives List',
     'New Archives': 'New Archives',

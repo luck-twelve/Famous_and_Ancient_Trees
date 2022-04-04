@@ -9,8 +9,6 @@ export default {
     Map: '全景地图',
     User: '用户管理',
     'User List': '用户列表',
-    Declare: '申报管理',
-    'Declare List': '申报列表',
     Archives: '档案管理',
     'Archives List': '档案列表',
     'New Archives': '新建档案',
