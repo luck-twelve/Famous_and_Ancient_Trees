@@ -123,7 +123,7 @@ let fatLoginReq = () => {
       ElMessage({ message: '登录成功', type: 'success' })
     })
     .catch((error) => {
-      if (typeof error !== Object) {
+      if (typeof error != 'object') {
         error = JSON.parse(error)
       }
       if (error.code) {

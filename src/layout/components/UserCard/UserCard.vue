@@ -1,7 +1,7 @@
 <template>
   <el-dropdown class="ml-2" popper-class="user-dropdown">
     <div class="avatar-wrapper">
-      <img :src="store.state.user.avatar" class="user-avatar" />
+      <el-avatar :icon="Avatar" :src="store.state.user.avatar" class="user-avatar" />
       <div class="user-name">
         <span>{{ store.state.user.username }}</span>
         <CaretBottom class="caret-bottom" />
@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { CaretBottom, Edit, SwitchButton } from '@element-plus/icons-vue'
+import { Avatar, CaretBottom, Edit, SwitchButton } from '@element-plus/icons-vue'
 import SubPass from './SubPass.vue'
 import { getCurrentInstance, reactive } from 'vue'
 import { ElMessage } from 'element-plus'
@@ -73,6 +73,9 @@ const logOut = () => {
     width: 36px;
     height: 36px;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .user-name {

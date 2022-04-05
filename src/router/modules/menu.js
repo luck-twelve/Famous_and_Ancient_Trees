@@ -74,7 +74,7 @@ const asyncMenus = [
                 name: 'Abnormal',
                 path: '/abnormal',
                 component: () => import('@/views/mainpages/abnormal/index.vue'),
-                meta: { title: 'Abnormal', icon: 'abnormal', noCache: true, roles: ['worker', 'people'] }
+                meta: { title: 'Abnormal', icon: 'abnormal', noCache: true, roles: ['worker'] }
             }
         ]
     }

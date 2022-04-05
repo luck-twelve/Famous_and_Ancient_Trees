@@ -23,6 +23,13 @@ const actions = {
         sql += ` isShow!=99`
         if (type === 'all') { // 查询所有用户正常档案
             sql += ' OR isShow=1'
+            for (let i of Object.keys(data)) {
+                let skipList = ['pageNum', 'pageSize', 'create_user']
+                if (skipList.indexOf(i) != -1) continue
+                if (data[i]) {
+                    sql += ` AND ${i}='${data[i]}'`
+                }
+            }
             if (Object.keys(data).indexOf('marker') != -1) {
                 sql += ` AND marker='marker_normal'`
             }

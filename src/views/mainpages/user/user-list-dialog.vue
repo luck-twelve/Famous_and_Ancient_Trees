@@ -14,17 +14,12 @@
         <el-input v-model="form.password" type="password" maxlength="18" show-password clearable />
       </el-form-item> -->
       <el-form-item prop="avatar" label="头像">
-        <!-- action="http://localhost:3000/api/file/setAvatar" -->
-        <el-upload
-          class="avatar-uploader"
-          :thumbnail-mode="true"
-          :show-file-list="false"
-          :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload"
-        >
-          <img v-if="imageUrl" :src="imageUrl" class="avatar" />
-          <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
-        </el-upload>
+        <div class="avatar-uploader">
+          <div class="el-upload el-upload--text" @click="avatarVisable = true">
+            <img v-if="imageUrl" :src="imageUrl" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon"><Plus /></el-icon>
+          </div>
+        </div>
       </el-form-item>
       <el-form-item prop="roles" label="用户权限" :rules="formRulesMixin.isNotNull">
         <el-select v-model="form.roles" placeholder="请选择">
@@ -41,6 +36,7 @@
       </span>
     </template>
   </el-dialog>
+  <avatar-dialog v-model:visable="avatarVisable" @commit-avatar="commitAvatar"></avatar-dialog>
 </template>
 
 <script setup>
@@ -48,6 +44,7 @@ import { reactive, ref, toRefs, watch, getCurrentInstance } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { addUserReq, updateUserReq } from '@/api/user'
+import AvatarDialog from './avatar-dialog.vue'
 let { proxy } = getCurrentInstance()
 const props = defineProps({
   dialogVisible: {
@@ -69,6 +66,13 @@ const { dialogVisible, dialogType, dialogData } = toRefs(props)
 const state = reactive({
   visable: dialogVisible.value
 })
+const avatarVisable = ref(false)
+
+const commitAvatar = (val) => {
+  form.avatar = val
+  imageUrl.value = val
+}
+
 watch(
   dialogVisible,
   (val) => {
