@@ -22,13 +22,16 @@ const actions = {
         }
         sql += ` isShow!=99`
         if (type === 'all') { // 查询所有用户正常档案
-            sql += ' or isShow=1'
+            sql += ' OR isShow=1'
+            if (Object.keys(data).indexOf('marker') != -1) {
+                sql += ` AND marker='marker_normal'`
+            }
         }
         if (data.create_user === 'Admin') { // 如果是管理员，则查询其他用户未审核档案
-            sql += ' or isShow=2'
+            sql += ' OR isShow=2'
         }
         let noLimit = sql
-        sql += ' limit ?,?'
+        sql += ' LIMIT ?,?'
         let params = []
         let pageStart = ((data.pageNum - 1) * data.pageSize) || 0
         let pageEnd = parseInt(data.pageSize) || 10
@@ -46,7 +49,9 @@ const actions = {
     },
     query: (connection, sql, action, params, callback) => {
         connection.query(sql, params, function (err, result) {
-            console.log(`\n ` + JSON.stringify(result))
+            console.log(`sql:` + sql)
+            console.log(`params:` + JSON.stringify(params))
+            console.log(`result:` + JSON.stringify(result) + `\n`)
             // console.group(action)
             // console.dir({
             //     sql: sql,

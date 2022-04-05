@@ -329,7 +329,8 @@ onBeforeMount(() => {
 const getList = (params = {}) => {
   if (isDialog.value) {
     Object.assign(params, {
-      isShow: 1
+      isShow: 1,
+      marker: 'marker_normal'
     })
   }
   state.listLoading = true

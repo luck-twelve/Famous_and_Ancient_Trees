@@ -1,8 +1,8 @@
 <template>
   <div class="app-container">
     <el-form v-if="store.state.user.roles.indexOf('admin') !== -1" :inline="true" :model="formData">
-      <el-form-item prop="username">
-        <el-input v-model="formData.username" clearable>
+      <el-form-item prop="create_user">
+        <el-input v-model="formData.create_user" clearable>
           <template #prepend>上报人</template>
         </el-input>
       </el-form-item>
@@ -107,7 +107,7 @@ const state = reactive({
     { label: '挂牌号', prop: 'listing', minWidth: '130px' },
     { label: '经度', prop: 'longitude', minWidth: '120px', sortable: true },
     { label: '纬度', prop: 'latitude', minWidth: '120px', sortable: true },
-    { label: '上传用户', prop: 'username', minWidth: '120px', sortable: true },
+    { label: '上传用户', prop: 'create_user', minWidth: '120px', sortable: true },
     { label: '上传时间', prop: 'create_time', minWidth: '150px', sortable: true }
   ],
   listLoading: true
