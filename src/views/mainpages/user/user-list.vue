@@ -167,4 +167,8 @@ let { dialogVisible, dialogType, dialogData } = toRefs(dialog)
 let { list, listLoading, tableColumn } = toRefs(state)
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.el-avatar {
+  --el-avatar-bg-color: none !important;
+}
+</style>
