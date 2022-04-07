@@ -9,6 +9,14 @@ pool.on('acquire', function (connection) {
     console.log('connection %d accuired', connection.threadId);
 });
 
+// 时间验证
+const checkTime = (i) => {
+    if (i < 10) {
+        i = "0" + i;
+    }
+    return i;
+}
+
 var abnormalControll = {
     getAbnormalList: async function (req, res, next) {
         let defaultSql = sql.getAbnormalList
@@ -122,7 +130,12 @@ var abnormalControll = {
         pool.getConnection(function (err, connection) {
             query(connection, sql.getAbnormalListEM, 'getAbnormalListEM', [], result => {
                 const start = getLastMonthToday();
-                const end = '2022-03-16';
+                let date = new Date()
+                let y = date.getFullYear()
+                let m = checkTime(date.getMonth() + 1)
+                let d = checkTime(date.getDate())
+                const end = `${y}-${m}-${d}`;
+                console.log(end)
                 let startTime = getDate(start);
                 const endTime = getDate(end);
                 let dayMap = []
