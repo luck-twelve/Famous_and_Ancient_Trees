@@ -87,7 +87,7 @@ var userControll = {
                     return res.json({
                         code: 200,
                         data: result ? result[0] : '',
-                        msg: "操作成功",
+                        msg: "",
                         flag: true
                     })
                 })
@@ -114,7 +114,7 @@ var userControll = {
                         code: 200,
                         data: result,
                         total: total,
-                        msg: "操作成功",
+                        msg: "",
                         flag: true
                     })
                 })
