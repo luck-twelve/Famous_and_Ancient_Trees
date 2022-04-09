@@ -95,6 +95,7 @@ var userControll = {
         })
     },
     logout: function (req, res, next) {
+
         return res.json({
             code: 200,
             msg: "退出登录成功",
