@@ -4,23 +4,6 @@ import Layout from '@/layout'
 
 const asyncMenus = [
     {
-        name: 'User',
-        path: '/user',
-        component: Layout,
-        redirect: 'noRedirect',
-        hidden: false,
-        alwaysShow: true,
-        meta: { title: 'User', icon: 'peoples', roles: ['admin'] },
-        children: [
-            {
-                name: 'UserList',
-                path: 'user-list',
-                component: () => import('@/views/mainpages/user/user-list.vue'),
-                meta: { title: 'User List', noCache: true, roles: ['admin'] }
-            }
-        ]
-    },
-    {
         name: 'Archives',
         path: '/archives',
         component: Layout,
@@ -51,18 +34,25 @@ const asyncMenus = [
     },
     {
         name: 'Curing',
-        path: '/curing',
         component: Layout,
-        redirect: 'noRedirect',
-        hidden: false,
-        alwaysShow: true,
-        meta: { title: 'Curing', icon: 'curing', roles: ['worker', 'people'] },
         children: [
             {
                 name: 'CuringList',
-                path: 'curing-list',
+                path: '/curing-list',
                 component: () => import('@/views/mainpages/curing/curing-list.vue'),
-                meta: { title: 'Curing List', noCache: true, roles: ['worker', 'people'] }
+                meta: { title: 'Curing List', icon: 'curing', noCache: true, roles: ['worker', 'people'] }
+            }
+        ]
+    },
+    {
+        title: 'User',
+        component: Layout,
+        children: [
+            {
+                name: 'UserList',
+                path: '/user-list',
+                component: () => import('@/views/mainpages/user/user-list.vue'),
+                meta: { title: 'User List', icon: 'peoples', noCache: true, roles: ['admin'] }
             }
         ]
     },

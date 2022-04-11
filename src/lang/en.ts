@@ -60,6 +60,11 @@ export default {
     thirdparty: 'Or connect with',
     thirdpartyTips: 'Can not be simulated on local, so please combine you own business simulation! ! !'
   },
+  roles: {
+    admin: 'admin',
+    worker: 'worker',
+    people: 'people'
+  },
   guide: {
     description:
       'The guide page is useful for some people who entered the project for the first time. You can briefly introduce the features of the project. Demo is based on ',

@@ -8,13 +8,13 @@ export default {
 
     Map: '全景地图',
     User: '用户管理',
-    'User List': '用户列表',
+    'User List': '用户管理',
     Archives: '档案管理',
     'Archives List': '档案列表',
     'New Archives': '新建档案',
     'Archives Species': '树种列表',
     Curing: '养护管理',
-    'Curing List': '养护列表',
+    'Curing List': '养护管理',
     Abnormal: '异常反馈',
 
     'Setting Switch': '设置文件测试',
@@ -59,6 +59,11 @@ export default {
     any: '随便填',
     thirdparty: '第三方登录',
     thirdpartyTips: '本地不能模拟，请结合自己业务进行模拟！！！'
+  },
+  roles: {
+    admin: '管理员',
+    worker: '工作人员',
+    people: '普通用户'
   },
   guide: {
     description: '引导页对于一些第一次进入项目的人很有用，你可以简单介绍下项目的功能。本 Demo 是基于',

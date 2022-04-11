@@ -2,14 +2,10 @@
   <div class="dashboard-editor-container">
     <div class="clearfix">
       <pan-thumb :image="avatar" style="float: left">
-        Your role:
-        <span v-for="item in roles" :key="item" class="pan-info-roles">{{ item }}</span>
+        <span v-for="item in roles" :key="item" class="pan-info-roles">{{ getI18nName('roles', item) }}</span>
       </pan-thumb>
       <div class="info-container">
         <span class="display_name">{{ name }}</span>
-        <span v-for="item in roles" :key="item" style="font-size: 20px; padding-top: 20px; display: inline-block">
-          {{ item }}'s Dashboard
-        </span>
       </div>
     </div>
     <img :src="emptyGif" class="emptyGif" />
@@ -20,6 +16,11 @@
 import PanThumb from '@/views/dashboard/PanThumb'
 import { toRefs, reactive, computed } from 'vue'
 import { useStore } from 'vuex'
+
+//i18
+import useI18n from '@/hooks/useI18n'
+const { getI18nName } = useI18n()
+
 const state = reactive({
   emptyGif: 'https://wpimg.wallstcn.com/0e03b7da-db9e-4819-ba10-9016ddfdaed3'
 })
