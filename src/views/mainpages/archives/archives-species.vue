@@ -22,21 +22,6 @@
       <el-table-column label="编号" width="260px">
         <template #default="{ row }">{{ row.id }}</template>
       </el-table-column>
-      <!-- <el-table-column label="操作" width="130px" align="center" fixed="right">
-        <template #default="{ row }">
-          <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
-          <el-popconfirm
-            :icon="InfoFilled"
-            placement="left"
-            title="删除后将无法恢复，是否确认删除?"
-            @confirm="handleDelete(row)"
-          >
-            <template #reference>
-              <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
-            </template>
-          </el-popconfirm>
-        </template>
-      </el-table-column> -->
       <el-table-column label="更多" align="center" width="55px" fixed="right">
         <template #default="{ row }">
           <el-dropdown trigger="click" placement="bottom-end">

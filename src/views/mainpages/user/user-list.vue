@@ -53,19 +53,21 @@
           {{ row.id }}
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="130px" align="center" fixed="right">
+      <el-table-column label="更多" align="center" width="55px" fixed="right">
         <template #default="{ row }">
-          <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
-          <el-popconfirm
-            :icon="InfoFilled"
-            placement="left"
-            title="删除后将无法恢复，是否确认删除?"
-            @confirm="handleDelete(row)"
-          >
-            <template #reference>
-              <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
+          <el-dropdown v-if="sysUserName != row.username" trigger="click" placement="bottom-end">
+            <el-button type="text" :icon="MoreFilled" style="color: #606266"></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
+                </el-dropdown-item>
+                <el-dropdown-item>
+                  <el-button type="text" :icon="Delete" style="color: red" @click="handleDelete(row)">删除</el-button>
+                </el-dropdown-item>
+              </el-dropdown-menu>
             </template>
-          </el-popconfirm>
+          </el-dropdown>
         </template>
       </el-table-column>
     </tt-table>
@@ -79,12 +81,19 @@
 </template>
 
 <script setup>
-import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
+import { Search, Plus, Edit, Delete, MoreFilled } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount } from 'vue'
 import { getUserListReq, deleteUserReq } from '@/api/user'
 import TtSelect from '@/components/tt-components/select'
 import TtTable from '@/components/tt-components/table'
 import UserListDialog from './user-list-dialog.vue'
+
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
+const sysUserName = computed(() => {
+  return store.state.user.username
+})
 
 /**
  * 搜索

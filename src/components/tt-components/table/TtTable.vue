@@ -21,7 +21,7 @@
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-          <el-dropdown trigger="click" placement="bottom-end" :hide-on-click="false" class="ml-1">
+          <el-dropdown v-if="false" trigger="click" placement="bottom-end" :hide-on-click="false" class="ml-1">
             <el-button :icon="Sort"></el-button>
             <template #dropdown>
               <el-dropdown-menu>
