@@ -13,8 +13,8 @@ export default {
     'Archives List': '档案列表',
     'New Archives': '新建档案',
     'Archives Species': '树种列表',
-    Curing: '养护管理',
-    'Curing List': '养护管理',
+    Curing: '养护方案',
+    'Curing List': '养护方案',
     Abnormal: '异常反馈',
 
     'Setting Switch': '设置文件测试',

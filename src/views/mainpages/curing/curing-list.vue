@@ -25,26 +25,26 @@ const type = ref('')
 
 const options = [
   {
-    title: '春季养护方案',
-    desc: '春季养护方案',
+    title: '春季养护技术措施及要求',
+    desc: '2月 ~ 5月',
     backImg: `http://ywcd.cc/wp-content/uploads/2022/03/1647500963-spring.png`,
     type: 'spring'
   },
   {
-    title: '夏季养护方案',
-    desc: '夏季养护方案',
+    title: '夏季养护技术措施及要求',
+    desc: '5月 ~ 8月',
     backImg: `http://ywcd.cc/wp-content/uploads/2022/03/1647500963-summer.png`,
     type: 'summer'
   },
   {
-    title: '秋季养护方案',
-    desc: '秋季养护方案',
+    title: '秋季养护技术措施及要求',
+    desc: '8月 ~ 11月',
     backImg: `http://ywcd.cc/wp-content/uploads/2022/03/1647500962-autumn.png`,
     type: 'autumn'
   },
   {
-    title: '冬季养护方案',
-    desc: '冬季养护方案',
+    title: '冬季养护技术措施及要求',
+    desc: '11月 ~ 2月',
     backImg: `http://ywcd.cc/wp-content/uploads/2022/03/1647500963-winter.png`,
     type: 'winter'
   }

@@ -36,13 +36,16 @@
       </span>
     </template>
   </el-dialog>
-  <avatar-dialog v-model:visable="avatarVisable" @commit-avatar="commitAvatar"></avatar-dialog>
+  <avatar-dialog
+    v-model:visable="avatarVisable"
+    :checked-avatar="imageUrl"
+    @commit-avatar="commitAvatar"
+  ></avatar-dialog>
 </template>
 
 <script setup>
 import { reactive, ref, toRefs, watch, getCurrentInstance } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
 import { addUserReq, updateUserReq } from '@/api/user'
 import AvatarDialog from './avatar-dialog.vue'
 let { proxy } = getCurrentInstance()
@@ -93,12 +96,6 @@ let { visable } = toRefs(state)
 
 const emit = defineEmits(['update:dialogVisible', 'success'])
 const handleClose = () => {
-  form.id = ''
-  form.username = ''
-  // form.password = ''
-  form.avatar = 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg'
-  form.roles = 'people'
-  imageUrl.value = ''
   emit('update:dialogVisible', false)
 }
 const handleCommit = () => {
@@ -140,26 +137,9 @@ let showPwd = () => {
 }
 
 /**
- * 头像上传
+ * 选择头像
  */
 const imageUrl = ref('')
-const handleAvatarSuccess = (res, file) => {
-  // imageUrl.value = URL.createObjectURL(file.raw)
-  imageUrl.value = 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg'
-}
-const beforeAvatarUpload = (file) => {
-  imageUrl.value = 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg'
-  const isJPG = file.type === 'image/jpeg'
-  const isLt2M = file.size / 1024 / 1024 < 2
-
-  if (!isJPG) {
-    ElMessage.error('Avatar picture must be JPG format!')
-  }
-  if (!isLt2M) {
-    ElMessage.error('Avatar picture size can not exceed 2MB!')
-  }
-  return isJPG && isLt2M
-}
 </script>
 
 <style>

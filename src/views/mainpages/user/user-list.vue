@@ -128,7 +128,10 @@ const dialog = reactive({
 const handleAdd = () => {
   dialog.dialogType = 'add'
   dialog.dialogVisible = true
-  dialog.dialogData = {}
+  dialog.dialogData = {
+    avatar: 'http://ywcd.cc/wp-content/uploads/2022/04/1649139262-avatar01.png',
+    roles: 'people'
+  }
 }
 
 /**

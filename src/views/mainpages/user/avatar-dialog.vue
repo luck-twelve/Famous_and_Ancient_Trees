@@ -5,7 +5,7 @@
         <el-avatar
           :size="60"
           :src="item.src"
-          :class="item.src === checked_avatar && 'checked-avatar'"
+          :class="item.src === checkedUrl && 'checked-avatar'"
           @click="handleClick(item)"
         />
       </el-col>
@@ -20,15 +20,47 @@
 </template>
 
 <script setup>
-import { ref, toRefs } from 'vue'
+import { ref, toRefs, watch } from 'vue'
 const props = defineProps({
   visable: {
     require: true,
     default: false,
     type: Boolean
+  },
+  checkedAvatar: {
+    default: '',
+    type: String
   }
 })
 const { visable } = toRefs(props)
+const checkedUrl = ref('')
+watch(
+  visable,
+  (val) => {
+    if (val) {
+      checkedUrl.value = props.checkedAvatar
+    }
+  },
+  { immediate: true }
+)
+
+// 点击选择头像
+const handleClick = (val) => {
+  checkedUrl.value = val.src
+}
+
+const emit = defineEmits(['commitAvatar', 'update:visable'])
+// 确认
+const handleCommit = () => {
+  emit('commitAvatar', checkedUrl.value)
+  handleClose()
+}
+
+// 关闭
+const handleClose = () => {
+  checkedUrl.value = ''
+  emit('update:visable', false)
+}
 
 // 默认头像
 const default_avatar = [
@@ -53,24 +85,6 @@ const default_avatar = [
   { src: 'http://ywcd.cc/wp-content/uploads/2022/04/1649139262-avatar19.png' },
   { src: 'http://ywcd.cc/wp-content/uploads/2022/04/1649139262-avatar20.png' }
 ]
-const checked_avatar = ref('')
-// 点击选择头像
-const handleClick = (val) => {
-  checked_avatar.value = val.src
-}
-
-const emit = defineEmits(['commitAvatar', 'update:visable'])
-// 确认
-const handleCommit = () => {
-  emit('commitAvatar', checked_avatar.value)
-  handleClose()
-}
-
-// 关闭
-const handleClose = () => {
-  checked_avatar.value = ''
-  emit('update:visable', false)
-}
 </script>
 
 <style scoped lang="scss">
