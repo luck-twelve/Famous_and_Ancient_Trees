@@ -17,7 +17,7 @@
     </el-form>
     <tt-table :list="list" :loading="listLoading" :column="tableColumn" :search-data="formData" @pagination="getList">
       <template #header>
-        <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleAdd">新增树种</el-button>
       </template>
       <el-table-column label="编号" width="260px">
         <template #default="{ row }">{{ row.id }}</template>

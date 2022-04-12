@@ -26,7 +26,7 @@
       @pagination="getList"
     >
       <template #header>
-        <el-button type="primary" :icon="Plus" @click="handleAdd">新增</el-button>
+        <el-button type="primary" :icon="Plus" @click="handleAdd">新增用户</el-button>
       </template>
       <el-table-column label="头像" align="center">
         <template #default="{ row }">

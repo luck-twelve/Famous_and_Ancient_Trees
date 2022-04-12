@@ -14,57 +14,82 @@
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增反馈</el-button>
       </template>
-      <el-table-column label="操作" width="130px" align="center" fixed="right">
+      <el-table-column label="更多" align="center" width="55px" fixed="right">
         <template #default="{ row }">
-          <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
-          <el-popconfirm
-            :icon="InfoFilled"
-            placement="left"
-            title="删除后将无法恢复，是否确认删除?"
-            @confirm="handleDelete(row)"
-          >
-            <template #reference>
-              <el-button type="text" :icon="Delete" style="color: red">删除</el-button>
+          <el-dropdown trigger="click" placement="bottom-end">
+            <el-button type="text" :icon="MoreFilled" style="color: #606266"></el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item>
+                  <el-button type="text" :icon="Document" style="color: #606266" @click="handleLook(row)">
+                    查看
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item v-if="sysUserName === row.create_user">
+                  <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
+                </el-dropdown-item>
+                <el-dropdown-item v-if="sysRoles.includes('admin')">
+                  <el-button type="text" :icon="Finished" style="color: #e6a23c" @click="handleEdit(row)">
+                    处理
+                  </el-button>
+                </el-dropdown-item>
+                <el-dropdown-item v-if="sysUserName === row.create_user">
+                  <el-button type="text" :icon="Delete" style="color: red" @click="handleDelete(row)">删除</el-button>
+                </el-dropdown-item>
+              </el-dropdown-menu>
             </template>
-          </el-popconfirm>
+          </el-dropdown>
         </template>
       </el-table-column>
     </tt-table>
     <el-dialog v-model="visible" :title="`${dialogType}异常反馈`" width="450px" :before-close="handleClose">
       <el-form v-if="visible" ref="dialogForm" :model="dialogData" label-width="80px">
-        <el-form-item label="选择古树" prop="tree_name" :rules="formRulesMixin.isNotNull">
-          <el-input v-model="dialogData.tree_name" disabled>
-            <template #append>
-              <el-button type="primary" :icon="Search" @click="abVisible = true">选择</el-button>
-            </template>
-          </el-input>
-        </el-form-item>
-        <el-form-item label="挂牌号" prop="listing" :rules="formRulesMixin.isNotNull">
-          <el-input v-model="dialogData.listing" disabled />
-        </el-form-item>
+        <el-row>
+          <el-col :span="12">
+            <el-form-item label="选择古树" prop="tree_name" :rules="formRulesMixin.isNotNull">
+              <el-input v-if="dialogType" v-model="dialogData.tree_name" disabled>
+                <template #append>
+                  <el-button type="primary" :icon="Search" @click="abVisible = true"></el-button>
+                </template>
+              </el-input>
+              <span v-else class="input-text">{{ dialogData.tree_name }}</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12">
+            <el-form-item label="挂牌号" prop="listing" :rules="formRulesMixin.isNotNull">
+              <el-input v-if="dialogType" v-model="dialogData.listing" disabled />
+              <span v-else class="input-text">{{ dialogData.listing }}</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
         <el-row>
           <el-col :span="12">
             <el-form-item label="经度" prop="longitude" :rules="formRulesMixin.isNotNull">
-              <el-input v-model="dialogData.longitude" disabled />
+              <el-input v-if="dialogType" v-model="dialogData.longitude" disabled />
+              <span v-else class="input-text">{{ dialogData.longitude }}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12">
             <el-form-item label="纬度" prop="latitude" :rules="formRulesMixin.isNotNull">
-              <el-input v-model="dialogData.latitude" disabled />
+              <el-input v-if="dialogType" v-model="dialogData.latitude" disabled />
+              <span v-else class="input-text">{{ dialogData.latitude }}</span>
             </el-form-item>
           </el-col>
         </el-row>
         <el-form-item label="异常情况" prop="ab_condition" :rules="formRulesMixin.isNotNull">
-          <el-input v-model="dialogData.ab_condition" :rows="2" type="textarea"></el-input>
+          <el-input v-if="dialogType" v-model="dialogData.ab_condition" :rows="2" type="textarea"></el-input>
+          <span v-else class="input-text">{{ dialogData.ab_condition }}</span>
         </el-form-item>
         <el-form-item label="造成原因" prop="reason">
-          <el-input v-model="dialogData.reason" :rows="2" type="textarea"></el-input>
+          <el-input v-if="dialogType" v-model="dialogData.reason" :rows="2" type="textarea"></el-input>
+          <span v-else class="input-text">{{ dialogData.reason }}</span>
         </el-form-item>
         <el-form-item label="期望解决" prop="resolve">
-          <el-input v-model="dialogData.resolve" :rows="2" type="textarea"></el-input>
+          <el-input v-if="dialogType" v-model="dialogData.resolve" :rows="2" type="textarea"></el-input>
+          <span v-else class="input-text">{{ dialogData.resolve }}</span>
         </el-form-item>
       </el-form>
-      <template #footer>
+      <template v-if="dialogType" #footer>
         <span class="dialog-footer">
           <el-button @click="handleClose">取 消</el-button>
           <el-button type="primary" @click="handleCommit">确 定</el-button>
@@ -76,15 +101,23 @@
 </template>
 
 <script setup>
-import { Search, Plus, Edit, Delete, InfoFilled } from '@element-plus/icons-vue'
+import { Search, Plus, Edit, Delete, Document, MoreFilled, Finished } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount, getCurrentInstance } from 'vue'
 import { getAbnormalListReq, updateAbnormalReq, deleteAbnormalReq } from '@/api/abnormal'
 import TtTable from '@/components/tt-components/table'
 import AbDialog from './dialog.vue'
 import { ElMessage } from 'element-plus'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 let { proxy } = getCurrentInstance()
 const store = useStore()
+
+const sysUserName = computed(() => {
+  return store.state.user.username
+})
+const sysRoles = computed(() => {
+  return store.state.user.roles
+})
 
 /**
  * 搜索
@@ -145,6 +178,14 @@ const handleAdd = () => {
   dialog.dialogData = initForm()
 }
 /**
+ * 查看
+ */
+const handleLook = (row) => {
+  dialog.visible = true
+  dialog.dialogType = ''
+  dialog.dialogData = row
+}
+/**
  * 编辑
  */
 const handleEdit = (row) => {
@@ -157,6 +198,7 @@ const handleEdit = (row) => {
  */
 const handleCommit = async () => {
   proxy.$refs['dialogForm'].validate((valid) => {
+    console.log(valid)
     if (valid) {
       if (checkLong(dialog.dialogData.longitude) !== true) {
         ElMessage({ message: checkLong(dialog.dialogData.longitude), type: 'warning' })
@@ -249,5 +291,9 @@ function checkLat(lat) {
       border: 1px solid var(--el-color-primary-light-2);
     }
   }
+}
+.input-text {
+  font-size: 12px;
+  margin-left: 10px;
 }
 </style>
