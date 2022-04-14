@@ -4,6 +4,7 @@
       <pan-thumb :image="avatar" style="float: left">
         <span v-for="item in roles" :key="item" class="pan-info-roles">{{ getI18nName('roles', item) }}</span>
       </pan-thumb>
+
       <div class="info-container">
         <span class="display_name">{{ name }}</span>
       </div>
