@@ -14,6 +14,7 @@ router.beforeEach(async (to: any, from, next) => {
   // set page title
   document.title = getPageTitle(to.meta.title)
   //set tmp token when setting isNeedLogin false
+
   if (!settings.isNeedLogin) setToken(settings.tmpToken)
   const hasToken = getToken()
   if (hasToken) {
