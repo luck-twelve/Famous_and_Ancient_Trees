@@ -93,6 +93,7 @@ export default ({ command, mode }) => {
           drop_debugger: true
         }
       },
+
       //build assets Separate
       assetsDir: 'static/assets',
       rollupOptions: {
