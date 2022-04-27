@@ -53,6 +53,7 @@ export default ({ command, mode }) => {
         }
       }
     },
+
     plugins: [
       vue(),
       vueJsx(),
