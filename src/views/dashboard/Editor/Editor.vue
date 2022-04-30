@@ -8,7 +8,6 @@
         <span class="display_name">{{ name }}</span>
       </div>
     </div>
-
     <img :src="emptyGif" class="emptyGif" />
   </div>
 </template>
