@@ -75,7 +75,7 @@ const actions = {
     sqlAdd: (req, res, tableDB, setMarker) => {
         let reqsql = ''
         let keys = Object.keys(req.body)
-        let insertId = uuid.v1()
+        let insertId = uuid.v1() // 用于生成唯一识别符
         let isShow = 0
         switch (tableDB) {
             case 'user': isShow = 1; break;
