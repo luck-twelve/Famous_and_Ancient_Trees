@@ -57,6 +57,7 @@
               <el-tag type="warning">已驳回</el-tag>
             </template>
           </el-popover>
+
           <el-tag v-if="row.isShow == 1 && row.marker == 'marker_abnormal'" type="danger">异常</el-tag>
         </template>
       </el-table-column>
