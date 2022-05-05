@@ -67,6 +67,7 @@ allProvince.forEach((item) => {
 })
 let topAll = defaultData.sort(compare('value'))
 let topTen = topAll.slice(0, 10)
+
 provide('topTen', topTen)
 
 const chart = ref(null)
