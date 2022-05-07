@@ -46,6 +46,14 @@ export function getArchivesListEMReq(data) {
         data
     })
 }
+// 全年古树总数
+export function getArchivesNumberEYReq(data) {
+    return request({
+        url: '/archives/getArchivesNumberEY',
+        method: 'get',
+        data
+    })
+}
 
 /**
  * 树种管理
