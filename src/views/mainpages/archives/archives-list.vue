@@ -41,6 +41,7 @@
       <template v-if="!isDialog" #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增档案</el-button>
       </template>
+
       <el-table-column label="状态" width="80px" align="center">
         <template #default="{ row }">
           <el-tag v-if="row.isShow == 0" type="warning">草稿</el-tag>
