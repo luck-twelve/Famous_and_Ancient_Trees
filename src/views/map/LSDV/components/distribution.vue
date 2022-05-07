@@ -8,9 +8,10 @@
 <script setup>
 import * as echarts from 'echarts'
 import { onMounted, ref } from 'vue'
-// import { getAbnormalListEMReq } from '@/api/abnormal'
+// import { getArchivesNumberEYReq } from '@/api/archives'
 
-onMounted(() => {
+onMounted(async () => {
+  // await getArchivesNumberEYReq()
   initEchartsF()
 })
 

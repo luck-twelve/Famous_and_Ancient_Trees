@@ -128,6 +128,19 @@ const archivesApi = (router) => {
         archivesControll.getArchivesListEM(req, res, next)
     })
 
+    /**
+     * @api {get} /api/archives/getArchivesNumberEY
+     * @apiDescription 获取全年古树总数列表
+     * @apiName getArchivesNumberEY
+     * @apiGroup Archives
+     * @apiSuccess {json} ArchivesNumber 全年古树总数列表
+     * @apiSampleRequest http://localhost:3000/api/archives/getArchivesNumberEY
+     * @apiVersion 1.0.0
+     */
+    router.get('/archives/getArchivesNumberEY', function (req, res, next) {
+        archivesControll.getArchivesNumberEY(req, res, next)
+    })
+
 
     /* archivesSpecies controller */
     /**

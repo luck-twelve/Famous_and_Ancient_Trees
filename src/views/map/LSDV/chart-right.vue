@@ -62,6 +62,12 @@
 import { Top, Bottom } from '@element-plus/icons-vue'
 import Abnormal from './components/abnormal.vue'
 import Distribution from './components/distribution.vue'
+import { onMounted } from 'vue'
+import { getArchivesNumberEYReq } from '@/api/archives'
+
+onMounted(async () => {
+  await getArchivesNumberEYReq()
+})
 </script>
 
 <style lang="scss" scoped>
