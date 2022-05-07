@@ -13,14 +13,17 @@
       <div class="group-item font-sizePx12">
         <span class="mb-1"><b>古树总数</b></span>
         <div class="rowSE">
-          <span class="group-num"><b>5,018</b></span>
-          <span class="group-num-text"><b>起</b></span>
+          <span class="group-num">
+            <b>{{ state.treeNumbers }}</b>
+          </span>
+          <span class="group-num-text"><b>颗</b></span>
         </div>
         <div class="group-desc mt">
-          <span>较上个月</span>
+          <span>较去年</span>
           <span>
-            <top class="icon" />
-            9.4%
+            <top v-if="state.treeNumbersIsRise" class="icon" />
+            <bottem v-else class="icon" />
+            {{ state.treeNumbersPercent }}
           </span>
         </div>
       </div>
@@ -48,7 +51,7 @@
           <span>较上个月</span>
           <span>
             <top class="icon" />
-            9.4%
+            {{ state.treeNumbersPercent }}
           </span>
         </div>
       </div>
@@ -62,11 +65,23 @@
 import { Top, Bottom } from '@element-plus/icons-vue'
 import Abnormal from './components/abnormal.vue'
 import Distribution from './components/distribution.vue'
-import { onMounted } from 'vue'
+import { onMounted, reactive } from 'vue'
 import { getArchivesNumberEYReq } from '@/api/archives'
 
+const state = reactive({
+  treeNumbers: 0, // 今年古树总数
+  treeNumbersIsRise: true, // 较去年总数呈增长趋势
+  treeNumbersPercent: '0%' // 较去年总数增长百分比
+})
+
 onMounted(async () => {
-  await getArchivesNumberEYReq()
+  const thisYear = await getArchivesNumberEYReq('2022')
+  const lastYear = await getArchivesNumberEYReq('2021')
+  const thisYearNumber = thisYear.data.data
+  const lastYearNumber = lastYear.data.data
+  state.treeNumbers = thisYearNumber
+  let riseNumber = (thisYearNumber - lastYearNumber) / thisYearNumber
+  state.treeNumbersPercent = (riseNumber * 100).toFixed(2) + '%'
 })
 </script>
 

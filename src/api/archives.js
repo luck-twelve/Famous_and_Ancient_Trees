@@ -49,9 +49,8 @@ export function getArchivesListEMReq(data) {
 // 全年古树总数
 export function getArchivesNumberEYReq(data) {
     return request({
-        url: '/archives/getArchivesNumberEY',
-        method: 'get',
-        data
+        url: `/archives/getArchivesNumberEY?year=${data}}`,
+        method: 'get'
     })
 }
 

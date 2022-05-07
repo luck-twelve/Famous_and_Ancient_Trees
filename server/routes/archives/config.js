@@ -196,20 +196,11 @@ var archivesControll = {
     },
     getArchivesNumberEY: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            query(connection, sql.getArchivesNumberEY, 'getArchivesNumberEY', [], result => {
-                // let arr = []
-                // for (let i = 0; i < 12; i++) {
-                //     const m = result.find(xx => xx.col_month == i + 1)
-                //     if (m) {
-                //         arr.push(m.count)
-                //     } else {
-                //         arr.push('')
-                //     }
-                // }
+            query(connection, sql.getArchivesNumberEY, 'getArchivesNumberEY', [req.query.year], result => {
                 return res.json({
                     code: 200,
                     msg: '',
-                    data: result,
+                    data: result[0].count,
                     flag: true
                 })
             })
