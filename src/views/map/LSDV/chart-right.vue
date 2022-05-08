@@ -51,7 +51,7 @@
           <span>较上个月</span>
           <span>
             <top class="icon" />
-            {{ state.treeNumbersPercent }}
+            10%
           </span>
         </div>
       </div>
