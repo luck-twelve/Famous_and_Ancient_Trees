@@ -64,6 +64,10 @@ const abnormalApi = (router) => {
     router.get('/abnormal/getAbnormalListEM', function (req, res, next) {
         abnormalControll.getAbnormalListEM(req, res, next)
     })
+
+    router.get('/abnormal/getAbnormalNumberEM', function (req, res, next) {
+        abnormalControll.getAbnormalNumberEM(req, res, next)
+    })
 }
 
 module.exports = abnormalApi;
