@@ -53,6 +53,13 @@ export function getArchivesNumberEYReq(data) {
         method: 'get'
     })
 }
+// 全年树种总数
+export function getSpeciesNumberEYReq(data) {
+    return request({
+        url: `/archives/getSpeciesNumberEY?year=${data}}`,
+        method: 'get'
+    })
+}
 
 /**
  * 树种管理
