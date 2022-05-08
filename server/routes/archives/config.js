@@ -206,6 +206,18 @@ var archivesControll = {
             })
         })
     },
+    getSpeciesNumberEY: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            query(connection, sql.getSpeciesNumberEY, 'getSpeciesNumberEY', [req.query.year], result => {
+                return res.json({
+                    code: 200,
+                    msg: '',
+                    data: result[0].count,
+                    flag: true
+                })
+            })
+        })
+    },
 
 
     /**
