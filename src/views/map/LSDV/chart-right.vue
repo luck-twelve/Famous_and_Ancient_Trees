@@ -54,7 +54,7 @@
           <span>较上个月</span>
           <span style="color: #f56c6c">
             <top v-if="state.abnormalIsRise" class="icon" />
-            <bottem v-else class="icon" />
+            <bottom v-else class="icon" />
             {{ state.abnormalPercent }}
           </span>
         </div>
@@ -71,6 +71,7 @@ import Abnormal from './components/abnormal.vue'
 import Distribution from './components/distribution.vue'
 import { onMounted, reactive } from 'vue'
 import { getArchivesNumberEYReq, getSpeciesNumberEYReq } from '@/api/archives'
+import { getAbnormalNumberEMReq } from '@/api/abnormal'
 
 const state = reactive({
   treeNumbers: 0, // 全年古树总数
@@ -79,7 +80,7 @@ const state = reactive({
   speciesPercent: '0%',
   abnormalNumbers: 0, // 新增异常情况
   abnormalPercent: '0%',
-  abnormalIsRise: true // 趋势
+  abnormalIsRise: false // 趋势
 })
 
 const initTreeNumberEY = async () => {
@@ -103,18 +104,19 @@ const initSpeciesNumberEY = async () => {
 }
 
 const initAbnormalNumberEY = async () => {
-  const thisYear = await getSpeciesNumberEYReq('2022')
-  const lastYear = await getSpeciesNumberEYReq('2021')
-  const thisYearNumber = thisYear.data.data
-  const lastYearNumber = lastYear.data.data
-  state.speciesNumbers = thisYearNumber
-  let riseNumber = (thisYearNumber - lastYearNumber) / thisYearNumber
+  const thisMonth = await getAbnormalNumberEMReq('5')
+  const lastMonth = await getAbnormalNumberEMReq('4')
+  const thisMonthNumber = thisMonth.data.data
+  const lastMonthNumber = lastMonth.data.data
+  state.speciesNumbers = thisMonthNumber
+  let riseNumber = (thisMonthNumber - lastMonthNumber) / thisMonthNumber
   state.speciesPercent = (riseNumber * 100).toFixed(2) + '%'
 }
 
 onMounted(() => {
   initTreeNumberEY()
   initSpeciesNumberEY()
+  initAbnormalNumberEY()
 })
 </script>
 

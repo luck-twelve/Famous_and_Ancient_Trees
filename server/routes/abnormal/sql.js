@@ -4,6 +4,7 @@ var abnormalSqls = {
     addAbnormal: 'INSERT INTO abnormal_info',
     deleteAbnormal: 'UPDATE abnormal_info SET isShow=99 WHERE id=?',
     getAbnormalListEM: `SELECT date_format(create_time, '%m-%d') as day, count(*) as count FROM abnormal_info WHERE isShow!=99 AND TO_DAYS(NOW()) - TO_DAYS(create_time) <= 30  GROUP BY day`,
+    getAbnormalNumberEM: 'SELECT count(*) AS count FROM archives_species WHERE isShow!=99 AND create_time BETWEEN ? AND ?',
 
     addAbTree: `UPDATE archives_tree SET marker='marker_abnormal' WHERE listing=?`,
     deleteAbTree: `UPDATE archives_tree SET marker='marker_normal' WHERE listing=?`
