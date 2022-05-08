@@ -65,8 +65,12 @@ const abnormalApi = (router) => {
         abnormalControll.getAbnormalListEM(req, res, next)
     })
 
-    router.get('/abnormal/getAbnormalNumberEM', function (req, res, next) {
-        abnormalControll.getAbnormalNumberEM(req, res, next)
+    router.get('/abnormal/getAbnormalNumberTM', function (req, res, next) {
+        abnormalControll.getAbnormalNumberTM(req, res, next)
+    })
+
+    router.get('/abnormal/getAbnormalNumberLM', function (req, res, next) {
+        abnormalControll.getAbnormalNumberLM(req, res, next)
     })
 }
 

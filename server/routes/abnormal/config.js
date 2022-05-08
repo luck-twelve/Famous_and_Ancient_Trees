@@ -164,9 +164,21 @@ var abnormalControll = {
             })
         })
     },
-    getAbnormalNumberEM: function (req, res, next) {
+    getAbnormalNumberTM: function (req, res, next) {
         pool.getConnection(function (err, connection) {
-            query(connection, sql.getAbnormalNumberEM, 'getAbnormalNumberEM', [req.query.month - 1, req.query.month], result => {
+            query(connection, sql.getAbnormalNumberTM, 'getAbnormalNumberTM', [], result => {
+                return res.json({
+                    code: 200,
+                    msg: '',
+                    data: result[0].count,
+                    flag: true
+                })
+            })
+        })
+    },
+    getAbnormalNumberLM: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            query(connection, sql.getAbnormalNumberLM, 'getAbnormalNumberLM', [], result => {
                 return res.json({
                     code: 200,
                     msg: '',

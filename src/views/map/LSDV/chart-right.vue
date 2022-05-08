@@ -11,7 +11,9 @@
     </template>
     <div class="rowBS">
       <div class="group-item font-sizePx12">
-        <span class="mb-1"><b>2022年古树总数</b></span>
+        <span class="mb-1">
+          <b>{{ new Date().getFullYear() }}年古树总数</b>
+        </span>
         <div class="rowSE">
           <span class="group-num">
             <b>{{ state.treeNumbers }}</b>
@@ -27,7 +29,9 @@
         </div>
       </div>
       <div class="group-item font-sizePx12">
-        <span class="mb-1"><b>2022年树种总数</b></span>
+        <span class="mb-1">
+          <b>{{ new Date().getFullYear() }}年树种总数</b>
+        </span>
         <div class="rowSE">
           <span class="group-num">
             <b>{{ state.speciesNumbers }}</b>
@@ -43,7 +47,9 @@
         </div>
       </div>
       <div class="group-item font-sizePx12">
-        <span class="mb-1"><b>5月份古树异常情况</b></span>
+        <span class="mb-1">
+          <b>{{ new Date().getMonth() + 1 }}月份古树异常情况</b>
+        </span>
         <div class="rowSE">
           <span class="group-num">
             <b>{{ state.abnormalNumbers }}</b>
@@ -71,7 +77,7 @@ import Abnormal from './components/abnormal.vue'
 import Distribution from './components/distribution.vue'
 import { onMounted, reactive } from 'vue'
 import { getArchivesNumberEYReq, getSpeciesNumberEYReq } from '@/api/archives'
-import { getAbnormalNumberEMReq } from '@/api/abnormal'
+import { getAbnormalNumberTMReq, getAbnormalNumberLMReq } from '@/api/abnormal'
 
 const state = reactive({
   treeNumbers: 0, // 全年古树总数
@@ -79,7 +85,7 @@ const state = reactive({
   speciesNumbers: 0, // 全年树种总数
   speciesPercent: '0%',
   abnormalNumbers: 0, // 新增异常情况
-  abnormalPercent: '0%',
+  abnormalPercent: 0,
   abnormalIsRise: false // 趋势
 })
 
@@ -104,13 +110,13 @@ const initSpeciesNumberEY = async () => {
 }
 
 const initAbnormalNumberEY = async () => {
-  const thisMonth = await getAbnormalNumberEMReq('5')
-  const lastMonth = await getAbnormalNumberEMReq('4')
+  const thisMonth = await getAbnormalNumberTMReq()
+  const lastMonth = await getAbnormalNumberLMReq()
   const thisMonthNumber = thisMonth.data.data
   const lastMonthNumber = lastMonth.data.data
-  state.speciesNumbers = thisMonthNumber
-  let riseNumber = (thisMonthNumber - lastMonthNumber) / thisMonthNumber
-  state.speciesPercent = (riseNumber * 100).toFixed(2) + '%'
+  state.abnormalIsRise = thisMonthNumber > lastMonthNumber
+  state.abnormalNumbers = thisMonthNumber
+  state.abnormalPercent = Math.abs(thisMonthNumber - lastMonthNumber)
 }
 
 onMounted(() => {

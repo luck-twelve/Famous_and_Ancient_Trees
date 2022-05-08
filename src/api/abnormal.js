@@ -40,9 +40,16 @@ export function getAbnormalListEMReq() {
     })
 }
 // 当月异常情况总数
-export function getAbnormalNumberEMReq(data) {
+export function getAbnormalNumberTMReq() {
     return request({
-        url: `/abnormal/getAbnormalNumberEM?month=${data}`,
+        url: `/abnormal/getAbnormalNumberTM`,
+        method: 'get'
+    })
+}
+// 上月异常情况总数
+export function getAbnormalNumberLMReq() {
+    return request({
+        url: `/abnormal/getAbnormalNumberLM`,
         method: 'get'
     })
 }
