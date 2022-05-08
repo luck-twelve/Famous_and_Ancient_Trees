@@ -11,7 +11,7 @@
     </template>
     <div class="rowBS">
       <div class="group-item font-sizePx12">
-        <span class="mb-1"><b>古树总数</b></span>
+        <span class="mb-1"><b>2022年古树总数</b></span>
         <div class="rowSE">
           <span class="group-num">
             <b>{{ state.treeNumbers }}</b>
@@ -21,37 +21,41 @@
         <div class="group-desc mt">
           <span>较去年</span>
           <span>
-            <top v-if="state.treeNumbersIsRise" class="icon" />
-            <bottem v-else class="icon" />
-            {{ state.treeNumbersPercent }}
+            <top class="icon" />
+            {{ state.treePercent }}
           </span>
         </div>
       </div>
       <div class="group-item font-sizePx12">
-        <span class="mb-1"><b>古树总数</b></span>
+        <span class="mb-1"><b>2022年树种总数</b></span>
         <div class="rowSE">
-          <span class="group-num"><b>5,018</b></span>
+          <span class="group-num">
+            <b>{{ state.speciesNumbers }}</b>
+          </span>
+          <span class="group-num-text"><b>种</b></span>
+        </div>
+        <div class="group-desc mt">
+          <span>较去年</span>
+          <span>
+            <top class="icon" />
+            {{ state.speciesPercent }}
+          </span>
+        </div>
+      </div>
+      <div class="group-item font-sizePx12">
+        <span class="mb-1"><b>5月份古树异常情况</b></span>
+        <div class="rowSE">
+          <span class="group-num">
+            <b>{{ state.abnormalNumbers }}</b>
+          </span>
           <span class="group-num-text"><b>起</b></span>
         </div>
         <div class="group-desc mt">
           <span>较上个月</span>
           <span style="color: #f56c6c">
-            <bottom class="icon" />
-            9.4%
-          </span>
-        </div>
-      </div>
-      <div class="group-item font-sizePx12">
-        <span class="mb-1"><b>古树总数</b></span>
-        <div class="rowSE">
-          <span class="group-num"><b>5,018</b></span>
-          <span class="group-num-text"><b>起</b></span>
-        </div>
-        <div class="group-desc mt">
-          <span>较上个月</span>
-          <span>
-            <top class="icon" />
-            10%
+            <top v-if="state.abnormalIsRise" class="icon" />
+            <bottem v-else class="icon" />
+            {{ state.abnormalPercent }}
           </span>
         </div>
       </div>
@@ -66,22 +70,51 @@ import { Top, Bottom } from '@element-plus/icons-vue'
 import Abnormal from './components/abnormal.vue'
 import Distribution from './components/distribution.vue'
 import { onMounted, reactive } from 'vue'
-import { getArchivesNumberEYReq } from '@/api/archives'
+import { getArchivesNumberEYReq, getSpeciesNumberEYReq } from '@/api/archives'
 
 const state = reactive({
-  treeNumbers: 0, // 今年古树总数
-  treeNumbersIsRise: true, // 较去年总数呈增长趋势
-  treeNumbersPercent: '0%' // 较去年总数增长百分比
+  treeNumbers: 0, // 全年古树总数
+  treePercent: '0%',
+  speciesNumbers: 0, // 全年树种总数
+  speciesPercent: '0%',
+  abnormalNumbers: 0, // 新增异常情况
+  abnormalPercent: '0%',
+  abnormalIsRise: true // 趋势
 })
 
-onMounted(async () => {
+const initTreeNumberEY = async () => {
   const thisYear = await getArchivesNumberEYReq('2022')
   const lastYear = await getArchivesNumberEYReq('2021')
   const thisYearNumber = thisYear.data.data
   const lastYearNumber = lastYear.data.data
   state.treeNumbers = thisYearNumber
   let riseNumber = (thisYearNumber - lastYearNumber) / thisYearNumber
-  state.treeNumbersPercent = (riseNumber * 100).toFixed(2) + '%'
+  state.treePercent = (riseNumber * 100).toFixed(2) + '%'
+}
+
+const initSpeciesNumberEY = async () => {
+  const thisYear = await getSpeciesNumberEYReq('2022')
+  const lastYear = await getSpeciesNumberEYReq('2021')
+  const thisYearNumber = thisYear.data.data
+  const lastYearNumber = lastYear.data.data
+  state.speciesNumbers = thisYearNumber
+  let riseNumber = (thisYearNumber - lastYearNumber) / thisYearNumber
+  state.speciesPercent = (riseNumber * 100).toFixed(2) + '%'
+}
+
+const initAbnormalNumberEY = async () => {
+  const thisYear = await getSpeciesNumberEYReq('2022')
+  const lastYear = await getSpeciesNumberEYReq('2021')
+  const thisYearNumber = thisYear.data.data
+  const lastYearNumber = lastYear.data.data
+  state.speciesNumbers = thisYearNumber
+  let riseNumber = (thisYearNumber - lastYearNumber) / thisYearNumber
+  state.speciesPercent = (riseNumber * 100).toFixed(2) + '%'
+}
+
+onMounted(() => {
+  initTreeNumberEY()
+  initSpeciesNumberEY()
 })
 </script>
 
