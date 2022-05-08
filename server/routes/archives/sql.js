@@ -11,6 +11,7 @@ var archivesSqls = {
     deleteArchivesTree: 'UPDATE archives_tree SET isShow=99, update_user=? WHERE id=?',
     getArchivesListEM: "SELECT date_format(create_time, '%m') AS col_month, count(*) AS count FROM archives_tree WHERE isShow!=99 GROUP BY col_month",
     getArchivesNumberEY: "SELECT count(*) AS count FROM archives_tree WHERE isShow!=99 and year(create_time)<=?",
+    getSpeciesNumberEY: 'SELECT count(*) AS count FROM archives_species WHERE isShow!=99 and year(create_time)<=?',
 
     getArchivesSpecies: 'SELECT * FROM archives_species',
     addArchivesSpecies: 'INSERT INTO archives_species',
