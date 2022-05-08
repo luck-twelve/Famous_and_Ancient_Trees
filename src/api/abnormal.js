@@ -32,9 +32,17 @@ export function deleteAbnormalReq(data) {
 }
 
 
+// 近30天内新增异常情况
 export function getAbnormalListEMReq() {
     return request({
         url: '/abnormal/getAbnormalListEM',
         method: 'get',
+    })
+}
+// 当月异常情况总数
+export function getAbnormalNumberEMReq(data) {
+    return request({
+        url: `/abnormal/getAbnormalNumberEM?month=${data}`,
+        method: 'get'
     })
 }

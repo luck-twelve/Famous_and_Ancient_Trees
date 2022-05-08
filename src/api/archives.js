@@ -49,14 +49,14 @@ export function getArchivesListEMReq(data) {
 // 全年古树总数
 export function getArchivesNumberEYReq(data) {
     return request({
-        url: `/archives/getArchivesNumberEY?year=${data}}`,
+        url: `/archives/getArchivesNumberEY?year=${data}`,
         method: 'get'
     })
 }
 // 全年树种总数
 export function getSpeciesNumberEYReq(data) {
     return request({
-        url: `/archives/getSpeciesNumberEY?year=${data}}`,
+        url: `/archives/getSpeciesNumberEY?year=${data}`,
         method: 'get'
     })
 }
