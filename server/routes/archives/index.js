@@ -145,6 +145,9 @@ const archivesApi = (router) => {
         archivesControll.getSpeciesNumberEY(req, res, next)
     })
 
+    router.get('/archives/getArchivesCityEAdr', function (req, res, next) {
+        archivesControll.getArchivesCityEAdr(req, res, next)
+    })
 
     /* archivesSpecies controller */
     /**
