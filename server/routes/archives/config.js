@@ -172,7 +172,8 @@ var archivesControll = {
             })
         })
     },
-    // 获取全年异常情况
+
+    // 获取每月档案记录
     getArchivesListEM: function (req, res, next) {
         pool.getConnection(function (err, connection) {
             query(connection, sql.getArchivesListEM, 'getArchivesListEM', [], result => {
@@ -219,6 +220,18 @@ var archivesControll = {
         })
     },
 
+    getArchivesCityEAdr: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            query(connection, sql.getArchivesCityEAdr, 'getArchivesCityEAdr', [], result => {
+                return res.json({
+                    code: 200,
+                    msg: '',
+                    data: result[0].count,
+                    flag: true
+                })
+            })
+        })
+    },
 
     /**
      * 树种管理
