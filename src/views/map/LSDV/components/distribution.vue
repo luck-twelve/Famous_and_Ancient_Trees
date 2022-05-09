@@ -7,8 +7,10 @@
 
 <script setup>
 import * as echarts from 'echarts'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, inject } from 'vue'
 // import { getArchivesNumberEYReq } from '@/api/archives'
+const defaultCityList = ['北京', '上海', '广州', '深圳', '杭州', '成都', '重庆']
+const topTen = inject('topTen')
 
 onMounted(async () => {
   // await getArchivesNumberEYReq()
@@ -83,7 +85,7 @@ const initEchartsF = () => {
           show: true,
           fontSize: 10
         },
-        data: [1023, 389, 934, 1070, 1314, 603, 124]
+        data: [3, 3, 4, 1, 4, 3, 2]
       },
       {
         name: '农村',
@@ -92,7 +94,7 @@ const initEchartsF = () => {
           show: true,
           fontSize: 10
         },
-        data: [925, 1348, 300, 124, 131, 687, 234]
+        data: [5, 2, 1, 4, 1, 2, 4]
       }
     ]
   }
