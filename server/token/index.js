@@ -25,7 +25,24 @@ var getToken = function (token) {
             })
         } else {
             //第二种  改版后的
-            var info = jwt?.verify(token, jwtScrect);
+            var info = jwt?.verify(token, jwtScrect, (err, decoded) => {
+                if (err) {
+                    console.log('err-------------')
+                    console.log(err)
+                    return {
+                        code: '401',
+                        msg: 'token已过期'
+                    }
+                } else {
+                    return decoded
+                }
+            });
+            // if(info.iat < info.exp){
+            //     return true //开始时间小于结束时间，代表token还有效
+            // }else{
+            //     return false
+            // }
+            console.log(info)
             resolve(info);  //解析返回的值（sign 传入的值）
         }
     })
