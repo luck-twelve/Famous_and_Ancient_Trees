@@ -4,6 +4,7 @@
       <div class="chart-tips-1"><b>全国古树数量Top10</b></div>
       <div id="echartsb1" class="chart-b-1 ml mt-2"></div>
     </div>
+
     <div style="position: relative">
       <div class="chart-tips"><b>2022年档案录入情况</b></div>
       <div id="echartsb2" class="chart-b-2"></div>
