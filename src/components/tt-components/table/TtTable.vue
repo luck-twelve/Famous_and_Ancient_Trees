@@ -43,6 +43,7 @@
       :highlight-current-row="multiple"
       @select="handleSelect"
       @current-change="handleSelectCurrent"
+      @row-click="(row) => rowClick(row)"
     >
       <el-table-column v-if="multiple" type="selection" width="35" />
       <template v-for="item in formThead" :key="item.prop">
@@ -75,7 +76,7 @@
 import { Refresh, Filter, Sort } from '@element-plus/icons-vue'
 import { reactive, toRefs, ref, getCurrentInstance, onMounted } from 'vue'
 let { proxy } = getCurrentInstance()
-const emit = defineEmits(['pagination', 'selectionChange'])
+const emit = defineEmits(['pagination', 'selectionChange', 'rowClick'])
 
 const props = defineProps({
   noHeader: {
@@ -126,6 +127,10 @@ const props = defineProps({
     default: 10
   }
 })
+
+const rowClick = (row) => {
+  emit('rowClick', row)
+}
 
 /**
  * 动态table

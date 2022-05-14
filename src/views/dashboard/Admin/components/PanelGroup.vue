@@ -1,26 +1,35 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('newVisitis')">
-        <div class="card-panel-icon-wrapper icon-people">
-          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+      <div class="card-panel" @click="handleTo('abnormal')">
+        <div class="card-panel-icon-wrapper icon-abnormal">
+          <svg-icon icon-class="abnormal" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">New Visits</div>
-          <span class="card-panel-num">102400</span>
-          <!--<count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />-->
+          <div class="card-panel-text">异常情况</div>
+          <span class="card-panel-num">{{ state.datasource.abnormalCount }}</span>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('messages')">
-        <div class="card-panel-icon-wrapper icon-message">
-          <svg-icon icon-class="message" class-name="card-panel-icon" />
+      <div class="card-panel" @click="handleTo('archive')">
+        <div class="card-panel-icon-wrapper icon-archive">
+          <svg-icon icon-class="archives" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Messages</div>
-          <span class="card-panel-num">81212</span>
-          <!--<count-to :start-val="0" :end-val="81212" :duration="3000" class="card-panel-num" />-->
+          <div class="card-panel-text">档案总数</div>
+          <span class="card-panel-num">{{ state.datasource.archiveCount }}</span>
+        </div>
+      </div>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
+      <div class="card-panel" @click="handleTo('user')">
+        <div class="card-panel-icon-wrapper icon-people">
+          <svg-icon icon-class="peoples" class-name="card-panel-icon" />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">用户总数</div>
+          <span class="card-panel-num">{{ state.datasource.userCount }}</span>
         </div>
       </div>
     </el-col>
@@ -28,10 +37,46 @@
 </template>
 
 <script setup>
-const emit = defineEmits(['handleSetLineChartData'])
-const handleSetLineChartData = (type) => {
-  emit('handleSetLineChartData', type)
+import { reactive, onBeforeMount, getCurrentInstance } from 'vue'
+import { getUserListReq } from '@/api/user'
+import { getArchivesCountReq } from '@/api/archives'
+import { getAbnormalListReq } from '@/api/abnormal'
+let { proxy } = getCurrentInstance()
+
+const state = reactive({
+  datasource: {}
+})
+
+// 跳转
+const handleTo = (type) => {
+  let pathList = {
+    user: 'user-list',
+    archive: 'archives/archives-list',
+    abnormal: 'abnormal'
+  }
+  proxy.$nextTick(() => {
+    proxy.$router.replace({
+      path: `/redirect/${pathList[type]}`
+    })
+  })
 }
+
+const getCounts = () => {
+  getUserListReq().then(({ data }) => {
+    state.datasource.userCount = data.total
+  })
+  getArchivesCountReq().then(({ data }) => {
+    state.datasource.archiveCount = data.data
+  })
+  getAbnormalListReq().then(({ data }) => {
+    state.datasource.abnormalCount = data.total
+  })
+}
+
+// 初始化
+onBeforeMount(() => {
+  getCounts()
+})
 </script>
 
 <style lang="scss" scoped>
@@ -59,36 +104,28 @@ const handleSetLineChartData = (type) => {
       }
 
       .icon-people {
-        background: #40c9c6;
-      }
-
-      .icon-message {
         background: #36a3f7;
       }
 
-      .icon-money {
-        background: #f4516c;
+      .icon-archive {
+        background: #34bfa3;
       }
 
-      .icon-shopping {
-        background: #34bfa3;
+      .icon-abnormal {
+        background: #f4516c;
       }
     }
 
     .icon-people {
-      color: #40c9c6;
-    }
-
-    .icon-message {
       color: #36a3f7;
     }
 
-    .icon-money {
-      color: #f4516c;
+    .icon-archive {
+      color: #34bfa3;
     }
 
-    .icon-shopping {
-      color: #34bfa3;
+    .icon-abnormal {
+      color: #f4516c;
     }
 
     .card-panel-icon-wrapper {

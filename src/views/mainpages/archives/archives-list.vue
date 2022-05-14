@@ -60,8 +60,10 @@
           <el-tag v-if="row.isShow == 1 && row.marker == 'marker_abnormal'" type="danger">异常</el-tag>
         </template>
       </el-table-column>
-      <el-table-column label="编号" width="260px">
-        <template #default="{ row }">{{ row.id }}</template>
+      <el-table-column label="编号" width="290px">
+        <template #default="{ row }">
+          <el-link :underline="false" @click="handleLook(row)">{{ row.id }}</el-link>
+        </template>
       </el-table-column>
       <el-table-column v-if="!isDialog" label="更多" align="center" width="55px" fixed="right">
         <template #default="{ row }">
