@@ -122,7 +122,7 @@ var userControll = {
         })
     },
     addUser: function (req, res, next) {
-        req.body.password = `123456`
+        req.body.password = req.body.password || '123456'
         switch (req.body.roles) {
             case 'admin': req.body.tag = 'danger'; break;
             case 'worker': req.body.tag = 'warning'; break;
@@ -135,7 +135,6 @@ var userControll = {
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
                     flag: result?.affectedRows > 0,
-                    showFlag: true
                 })
             })
         })

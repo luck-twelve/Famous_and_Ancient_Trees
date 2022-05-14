@@ -46,8 +46,10 @@
 <script setup>
 import { reactive, ref, toRefs, watch, getCurrentInstance } from 'vue'
 import { Plus } from '@element-plus/icons-vue'
-import { addUserReq, updateUserReq } from '@/api/user'
+import { ElMessage } from 'element-plus'
 import AvatarDialog from './avatar-dialog.vue'
+import { addUserReq, updateUserReq } from '@/api/user'
+
 let { proxy } = getCurrentInstance()
 const props = defineProps({
   dialogVisible: {
@@ -107,6 +109,7 @@ const handleCommit = () => {
       }
       action(form).then(({ data }) => {
         if (data.flag) {
+          ElMessage({ message: '新增成功', type: 'success' })
           emit('success')
           handleClose()
         }

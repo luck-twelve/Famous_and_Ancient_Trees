@@ -1,7 +1,14 @@
 <!--suppress ALL -->
 <template>
   <div class="login-container columnCC">
-    <el-form ref="refloginForm" size="medium" class="login-form" :model="formInline" :rules="formRulesMixin">
+    <el-form
+      v-if="!state.isRegister"
+      ref="refLoginForm"
+      size="medium"
+      class="login-form"
+      :model="formInline"
+      :rules="formRulesMixin"
+    >
       <div class="title-container">
         <h3 class="title text-center">{{ settings.title }}</h3>
       </div>
@@ -10,7 +17,7 @@
           <span class="svg-container">
             <svg-icon icon-class="user" />
           </span>
-          <el-input v-model="formInline.username" placeholder="账号" @keyup.enter="handleLogin" />
+          <el-input v-model="formInline.username" placeholder="用户名" @keyup.enter="handleLogin" />
           <!--占位-->
           <div class="show-pwd" />
         </div>
@@ -35,9 +42,72 @@
           </span>
         </div>
       </el-form-item>
-      <div class="tip-message">{{ tipMessage }}</div>
+      <div class="tip-message rowBC">
+        <span>{{ tipMessage }}</span>
+        <el-link :icon="Promotion" :underline="false" class="tip-register" @click="toChange">去注册</el-link>
+      </div>
       <el-button :loading="loading" type="primary" class="login-btn" size="medium" @click.prevent="handleLogin">
         {{ getI18nName('login', 'logIn') }}
+      </el-button>
+    </el-form>
+
+    <el-form v-else ref="refRegisterForm" size="medium" class="login-form" :model="formInline" :rules="formRulesMixin">
+      <div class="title-container">
+        <h3 class="title text-center">{{ settings.title }}</h3>
+      </div>
+      <el-form-item prop="username" :rules="formRulesMixin.isNotNull">
+        <div class="rowSC">
+          <span class="svg-container">
+            <svg-icon icon-class="user" />
+          </span>
+          <el-input v-model="formInline.username" placeholder="用户名" @keyup.enter="handleRegister" />
+          <!--占位-->
+          <div class="show-pwd" />
+        </div>
+      </el-form-item>
+      <el-form-item prop="password" :rules="formRulesMixin.isNotNull">
+        <div class="rowSC">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :key="passwordType"
+            ref="refPassword"
+            v-model="formInline.password"
+            :type="passwordType"
+            name="password"
+            placeholder="密码"
+            @keyup.enter="handleRegister"
+          />
+          <span class="show-pwd" @click="showPwd">
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </div>
+      </el-form-item>
+      <el-form-item prop="passwordValid" :rules="formRulesMixin.isNotNull">
+        <div class="rowSC">
+          <span class="svg-container">
+            <svg-icon icon-class="password" />
+          </span>
+          <el-input
+            :key="passwordValidType"
+            ref="refPasswordValid"
+            v-model="formInline.passwordValid"
+            :type="passwordValidType"
+            name="passwordValid"
+            placeholder="确认密码"
+            @keyup.enter="handleRegister"
+          />
+          <span class="show-pwd" @click="showPwdValid">
+            <svg-icon :icon-class="passwordValidType === 'password' ? 'eye' : 'eye-open'" />
+          </span>
+        </div>
+      </el-form-item>
+      <div class="tip-message rowBC">
+        <el-link :icon="ArrowLeftBold" :underline="false" class="tip-register" @click="toChange">返回登录</el-link>
+      </div>
+      <el-button :loading="loading" type="primary" class="login-btn" size="medium" @click.prevent="handleRegister">
+        {{ getI18nName('login', 'register') }}
       </el-button>
     </el-form>
   </div>
@@ -51,11 +121,13 @@ export default {
 </script>
 
 <script setup>
+import { Promotion, ArrowLeftBold } from '@element-plus/icons-vue'
 import { reactive, getCurrentInstance, watch, ref } from 'vue'
 import settings from '@/settings'
 import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { addUserReq } from '@/api/user'
 
 //i18
 import useI18n from '@/hooks/useI18n'
@@ -65,9 +137,12 @@ let { proxy } = getCurrentInstance()
 //form
 let formInline = reactive({
   username: 'Admin',
-  password: '123456'
+  password: '123456',
+  avatar: 'http://ywcd.cc/wp-content/uploads/2021/04/cropped-avatar.jpg',
+  roles: 'people'
 })
 let state = reactive({
+  isRegister: false, //是否为注册
   otherQuery: {},
   redirect: undefined
 })
@@ -83,17 +158,11 @@ let getOtherQuery = (query) => {
   }, {})
 }
 
-watch(
-  route,
-  (route) => {
-    const query = route.query
-    if (query) {
-      state.redirect = query.redirect
-      state.otherQuery = getOtherQuery(query)
-    }
-  },
-  { immediate: true }
-)
+const toChange = () => {
+  state.isRegister = !state.isRegister
+  formInline.username = ''
+  formInline.password = ''
+}
 
 /*
  *  login relative
@@ -102,7 +171,7 @@ let loading = ref(false)
 let tipMessage = ref('')
 const store = useStore()
 let handleLogin = () => {
-  proxy.$refs['refloginForm'].validate((valid) => {
+  proxy.$refs['refLoginForm'].validate((valid) => {
     if (valid) {
       fatLoginReq()
     } else {
@@ -112,10 +181,6 @@ let handleLogin = () => {
 }
 let fatLoginReq = () => {
   loading.value = true
-  // let formData = new FormData()
-  // for (let item in formInline) {
-  //   formData.append(item, formInline[item])
-  // }
   store
     .dispatch('user/login', formInline)
     .then(() => {
@@ -140,6 +205,37 @@ let fatLoginReq = () => {
 }
 
 /*
+ *  register relative
+ * */
+let handleRegister = () => {
+  proxy.$refs['refRegisterForm'].validate((valid) => {
+    if (valid) {
+      fatRegisterReq()
+    } else {
+      return false
+    }
+  })
+}
+const fatRegisterReq = () => {
+  delete formInline.passwordValid
+  addUserReq(formInline).then(({ data }) => {
+    if (data.flag) {
+      ElMessageBox.confirm(`用户名:${formInline.username}`, '注册成功', {
+        confirmButtonText: '立即进入',
+        type: 'success',
+        showClose: false,
+        distinguishCancelAndClose: true,
+        closeOnClickModal: false,
+        showCancelButton: false,
+        center: true
+      }).then(() => {
+        fatLoginReq()
+      })
+    }
+  })
+}
+
+/*
  *  password show or hidden
  * */
 let passwordType = ref('password')
@@ -154,6 +250,33 @@ let showPwd = () => {
     refPassword.value.focus()
   })
 }
+/*
+ *  passwordValid show or hidden
+ * */
+let passwordValidType = ref('password')
+const refPasswordValid = ref(null)
+let showPwdValid = () => {
+  if (passwordValidType.value === 'password') {
+    passwordValidType.value = ''
+  } else {
+    passwordValidType.value = 'password'
+  }
+  proxy.$nextTick(() => {
+    refPasswordValid.value.focus()
+  })
+}
+
+watch(
+  route,
+  (route) => {
+    const query = route.query
+    if (query) {
+      state.redirect = query.redirect
+      state.otherQuery = getOtherQuery(query)
+    }
+  },
+  { immediate: true }
+)
 </script>
 
 <style lang="scss" scoped>
@@ -191,6 +314,10 @@ $light_gray: #eee;
   color: #e4393c;
   height: 30px;
   margin-top: -12px;
+  font-size: 12px;
+}
+.tip-register {
+  color: #eee;
   font-size: 12px;
 }
 
