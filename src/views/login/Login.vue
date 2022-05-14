@@ -65,7 +65,7 @@
           <div class="show-pwd" />
         </div>
       </el-form-item>
-      <el-form-item prop="password" :rules="formRulesMixin.isNotNull">
+      <el-form-item prop="password" :rules="formRulesMixin.passwordValid">
         <div class="rowSC">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -84,7 +84,7 @@
           </span>
         </div>
       </el-form-item>
-      <el-form-item prop="passwordValid" :rules="formRulesMixin.isNotNull">
+      <el-form-item prop="passwordValid" :rules="formRulesMixin.isSame(formInline.password)">
         <div class="rowSC">
           <span class="svg-container">
             <svg-icon icon-class="password" />
@@ -217,10 +217,17 @@ let handleRegister = () => {
   })
 }
 const fatRegisterReq = () => {
-  delete formInline.passwordValid
-  addUserReq(formInline).then(({ data }) => {
+  loading.value = true
+  const { username, password, avatar, roles } = formInline
+  addUserReq({
+    username,
+    password,
+    avatar,
+    roles
+  }).then(({ data }) => {
+    loading.value = false
     if (data.flag) {
-      ElMessageBox.confirm(`用户名:${formInline.username}`, '注册成功', {
+      ElMessageBox.confirm(`用户名:${username}`, '注册成功', {
         confirmButtonText: '立即进入',
         type: 'success',
         showClose: false,

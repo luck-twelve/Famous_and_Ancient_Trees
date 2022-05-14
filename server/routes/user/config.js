@@ -122,20 +122,34 @@ var userControll = {
         })
     },
     addUser: function (req, res, next) {
-        req.body.password = req.body.password || '123456'
-        switch (req.body.roles) {
-            case 'admin': req.body.tag = 'danger'; break;
-            case 'worker': req.body.tag = 'warning'; break;
-            case 'people': req.body.tag = 'success'; break;
-        }
-        let { reqsql } = sqlAdd(req, res, 'user')
+        //通过用户名查询
         pool.getConnection(function (err, connection) {
-            query(connection, reqsql, 'addUser', [], result => {
-                return res.json({
-                    code: result?.affectedRows > 0 ? 200 : -200,
-                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
-                    flag: result?.affectedRows > 0,
-                })
+            query(connection, sql.getUsersByName, 'hasUser', [req.body.username], (data, err) => {
+                if (err) {
+                    throw err;
+                } else {
+                    if (data?.length > 0) {
+                        return res.json({
+                            code: 500,
+                            msg: '用户名已存在'
+                        })
+                    } else {
+                        req.body.password = req.body.password || '123456'
+                        switch (req.body.roles) {
+                            case 'admin': req.body.tag = 'danger'; break;
+                            case 'worker': req.body.tag = 'warning'; break;
+                            case 'people': req.body.tag = 'success'; break;
+                        }
+                        let { reqsql } = sqlAdd(req, res, 'user')
+                        query(connection, reqsql, 'addUser', [], result => {
+                            return res.json({
+                                code: result?.affectedRows > 0 ? 200 : -200,
+                                msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                                flag: result?.affectedRows > 0,
+                            })
+                        })
+                    }
+                }
             })
         })
     },

@@ -9,6 +9,13 @@ const mixin = {
         callback()
       }
     }
+    const isSame = (a, b, callback) => {
+      if (a == b) {
+        callback()
+      } else {
+        callback(new Error('两次密码输入不一致'))
+      }
+    }
     // 大于0的整数
     const upZeroInt = (rule, value, callback) => {
       if (!/^\+?[1-9]\d*$/.test(value)) {
@@ -68,7 +75,13 @@ const mixin = {
         desc: [{ required: true, validator: validatePass, trigger: 'blur' }],
         upZeroInt: [{ validator: upZeroInt, trigger: 'blur' }],
         upZeroIntCanNull: [{ validator: upZeroIntCanNull, trigger: 'blur' }],
-        passwordValid: [{ validator: passwordValid, trigger: 'change' }]
+        passwordValid: [
+          { required: true, message: '请输入密码', trigger: 'blur' },
+          { validator: passwordValid, trigger: 'change' }
+        ],
+        isSame: (checkVal) => {
+          return [{ validator: (rule, value, callback) => isSame(checkVal, value, callback), trigger: 'change' }]
+        },
       },
       /* 时间packing相关*/
       datePickerOptions: {
