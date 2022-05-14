@@ -67,6 +67,10 @@ const archivesApi = (router) => {
         archivesControll.getArchivesTree(req, res, next)
     })
 
+    router.get('/archives/getArchivesCount', function (req, res, next) {
+        archivesControll.getArchivesCount(req, res, next)
+    })
+
     /**
      * @api {post} /api/archives/addArchivesTree 新增名木古树调查表
      * @apiDescription 新增名木古树调查表

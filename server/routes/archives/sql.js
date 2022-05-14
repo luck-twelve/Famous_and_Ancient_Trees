@@ -5,6 +5,7 @@ var archivesSqls = {
     updateArchives: 'UPDATE trees SET treeName=?, treeType=?, treeAge=?, treeLocation=?, treeAdminister=?, treeHistoryLegend=? WHERE id=?',
     deleteArchives: 'DELETE FROM trees WHERE id=?',
 
+    getArchivesCount: 'SELECT count(*) AS count FROM archives_tree WHERE isShow=1',
     getArchivesTree: 'SELECT * FROM archives_tree',
     addArchivesTree: 'INSERT INTO archives_tree',
     // deleteArchivesTree: 'DELETE FROM archives_tree WHERE id=?'

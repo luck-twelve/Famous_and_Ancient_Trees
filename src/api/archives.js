@@ -37,6 +37,12 @@ export function deleteArchivesTreeReq(data) {
         method: 'delete',
     })
 }
+export function getArchivesCountReq() {
+    return request({
+        url: `/archives/getArchivesCount`,
+        method: 'get',
+    })
+}
 
 // 全年古树录入情况
 export function getArchivesListEMReq(data) {
