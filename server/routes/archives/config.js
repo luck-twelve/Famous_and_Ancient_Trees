@@ -102,6 +102,18 @@ var archivesControll = {
             })
         })
     },
+    getArchivesCount: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            query(connection, sql.getArchivesCount, 'getArchivesCount', [], result => {
+                return res.json({
+                    code: 200,
+                    data: result[0].count,
+                    msg: "查询成功",
+                    flag: true
+                })
+            })
+        })
+    },
     addArchivesTree: async function (req, res, next) {
         req.body['listing'] = Date.now()
         let token_name = await getUsername(req)
