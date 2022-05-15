@@ -98,6 +98,43 @@ var abnormalControll = {
             })
         })
     },
+    controllAbnormal: async function (req, res, next) {
+        let token_roles = await getUserRoles(req)
+        if (token_roles !== 'worker' && token_roles !== 'admin') {
+            return res.json({
+                code: -200,
+                msg: '操作失败，你没有此权限',
+                flag: false,
+                showFlag: true
+            })
+        }
+        const statusOptions = {
+            resolve: {
+                sql: sql.controllResolve,
+                params: [req.body.status, req.body.resolve_user, req.body.expect_finish_time, req.body.id]
+            },
+            reject: {
+                sql: sql.controllReject,
+                params: [req.body.status, req.body.reject_reason, req.body.id]
+            },
+            finish: {
+                sql: sql.controllFinish,
+                params: [req.body.status, req.body.finish_time, req.body.id]
+            },
+        }
+        let reqsql = statusOptions[req.body.status].sql
+        let params = statusOptions[req.body.status].params
+        pool.getConnection(function (err, connection) {
+            query(connection, reqsql, 'controllAbnormal', params, result => {
+                return res.json({
+                    code: result?.affectedRows > 0 ? 200 : -200,
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    flag: result?.affectedRows > 0,
+                    showFlag: true
+                })
+            })
+        })
+    },
     deleteAbnormal: async function (req, res, next) {
         // let create_user = req.body.create_user
         // let token_name = await getUsername(req)

@@ -1,26 +1,42 @@
 <template>
   <div class="ctr-dialog">
     <el-dialog v-model="visible" title="异常处理" width="450px" :before-close="handleClose">
-      <el-radio v-model="state.radio" label="1" size="large">接受</el-radio>
-      <el-radio v-model="state.radio" label="2" size="large">不予处理</el-radio>
-      <el-form v-if="state.radio == 1" :model="state.form1">
-        <el-form-item label="选择处理人员">
-          <el-input v-model="state.form1.name" disabled>
-            <template #append>
-              <el-button type="primary" :icon="Search" @click="state.workerVisible = true"></el-button>
-            </template>
-          </el-input>
+      <el-form v-if="visible" :model="state.formData" label-width="100px">
+        <el-form-item label="处理方式">
+          <el-radio-group v-model="state.radio">
+            <el-radio label="resolve">接受</el-radio>
+            <el-radio label="reject">不予处理</el-radio>
+          </el-radio-group>
         </el-form-item>
-      </el-form>
-      <el-form v-if="state.radio == 2" :model="state.form2">
-        <el-form-item label="拒绝原因">
-          <el-input v-model="state.form2.name" />
+        <el-form-item v-if="state.radio == 'resolve'" label="处理人员">
+          <span v-if="state.formData.resolve_user" style="padding: 0 10px">{{ state.formData.resolve_user }}</span>
+          <el-button
+            type="text"
+            :icon="state.formData.resolve_user ? Switch : User"
+            @click="state.workerVisible = true"
+          >
+            <span v-if="state.formData.resolve_user">重新选择</span>
+            <span v-else>选择</span>
+          </el-button>
+        </el-form-item>
+        <el-form-item v-if="state.radio == 'resolve'" label="预计完成时间">
+          <el-select v-model="state.formData.expect_finish_time" placeholder="请选择">
+            <el-option
+              v-for="item in timeOptions"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-if="state.radio == 'reject'" label="拒绝原因">
+          <el-input v-model="state.formData.reject_reason" type="textarea" :rows="3" />
         </el-form-item>
       </el-form>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="handleClose">取 消</el-button>
-          <el-button type="primary" @click="handleClose">确 定</el-button>
+          <el-button type="primary" @click="handleCommit">确 定</el-button>
         </span>
       </template>
     </el-dialog>
@@ -31,22 +47,31 @@
     @before-close="state.workerVisible = false"
     @comfirm="
       (val) => {
-        state.form1.name = val.real_name
+        state.formData.resolve_user = val.real_name
       }
     "
   ></worker-dialog>
 </template>
 
 <script setup>
-import { Search } from '@element-plus/icons-vue'
-import { reactive, toRefs } from 'vue'
+import { Switch, User } from '@element-plus/icons-vue'
+import { reactive, toRefs, watchEffect } from 'vue'
+import { ElMessage } from 'element-plus'
 import WorkerDialog from './dialog-worker.vue'
+import { controllAbnormalReq } from '@/api/abnormal'
 
 const props = defineProps({
   visible: {
     require: true,
     default: false,
     type: Boolean
+  },
+  rowData: {
+    require: true,
+    type: Object,
+    default() {
+      return {}
+    }
   }
 })
 //导出属性到页面中使用
@@ -54,8 +79,9 @@ let { visible } = toRefs(props)
 
 const state = reactive({
   radio: '',
-  form1: {},
-  form2: {},
+  formData: {
+    expect_finish_time: ''
+  },
   workerVisible: false
 })
 
@@ -63,6 +89,43 @@ const emit = defineEmits(['beforeClose', 'submit'])
 const handleClose = () => {
   emit('beforeClose')
 }
+// 提交
+const handleCommit = () => {
+  if (state.radio == 'resolve') {
+    if (state.formData.resolve_user) {
+      controllAbnormalReq(
+        Object.assign(state.formData, {
+          id: state.rowData.id,
+          status: state.radio
+        })
+      ).then(({ data }) => {
+        console.log(data)
+        emit('beforeClose')
+      })
+    } else {
+      ElMessage({ message: '请选择处理人员', type: 'warning' })
+    }
+  } else if (state.radio == 'reject') {
+    if (state.formData.reject_reason) {
+      emit('beforeClose')
+    } else {
+      ElMessage({ message: '请输入拒绝原因', type: 'warning' })
+    }
+  }
+}
+
+const timeOptions = [
+  { label: '时间不定', value: '' },
+  { label: '1天后', value: '1' },
+  { label: '3天后', value: '3' },
+  { label: '7天后', value: '7' },
+  { label: '15天后', value: '15' },
+  { label: '30天后', value: '30' }
+]
+
+watchEffect(() => {
+  state.rowData = props.rowData
+})
 </script>
 
 <style lang="scss" scoped>

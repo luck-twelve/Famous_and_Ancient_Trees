@@ -31,6 +31,15 @@ export function deleteAbnormalReq(data) {
     })
 }
 
+// 处理异常
+export function controllAbnormalReq(data) {
+    return request({
+        url: '/abnormal/controllAbnormal',
+        data: filterParams(data),
+        method: 'post',
+    })
+}
+
 
 // 近30天内新增异常情况
 export function getAbnormalListEMReq() {

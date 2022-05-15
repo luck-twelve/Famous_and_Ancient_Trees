@@ -97,7 +97,7 @@
       </template>
     </el-dialog>
     <ab-dialog v-model:visible="abVisible" @submit="abSubmit" @before-close="beforeAbClose"></ab-dialog>
-    <ctr-dialog v-model:visible="ctrVisible" @before-close="beforeCtrClose"></ctr-dialog>
+    <ctr-dialog v-model:visible="ctrVisible" :row-data="dialog.dialogData" @before-close="beforeCtrClose"></ctr-dialog>
   </div>
 </template>
 
@@ -203,6 +203,7 @@ const handleEdit = (row) => {
  * 异常处理
  */
 const handleControll = (row) => {
+  dialog.dialogData = row
   dialog.ctrVisible = true
 }
 /**
@@ -210,7 +211,7 @@ const handleControll = (row) => {
  */
 const handleCommit = async () => {
   proxy.$refs['dialogForm'].validate((valid) => {
-    console.log(valid)
+    // console.log(valid)
     if (valid) {
       if (checkLong(dialog.dialogData.longitude) !== true) {
         ElMessage({ message: checkLong(dialog.dialogData.longitude), type: 'warning' })

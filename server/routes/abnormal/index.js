@@ -52,6 +52,10 @@ const abnormalApi = (router) => {
         abnormalControll.deleteAbnormal(req, res, next)
     })
 
+    router.post('/abnormal/controllAbnormal', function (req, res, next) {
+        abnormalControll.controllAbnormal(req, res, next)
+    })
+
     /**
      * @api {get} /api/abnormal/getAbnormalListEM
      * @apiDescription 获取每月异常信息列表
