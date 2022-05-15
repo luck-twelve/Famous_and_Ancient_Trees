@@ -1,6 +1,6 @@
 <template>
   <div class="ab-dialog">
-    <el-dialog v-model="visible" title="选择档案" width="70%" :before-close="handleClose">
+    <el-dialog v-model="visible" title="选择异常古树" width="70%" :before-close="handleClose">
       <archives-list v-if="visible" is-dialog @selection-change="handleSelectionChange"></archives-list>
       <template #footer>
         <span class="dialog-footer">
@@ -46,7 +46,7 @@ const handleSubmit = () => {
 <style lang="scss" scoped>
 .ab-dialog {
   &:deep(.el-dialog) {
-    margin: 10px auto 0 auto !important;
+    margin: 70px auto 0 auto !important;
   }
 }
 </style>

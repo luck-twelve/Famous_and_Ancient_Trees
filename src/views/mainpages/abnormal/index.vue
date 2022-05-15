@@ -29,7 +29,7 @@
                   <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
                 </el-dropdown-item>
                 <el-dropdown-item v-if="sysRoles.includes('admin')">
-                  <el-button type="text" :icon="Finished" style="color: #e6a23c" @click="handleEdit(row)">
+                  <el-button type="text" :icon="Finished" style="color: #e6a23c" @click="handleControll(row)">
                     处理
                   </el-button>
                 </el-dropdown-item>
@@ -96,7 +96,8 @@
         </span>
       </template>
     </el-dialog>
-    <ab-dialog v-model:visible="abVisible" @submit="abSubmit" @before-close="handleAbClose"></ab-dialog>
+    <ab-dialog v-model:visible="abVisible" @submit="abSubmit" @before-close="beforeAbClose"></ab-dialog>
+    <ctr-dialog v-model:visible="ctrVisible" @before-close="beforeCtrClose"></ctr-dialog>
   </div>
 </template>
 
@@ -106,6 +107,7 @@ import { toRefs, reactive, onBeforeMount, getCurrentInstance } from 'vue'
 import { getAbnormalListReq, updateAbnormalReq, deleteAbnormalReq } from '@/api/abnormal'
 import TtTable from '@/components/tt-components/table'
 import AbDialog from './dialog.vue'
+import CtrDialog from './dialog-controll.vue'
 import { ElMessage } from 'element-plus'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
@@ -149,6 +151,7 @@ const state = reactive({
 const dialog = reactive({
   visible: false,
   abVisible: false,
+  ctrVisible: false,
   dialogData: {},
   dialogType: ''
 })
@@ -156,8 +159,11 @@ const handleClose = () => {
   dialog.visible = false
   getList(formData)
 }
-const handleAbClose = () => {
+const beforeAbClose = () => {
   dialog.abVisible = false
+}
+const beforeCtrClose = () => {
+  dialog.ctrVisible = false
 }
 /**
  * 选择档案
@@ -192,6 +198,12 @@ const handleEdit = (row) => {
   dialog.visible = true
   dialog.dialogType = '编辑'
   dialog.dialogData = row
+}
+/**
+ * 异常处理
+ */
+const handleControll = (row) => {
+  dialog.ctrVisible = true
 }
 /**
  * 保存
@@ -242,7 +254,7 @@ const getList = (params = {}) => {
 }
 
 //导出属性到页面中使用
-let { visible, abVisible, dialogData, dialogType } = toRefs(dialog)
+let { visible, abVisible, ctrVisible, dialogData, dialogType } = toRefs(dialog)
 let { list, listLoading, tableColumn } = toRefs(state)
 
 const initForm = () => {
