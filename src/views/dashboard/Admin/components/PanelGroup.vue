@@ -22,7 +22,7 @@
         </div>
       </div>
     </el-col>
-    <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
+    <el-col v-if="roles.includes('admin')" :xs="12" :sm="12" :lg="8" class="card-panel-col">
       <div class="card-panel" @click="handleTo('user')">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
@@ -41,6 +41,12 @@ import { reactive, onBeforeMount, getCurrentInstance } from 'vue'
 import { getUserListReq } from '@/api/user'
 import { getArchivesCountReq } from '@/api/archives'
 import { getAbnormalListReq } from '@/api/abnormal'
+import { computed } from 'vue'
+import { useStore } from 'vuex'
+const store = useStore()
+const roles = computed(() => {
+  return store.state.user.roles
+})
 let { proxy } = getCurrentInstance()
 
 const state = reactive({

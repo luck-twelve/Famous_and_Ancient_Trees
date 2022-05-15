@@ -1,5 +1,5 @@
 <template>
-  <Admin v-if="roles.includes('admin')" />
+  <Admin v-if="roles.includes('admin') || roles.includes('worker')" />
   <Editor v-else />
 </template>
 
