@@ -47,7 +47,7 @@
     @before-close="state.workerVisible = false"
     @comfirm="
       (val) => {
-        state.formData.resolve_user = val.real_name
+        state.formData.resolve_user = val.real_name || val.username
       }
     "
   ></worker-dialog>
@@ -87,31 +87,30 @@ const state = reactive({
 
 const emit = defineEmits(['beforeClose', 'submit'])
 const handleClose = () => {
+  state.radio = ''
+  state.formData.resolve_user = ''
+  state.formData.expect_finish_time = ''
+  state.formData.reject_reason = ''
   emit('beforeClose')
 }
 // 提交
 const handleCommit = () => {
-  if (state.radio == 'resolve') {
-    if (state.formData.resolve_user) {
-      controllAbnormalReq(
-        Object.assign(state.formData, {
-          id: state.rowData.id,
-          status: state.radio
-        })
-      ).then(({ data }) => {
-        console.log(data)
-        emit('beforeClose')
-      })
-    } else {
-      ElMessage({ message: '请选择处理人员', type: 'warning' })
-    }
-  } else if (state.radio == 'reject') {
-    if (state.formData.reject_reason) {
-      emit('beforeClose')
-    } else {
-      ElMessage({ message: '请输入拒绝原因', type: 'warning' })
-    }
+  if (state.radio == 'resolve' && !state.formData.resolve_user) {
+    ElMessage({ message: '请选择处理人员', type: 'warning' })
+    return
+  } else if (state.radio == 'reject' && !state.formData.reject_reason) {
+    ElMessage({ message: '请输入拒绝原因', type: 'warning' })
+    return
   }
+  controllAbnormalReq(
+    Object.assign(state.formData, {
+      id: state.rowData.id,
+      status: state.radio
+    })
+  ).then(({ data }) => {
+    console.log(data)
+    emit('submit')
+  })
 }
 
 const timeOptions = [

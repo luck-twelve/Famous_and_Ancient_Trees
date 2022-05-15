@@ -164,8 +164,9 @@ var userControll = {
                         query(connection, reqsql, 'addUser', [], result => {
                             return res.json({
                                 code: result?.affectedRows > 0 ? 200 : -200,
-                                msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                                msg: result?.affectedRows > 0 ? "添加成功" : '添加失败',
                                 flag: result?.affectedRows > 0,
+                                showFlag: true
                             })
                         })
                     }
@@ -189,7 +190,7 @@ var userControll = {
             query(connection, sql.updateUser, 'updateUser', params, result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
-                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    msg: result?.affectedRows > 0 ? "修改成功" : '修改失败',
                     flag: result?.affectedRows > 0,
                     showFlag: true
                 })

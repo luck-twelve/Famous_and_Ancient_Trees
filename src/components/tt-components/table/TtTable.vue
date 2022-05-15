@@ -56,7 +56,7 @@
           :align="item.align || 'left'"
         ></el-table-column>
       </template>
-      <slot v-if="formThead.length > 0" />
+      <slot />
     </el-table>
     <el-pagination
       background
@@ -105,10 +105,10 @@ const props = defineProps({
   },
   // 表头
   column: {
-    default: () => {
+    type: Array,
+    default() {
       return []
-    },
-    type: Array
+    }
   },
   loading: {
     default: false,

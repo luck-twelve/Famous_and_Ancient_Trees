@@ -19,7 +19,6 @@
       <tt-table
         :list="state.tableList"
         :loading="state.listLoading"
-        :column="state.tableColumn"
         :search-data="state.formData"
         no-header
         multiple
@@ -27,6 +26,12 @@
         @pagination="getTableList"
         @selection-change="selectionChange"
       >
+        <el-table-column label="姓名/用户名" align="center">
+          <template #default="{ row }">
+            {{ row.real_name }}
+            <span v-if="!row.real_name">{{ row.username }}</span>
+          </template>
+        </el-table-column>
         <el-table-column label="头像" align="center">
           <template #default="{ row }">
             <el-avatar shape="square" :src="row.avatar" />
@@ -73,7 +78,6 @@ const state = reactive({
   formData: {},
   tableList: [],
   listLoading: false,
-  tableColumn: [{ label: '姓名', prop: 'real_name', width: '100px' }],
 
   checkedWorker: {}
 })

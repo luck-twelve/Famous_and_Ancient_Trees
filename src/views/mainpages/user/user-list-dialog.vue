@@ -109,7 +109,6 @@ const handleCommit = () => {
       }
       action(form).then(({ data }) => {
         if (data.flag) {
-          ElMessage({ message: '新增成功', type: 'success' })
           emit('success')
           handleClose()
         }

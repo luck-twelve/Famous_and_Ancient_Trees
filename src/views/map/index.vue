@@ -5,23 +5,22 @@
     <el-dialog v-model="dialogVisible" width="450px">
       <template #title>
         <div>
-          {{ dialogTitle }}
+          {{ formData.id }}
+          <el-icon style="color: #303133; cursor: pointer" @click="() => copyText(formData.id)">
+            <copy-document />
+          </el-icon>
           <span v-if="formData.marker == 'marker_abnormal'" class="font-sizePx12 text-danger">异常</span>
         </div>
       </template>
       <el-form :model="formData" label-position="right" label-width="80px">
-        <el-form-item label="编号:">
-          {{ formData.id }}
-          <el-icon class="cs-p" @click="() => copyText(formData.id)"><copy-document /></el-icon>
+        <el-form-item label="树名:">
+          {{ formData.tree_nameZh }}
         </el-form-item>
         <el-form-item label="树种:">
           {{ formData.tree_speciesStr }}
         </el-form-item>
         <el-form-item label="地理位置:">
           {{ formData.company_city }}{{ formData.company_district }}（{{ formData.company_province }}）
-        </el-form-item>
-        <el-form-item label="小地名:">
-          {{ formData.location_aliasName }}
         </el-form-item>
         <el-form-item label="经纬度:">({{ formData.longitude }}, {{ formData.latitude }})</el-form-item>
       </el-form>
@@ -84,13 +83,12 @@ const maps = reactive({
 })
 
 const state = reactive({
-  dialogTitle: '',
   dialogVisible: false,
   formData: {},
   nowTime: '',
   weather: {}
 })
-let { dialogTitle, dialogVisible, formData, nowTime, weather } = toRefs(state)
+let { dialogVisible, formData, nowTime, weather } = toRefs(state)
 const weekEnum = {
   Mo: ' 星期一',
   Tu: ' 星期二',
@@ -135,7 +133,6 @@ onMounted(async () => {
         icon: new BMapGL.Icon(markerIcon[item.marker], new BMapGL.Size(15, 15))
       }) // 创建标注对象并添加到地图
       marker.addEventListener('click', function (e) {
-        state.dialogTitle = item.tree_nameZh
         state.formData = item
         state.dialogVisible = true
       })

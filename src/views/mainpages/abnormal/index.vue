@@ -1,5 +1,5 @@
 <template>
-  <div class="app-container">
+  <div class="app-container ttDialog">
     <el-form v-if="store.state.user.roles.indexOf('admin') !== -1" :inline="true" :model="formData">
       <el-form-item prop="create_user">
         <el-input v-model="formData.create_user" clearable>
@@ -14,6 +14,13 @@
       <template #header>
         <el-button type="primary" :icon="Plus" @click="handleAdd">新增反馈</el-button>
       </template>
+      <el-table-column label="状态" align="center" width="100px" fixed="right">
+        <template #default="{ row }">
+          <el-tag :type="tagsOptions(row.status).type" @click="handleLook(row)">
+            {{ tagsOptions(row.status).label }}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column label="更多" align="center" width="55px" fixed="right">
         <template #default="{ row }">
           <el-dropdown trigger="click" placement="bottom-end">
@@ -25,10 +32,10 @@
                     查看
                   </el-button>
                 </el-dropdown-item>
-                <el-dropdown-item v-if="sysUserName === row.create_user">
+                <el-dropdown-item v-if="sysUserName === row.create_user && !row.status">
                   <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
                 </el-dropdown-item>
-                <el-dropdown-item v-if="sysRoles.includes('admin')">
+                <el-dropdown-item v-if="(sysRoles.includes('admin') || sysRoles.includes('worker')) && !row.status">
                   <el-button type="text" :icon="Finished" style="color: #e6a23c" @click="handleControll(row)">
                     处理
                   </el-button>
@@ -42,40 +49,34 @@
         </template>
       </el-table-column>
     </tt-table>
-    <el-dialog v-model="visible" :title="`${dialogType}异常反馈`" width="450px" :before-close="handleClose">
+    <el-dialog v-model="visible" width="450px" :before-close="handleClose">
+      <template #title>
+        <span>异常反馈{{ dialogType }}</span>
+        <el-tag v-if="!dialogType" :type="tagsOptions(dialogData.status).type" class="input-text">
+          {{ tagsOptions(dialogData.status).label }}
+        </el-tag>
+        <span v-if="dialogData.status == 'resolve'">
+          <span class="input-text">处理人: {{ dialogData.resolve_user }}</span>
+          <span class="input-text">预计完成时间: {{ timeOptions(dialogData.expect_finish_time) }}</span>
+        </span>
+        <span v-if="dialogData.status == 'reject'" class="input-text">原因: {{ dialogData.reject_reason }}</span>
+        <span v-if="dialogData.status == 'finish'" class="input-text">完成时间: {{ dialogData.finish_time }}</span>
+      </template>
       <el-form v-if="visible" ref="dialogForm" :model="dialogData" label-width="80px">
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="选择古树" prop="tree_name" :rules="formRulesMixin.isNotNull">
-              <el-input v-if="dialogType" v-model="dialogData.tree_name" disabled>
-                <template #append>
-                  <el-button type="primary" :icon="Search" @click="abVisible = true"></el-button>
-                </template>
-              </el-input>
-              <span v-else class="input-text">{{ dialogData.tree_name }}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="挂牌号" prop="listing" :rules="formRulesMixin.isNotNull">
-              <el-input v-if="dialogType" v-model="dialogData.listing" disabled />
-              <span v-else class="input-text">{{ dialogData.listing }}</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span="12">
-            <el-form-item label="经度" prop="longitude" :rules="formRulesMixin.isNotNull">
-              <el-input v-if="dialogType" v-model="dialogData.longitude" disabled />
-              <span v-else class="input-text">{{ dialogData.longitude }}</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12">
-            <el-form-item label="纬度" prop="latitude" :rules="formRulesMixin.isNotNull">
-              <el-input v-if="dialogType" v-model="dialogData.latitude" disabled />
-              <span v-else class="input-text">{{ dialogData.latitude }}</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
+        <el-form-item label="异常古树" prop="tree_name" :rules="formRulesMixin.isNotNull">
+          <span v-if="dialogData.tree_name" class="input-text" style="padding-right: 10px">
+            {{ dialogData.tree_name }}
+          </span>
+          <el-button
+            v-if="dialogType"
+            type="text"
+            :icon="dialogData.tree_name ? Switch : Search"
+            @click="abVisible = true"
+          >
+            <span v-if="dialogData.tree_name">重新选择</span>
+            <span v-else>选择</span>
+          </el-button>
+        </el-form-item>
         <el-form-item label="异常情况" prop="ab_condition" :rules="formRulesMixin.isNotNull">
           <el-input v-if="dialogType" v-model="dialogData.ab_condition" :rows="2" type="textarea"></el-input>
           <span v-else class="input-text">{{ dialogData.ab_condition }}</span>
@@ -97,18 +98,22 @@
       </template>
     </el-dialog>
     <ab-dialog v-model:visible="abVisible" @submit="abSubmit" @before-close="beforeAbClose"></ab-dialog>
-    <ctr-dialog v-model:visible="ctrVisible" :row-data="dialog.dialogData" @before-close="beforeCtrClose"></ctr-dialog>
+    <ctr-dialog
+      v-model:visible="ctrVisible"
+      :row-data="dialog.dialogData"
+      @submit="ctrSubmit"
+      @before-close="beforeCtrClose"
+    ></ctr-dialog>
   </div>
 </template>
 
 <script setup>
-import { Search, Plus, Edit, Delete, Document, MoreFilled, Finished } from '@element-plus/icons-vue'
+import { Search, Switch, Plus, Edit, Delete, Document, MoreFilled, Finished } from '@element-plus/icons-vue'
 import { toRefs, reactive, onBeforeMount, getCurrentInstance } from 'vue'
 import { getAbnormalListReq, updateAbnormalReq, deleteAbnormalReq } from '@/api/abnormal'
 import TtTable from '@/components/tt-components/table'
 import AbDialog from './dialog.vue'
 import CtrDialog from './dialog-controll.vue'
-import { ElMessage } from 'element-plus'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 let { proxy } = getCurrentInstance()
@@ -139,11 +144,10 @@ const state = reactive({
   tableColumn: [
     // { label: '编号', prop: 'id', width: '160px' },
     { label: '古树名称', prop: 'tree_name', minWidth: '130px' },
-    { label: '挂牌号', prop: 'listing', minWidth: '130px' },
     { label: '经度', prop: 'longitude', minWidth: '120px', sortable: true },
     { label: '纬度', prop: 'latitude', minWidth: '120px', sortable: true },
-    { label: '上传用户', prop: 'create_user', minWidth: '120px', sortable: true },
-    { label: '上传时间', prop: 'create_time', minWidth: '150px', sortable: true }
+    { label: '反馈用户', prop: 'create_user', minWidth: '120px', sortable: true },
+    { label: '反馈时间', prop: 'create_time', minWidth: '150px', sortable: true }
   ],
   listLoading: true
 })
@@ -170,9 +174,15 @@ const beforeCtrClose = () => {
  */
 const abSubmit = (val) => {
   dialog.dialogData.tree_name = val.tree_nameZh
-  dialog.dialogData.listing = val.listing
+  dialog.dialogData.tree_id = val.id
   dialog.dialogData.longitude = val.longitude
   dialog.dialogData.latitude = val.latitude
+}
+
+// 提交处理后触发
+const ctrSubmit = () => {
+  beforeCtrClose()
+  handleSearch()
 }
 
 /**
@@ -180,7 +190,7 @@ const abSubmit = (val) => {
  */
 const handleAdd = () => {
   dialog.visible = true
-  dialog.dialogType = '上传'
+  dialog.dialogType = '上报'
   dialog.dialogData = initForm()
 }
 /**
@@ -211,16 +221,7 @@ const handleControll = (row) => {
  */
 const handleCommit = async () => {
   proxy.$refs['dialogForm'].validate((valid) => {
-    // console.log(valid)
     if (valid) {
-      if (checkLong(dialog.dialogData.longitude) !== true) {
-        ElMessage({ message: checkLong(dialog.dialogData.longitude), type: 'warning' })
-        return
-      }
-      if (checkLat(dialog.dialogData.latitude) !== true) {
-        ElMessage({ message: checkLat(dialog.dialogData.latitude), type: 'warning' })
-        return
-      }
       updateAbnormalReq(dialog.dialogData).then(({ data }) => {
         if (data.flag) {
           handleClose()
@@ -261,8 +262,8 @@ let { list, listLoading, tableColumn } = toRefs(state)
 const initForm = () => {
   return {
     id: '', // 编号
-    tree_name: '', // 树名
-    listing: '', // 挂牌号
+    tree_name: '', // 古树名称
+    tree_id: '', // 古树编号
     longitude: '', // 经度
     latitude: '', // 纬度
     reason: '', // 造成原因
@@ -271,25 +272,32 @@ const initForm = () => {
   }
 }
 
-// 校验经度是否符合规范
-function checkLong(lng) {
-  var longrg = /^(\-|\+)?(((\d|[1-9]\d|1[0-7]\d|0{1,3})\.\d{0,6})|(\d|[1-9]\d|1[0-7]\d|0{1,3})|180\.0{0,6}|180)$/
-  if (lng < 73 || lng > 135) {
-    return '请输入中国境内的经度(73°~135°)'
-  } else if (!longrg.test(lng)) {
-    return '经度整数部分不超过179,小数部分不超过6位!'
+const tagsOptions = (status) => {
+  if (!status) {
+    return { label: '待处理', type: 'info' }
   }
-  return true
+  const options = {
+    resolve: {
+      label: '处理中',
+      type: ''
+    },
+    reject: {
+      label: '不予解决',
+      type: 'error'
+    },
+    finish: {
+      label: '已解决',
+      type: 'success'
+    }
+  }
+  return {
+    label: options[status].label,
+    type: options[status].type
+  }
 }
-// 校验纬度是否符合规范
-function checkLat(lat) {
-  var latreg = /^(\-|\+)?([0-8]?\d{1}\.\d{0,6}|90\.0{0,6}|[0-8]?\d{1}|90)$/
-  if (lat < 4 || lat > 53) {
-    return '请输入中国境内的纬度(4°~53°)'
-  } else if (!latreg.test(lat)) {
-    return '纬度整数部分不超过89,小数部分不超过6位!'
-  }
-  return true
+const timeOptions = (time) => {
+  if (!time) return '时间不定'
+  return `${time}天后`
 }
 </script>
 
@@ -303,6 +311,9 @@ function checkLat(lat) {
       background-color: var(--el-color-primary-light-2);
       border: 1px solid var(--el-color-primary-light-2);
     }
+  }
+  &:deep(.el-tag) {
+    cursor: pointer;
   }
 }
 .input-text {
