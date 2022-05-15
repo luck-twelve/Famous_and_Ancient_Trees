@@ -57,6 +57,10 @@ const userApi = (router) => {
         userControll.getUserList(req, res, next)
     })
 
+    router.post('/user/getWorkerList', function (req, res, next) {
+        userControll.getWorkerList(req, res, next)
+    })
+
     /**
          * @api {post} /api/user/addUser 新增用户
          * @apiDescription 新增用户

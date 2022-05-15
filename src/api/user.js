@@ -42,6 +42,14 @@ export function getUserListReq(data) {
   })
 }
 
+export function getWorkerListReq(data) {
+  return request({
+    url: '/user/getWorkerList',
+    data,
+    method: 'post',
+  })
+}
+
 export function addUserReq(data) {
   return request({
     url: '/user/addUser',

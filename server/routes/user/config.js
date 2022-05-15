@@ -121,6 +121,26 @@ var userControll = {
             })
         })
     },
+    getWorkerList: function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            const { reqSql, reqParams, noLimitSql } = getFiltersql(sql.getWorkers, req.body)
+            query(connection, reqSql, 'getWorkerList', reqParams, result => {
+                getTotal(noLimitSql, pool).then(total => {
+                    result?.forEach(item => {
+                        item.create_time = formatDate(item.create_time)
+                        item.update_time = formatDate(item.update_time)
+                    })
+                    return res.json({
+                        code: 200,
+                        data: result,
+                        total: total,
+                        msg: "",
+                        flag: true
+                    })
+                })
+            })
+        })
+    },
     addUser: function (req, res, next) {
         //通过用户名查询
         pool.getConnection(function (err, connection) {

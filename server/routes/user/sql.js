@@ -3,6 +3,7 @@ var userSqls = {
     login: 'SELECT id,username,roles FROM user WHERE username=? and password=?',
     getUserInfo: 'SELECT username,avatar,roles,tag,create_time,update_time FROM user WHERE id=?',
     getUsers: 'SELECT id,username,avatar,roles,tag,create_time,update_time FROM user',
+    getWorkers: `SELECT id,username,avatar,roles,tag,real_name,create_time,update_time FROM user WHERE roles='worker'`,
     getUsersByName: 'SELECT id,username,avatar,roles,tag,create_time,update_time FROM user WHERE username=?',
     getUsersByRoles: 'SELECT id,username,avatar,roles,tag,create_time,update_time FROM user WHERE roles=?',
     getUsersByNR: 'SELECT id,username,avatar,roles,tag,create_time,update_time FROM user WHERE username=? and roles=?',
