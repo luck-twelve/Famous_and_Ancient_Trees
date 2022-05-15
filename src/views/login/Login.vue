@@ -159,9 +159,14 @@ let getOtherQuery = (query) => {
 }
 
 const toChange = () => {
+  if (state.isRegister) {
+    formInline.username = 'Admin'
+    formInline.password = '123456'
+  } else {
+    formInline.username = ''
+    formInline.password = ''
+  }
   state.isRegister = !state.isRegister
-  formInline.username = ''
-  formInline.password = ''
 }
 
 /*
@@ -320,7 +325,8 @@ $light_gray: #eee;
 .tip-message {
   color: #e4393c;
   height: 30px;
-  margin-top: -12px;
+  margin-top: -20px;
+  margin-bottom: 3px;
   font-size: 12px;
 }
 .tip-register {
