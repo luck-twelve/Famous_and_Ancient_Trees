@@ -1,4 +1,5 @@
 <template>
+  <input ref="inputCopy" value="" style="opacity: 0; position: absolute" />
   <div class="app-container ttDialog">
     <el-form v-if="store.state.user.roles.indexOf('admin') !== -1" :inline="true" :model="formData">
       <el-form-item prop="create_user">
@@ -27,6 +28,11 @@
             <el-button type="text" :icon="MoreFilled" style="color: #606266"></el-button>
             <template #dropdown>
               <el-dropdown-menu>
+                <el-dropdown-item v-if="(sysRoles.includes('admin') || sysRoles.includes('worker')) && !row.status">
+                  <el-button type="text" :icon="Finished" style="color: #e6a23c" @click="handleControll(row)">
+                    处理
+                  </el-button>
+                </el-dropdown-item>
                 <el-dropdown-item>
                   <el-button type="text" :icon="Document" style="color: #606266" @click="handleLook(row)">
                     查看
@@ -34,11 +40,6 @@
                 </el-dropdown-item>
                 <el-dropdown-item v-if="sysUserName === row.create_user && !row.status">
                   <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
-                </el-dropdown-item>
-                <el-dropdown-item v-if="(sysRoles.includes('admin') || sysRoles.includes('worker')) && !row.status">
-                  <el-button type="text" :icon="Finished" style="color: #e6a23c" @click="handleControll(row)">
-                    处理
-                  </el-button>
                 </el-dropdown-item>
                 <el-dropdown-item v-if="sysUserName === row.create_user">
                   <el-button type="text" :icon="Delete" style="color: red" @click="handleDelete(row)">删除</el-button>
@@ -76,6 +77,12 @@
             <span v-if="dialogData.tree_name">重新选择</span>
             <span v-else>选择</span>
           </el-button>
+          <span v-if="!dialogType" class="input-text">
+            编号: {{ dialogData.tree_id }}
+            <el-icon style="color: #303133; cursor: pointer" @click="() => copyText(dialogData.tree_id)">
+              <copy-document />
+            </el-icon>
+          </span>
         </el-form-item>
         <el-form-item label="异常情况" prop="ab_condition" :rules="formRulesMixin.isNotNull">
           <el-input v-if="dialogType" v-model="dialogData.ab_condition" :rows="2" type="textarea"></el-input>
@@ -108,14 +115,24 @@
 </template>
 
 <script setup>
-import { Search, Switch, Plus, Edit, Delete, Document, MoreFilled, Finished } from '@element-plus/icons-vue'
-import { toRefs, reactive, onBeforeMount, getCurrentInstance } from 'vue'
-import { getAbnormalListReq, updateAbnormalReq, deleteAbnormalReq } from '@/api/abnormal'
+import {
+  Search,
+  Switch,
+  Plus,
+  Edit,
+  Delete,
+  Document,
+  MoreFilled,
+  Finished,
+  CopyDocument
+} from '@element-plus/icons-vue'
+import { toRefs, reactive, computed, onBeforeMount, getCurrentInstance } from 'vue'
+import { useStore } from 'vuex'
+import { ElMessage } from 'element-plus'
 import TtTable from '@/components/tt-components/table'
 import AbDialog from './dialog.vue'
 import CtrDialog from './dialog-controll.vue'
-import { computed } from 'vue'
-import { useStore } from 'vuex'
+import { getAbnormalListReq, updateAbnormalReq, deleteAbnormalReq } from '@/api/abnormal'
 let { proxy } = getCurrentInstance()
 const store = useStore()
 
@@ -298,6 +315,15 @@ const tagsOptions = (status) => {
 const timeOptions = (time) => {
   if (!time) return '时间不定'
   return `${time}天后`
+}
+
+// 复制文本
+const copyText = (text) => {
+  const input = proxy.$refs.inputCopy
+  input.value = text // 修改文本框的内容
+  input.select() // 选中文本
+  document.execCommand('copy') // 执行浏览器复制命令
+  ElMessage({ message: '复制成功', type: 'success' })
 }
 </script>
 
