@@ -33,6 +33,13 @@
                     处理
                   </el-button>
                 </el-dropdown-item>
+                <el-dropdown-item
+                  v-if="row.status == 'resolve' && (sysRealName == row.resolve_user || sysUserName == row.resolve_user)"
+                >
+                  <el-button type="text" :icon="Finished" style="color: #e6a23c" @click="handleControll(row, true)">
+                    调整
+                  </el-button>
+                </el-dropdown-item>
                 <el-dropdown-item>
                   <el-button type="text" :icon="Document" style="color: #606266" @click="handleLook(row)">
                     查看
@@ -61,7 +68,10 @@
           <span class="input-text">预计完成时间: {{ timeOptions(dialogData.expect_finish_time) }}</span>
         </span>
         <span v-if="dialogData.status == 'reject'" class="input-text">原因: {{ dialogData.reject_reason }}</span>
-        <span v-if="dialogData.status == 'finish'" class="input-text">完成时间: {{ dialogData.finish_time }}</span>
+        <span v-if="dialogData.status == 'finish'">
+          <span class="input-text">处理人: {{ dialogData.resolve_user }}</span>
+          <span class="input-text">{{ dialogData.finish_time }}</span>
+        </span>
       </template>
       <el-form v-if="visible" ref="dialogForm" :model="dialogData" label-width="80px">
         <el-form-item label="异常古树" prop="tree_name" :rules="formRulesMixin.isNotNull">
@@ -108,6 +118,7 @@
     <ctr-dialog
       v-model:visible="ctrVisible"
       :row-data="dialog.dialogData"
+      :is-controll="dialog.isControll"
       @submit="ctrSubmit"
       @before-close="beforeCtrClose"
     ></ctr-dialog>
@@ -138,6 +149,9 @@ const store = useStore()
 
 const sysUserName = computed(() => {
   return store.state.user.username
+})
+const sysRealName = computed(() => {
+  return store.state.user.realname
 })
 const sysRoles = computed(() => {
   return store.state.user.roles
@@ -173,6 +187,7 @@ const dialog = reactive({
   visible: false,
   abVisible: false,
   ctrVisible: false,
+  isControll: false,
   dialogData: {},
   dialogType: ''
 })
@@ -185,6 +200,7 @@ const beforeAbClose = () => {
 }
 const beforeCtrClose = () => {
   dialog.ctrVisible = false
+  dialog.isControll = false
 }
 /**
  * 选择档案
@@ -229,9 +245,10 @@ const handleEdit = (row) => {
 /**
  * 异常处理
  */
-const handleControll = (row) => {
+const handleControll = (row, isControll = false) => {
   dialog.dialogData = row
   dialog.ctrVisible = true
+  dialog.isControll = isControll
 }
 /**
  * 保存

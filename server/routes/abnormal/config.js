@@ -22,7 +22,7 @@ var abnormalControll = {
         let defaultSql = sql.getAbnormalList
         let token_name = await getUsername(req)
         let token_roles = await getUserRoles(req)
-        if (token_roles !== 'admin') {
+        if (token_roles !== 'admin' && token_roles !== 'worker') {
             req.body['create_user'] = undefined
             defaultSql += ` WHERE create_user='${token_name}'`
         }
@@ -33,6 +33,7 @@ var abnormalControll = {
                     result?.forEach(item => {
                         item.create_time = formatDate(item.create_time)
                         item.update_time = formatDate(item.update_time)
+                        item.finish_time = formatDate(item.finish_time)
                     })
                     return res.json({
                         code: 200,
@@ -60,7 +61,7 @@ var abnormalControll = {
         let { reqsql, insertData } = sqlAdd(req, res, 'abnormal_info')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addAbnormal', [], result => {
-                connection.query(sql.addAbTree, [insertData.listing])
+                connection.query(sql.setMarkerAb, [insertData.tree_id])
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: insertData,
@@ -119,12 +120,19 @@ var abnormalControll = {
             },
             finish: {
                 sql: sql.controllFinish,
-                params: [req.body.status, req.body.finish_time, req.body.id]
+                params: [req.body.status, req.body.id]
             },
+            change: {
+                sql: sql.controllChange,
+                params: [req.body.resolve_user, req.body.id]
+            }
         }
         let reqsql = statusOptions[req.body.status].sql
         let params = statusOptions[req.body.status].params
         pool.getConnection(function (err, connection) {
+            if (req.body.status == 'reject' || req.body.status == 'finish') {
+                connection.query(sql.setMarker, [req.body.tree_id])
+            }
             query(connection, reqsql, 'controllAbnormal', params, result => {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
@@ -151,7 +159,7 @@ var abnormalControll = {
         // }
         pool.getConnection(function (err, connection) {
             query(connection, sql.deleteAbnormal, 'deleteAbnormal', [req.query.id], result => {
-                connection.query(sql.deleteAbTree, [req.query.listing])
+                connection.query(sql.setMarker, [req.query.tree_id])
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',

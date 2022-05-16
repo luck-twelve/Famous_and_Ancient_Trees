@@ -2,13 +2,19 @@
   <div class="ctr-dialog">
     <el-dialog v-model="visible" title="异常处理" width="450px" :before-close="handleClose">
       <el-form v-if="visible" :model="state.formData" label-width="100px">
-        <el-form-item label="处理方式">
+        <el-form-item v-if="state.isControll" label="处理结果">
+          <el-radio-group v-model="state.radio">
+            <el-radio label="finish">已完成</el-radio>
+            <el-radio label="change">更换处理人</el-radio>
+          </el-radio-group>
+        </el-form-item>
+        <el-form-item v-else label="处理方式">
           <el-radio-group v-model="state.radio">
             <el-radio label="resolve">接受</el-radio>
             <el-radio label="reject">不予处理</el-radio>
           </el-radio-group>
         </el-form-item>
-        <el-form-item v-if="state.radio == 'resolve'" label="处理人员">
+        <el-form-item v-if="state.radio == 'resolve' || state.radio == 'change'" label="指派给">
           <span v-if="state.formData.resolve_user" style="padding: 0 10px">{{ state.formData.resolve_user }}</span>
           <el-button
             type="text"
@@ -72,6 +78,10 @@ const props = defineProps({
     default() {
       return {}
     }
+  },
+  isControll: {
+    type: Boolean,
+    default: false
   }
 })
 //导出属性到页面中使用
@@ -95,7 +105,7 @@ const handleClose = () => {
 }
 // 提交
 const handleCommit = () => {
-  if (state.radio == 'resolve' && !state.formData.resolve_user) {
+  if ((state.radio == 'resolve' || state.radio == 'change') && !state.formData.resolve_user) {
     ElMessage({ message: '请选择处理人员', type: 'warning' })
     return
   } else if (state.radio == 'reject' && !state.formData.reject_reason) {
@@ -105,6 +115,7 @@ const handleCommit = () => {
   controllAbnormalReq(
     Object.assign(state.formData, {
       id: state.rowData.id,
+      tree_id: state.rowData.tree_id,
       status: state.radio
     })
   ).then(({ data }) => {
@@ -124,6 +135,7 @@ const timeOptions = [
 
 watchEffect(() => {
   state.rowData = props.rowData
+  state.isControll = props.isControll
 })
 </script>
 

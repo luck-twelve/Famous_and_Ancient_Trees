@@ -83,9 +83,9 @@ const state = reactive({
 })
 
 // 获取表格列表
-const getTableList = () => {
+const getTableList = (params = {}) => {
   state.listLoading = true
-  getWorkerListReq().then(({ data }) => {
+  getWorkerListReq(params).then(({ data }) => {
     state.tableList = data
     state.listLoading = false
   })
@@ -97,7 +97,10 @@ const selectionChange = (val) => {
 }
 
 onBeforeMount(() => {
-  getTableList()
+  getTableList({
+    pageNum: 1,
+    pageSize: 5
+  })
 })
 
 const emit = defineEmits(['beforeClose', 'comfirm'])

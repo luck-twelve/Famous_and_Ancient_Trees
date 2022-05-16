@@ -8,11 +8,12 @@ var abnormalSqls = {
     getAbnormalNumberTM: `SELECT count(*) AS count FROM abnormal_info WHERE DATE_FORMAT(create_time, '%Y%m') = DATE_FORMAT(CURDATE( ), '%Y%m')`,
     getAbnormalNumberLM: `SELECT count(*) AS count FROM abnormal_info WHERE PERIOD_DIFF(date_format(now( ), '%Y%m'), DATE_FORMAT(create_time, '%Y%m')) = 1`,
 
-    addAbTree: `UPDATE archives_tree SET marker='marker_abnormal' WHERE listing=?`,
-    deleteAbTree: `UPDATE archives_tree SET marker='marker_normal' WHERE listing=?`,
+    setMarkerAb: `UPDATE archives_tree SET marker='marker_abnormal' WHERE id=?`,
+    setMarker: `UPDATE archives_tree SET marker='marker_normal' WHERE id=?`,
 
     controllResolve: `UPDATE abnormal_info SET status=?, resolve_user=?, expect_finish_time=? WHERE id=?`,
-    controllFinish: `UPDATE abnormal_info SET status=?, finish_time=? WHERE id=?`,
+    controllFinish: `UPDATE abnormal_info SET status=?, finish_time=now() WHERE id=?`,
     controllReject: `UPDATE abnormal_info SET status=?, reject_reason=? WHERE id=?`,
+    controllChange: `UPDATE abnormal_info SET status='resolve', resolve_user=? WHERE id=?`
 };
 module.exports = abnormalSqls;
