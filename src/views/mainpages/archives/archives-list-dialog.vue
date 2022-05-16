@@ -65,7 +65,7 @@ const handleVerifyClose = () => {
 const handleVerifySubmit = (val) => {
   emit('handleVerifyNo', {
     id: dialogInfo.data.id,
-    reson: val
+    reason: val
   })
   state.showVerify = false
 }
