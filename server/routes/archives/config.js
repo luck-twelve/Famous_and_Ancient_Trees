@@ -143,9 +143,9 @@ var archivesControll = {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: updatedData,
-                    msg: result?.affectedRows > 0 ? "保存成功" : '保存失败',
+                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
                     flag: result?.affectedRows > 0,
-                    showFlag: true
+                    showFlag: false
                 })
             })
         })
@@ -154,8 +154,8 @@ var archivesControll = {
         let reqsql = 'UPDATE archives_tree SET isShow=?'
         let reqParams = [req.body.isShow]
         if (req.body.reason) {
-            reqsql += ' ,reson=?'
-            reqParams.push(req.body.reson)
+            reqsql += ' ,reason=?'
+            reqParams.push(req.body.reason)
         }
         reqsql += ', update_user=? WHERE id=?'
         let token_name = await getUsername(req)
@@ -166,7 +166,7 @@ var archivesControll = {
                     code: result?.affectedRows > 0 ? 200 : -200,
                     msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
                     flag: result?.affectedRows > 0,
-                    showFlag: false
+                    showFlag: true
                 })
             })
         })
@@ -291,7 +291,7 @@ var archivesControll = {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: updatedData,
-                    msg: result?.affectedRows > 0 ? "保存成功" : '保存失败',
+                    msg: result?.affectedRows > 0 ? "修改成功" : '修改失败',
                     flag: result?.affectedRows > 0,
                     showFlag: true
                 })
