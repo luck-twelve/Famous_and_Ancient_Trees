@@ -1,11 +1,11 @@
 <template>
   <div class="verify-dialog">
     <el-dialog v-model="visible" title="驳回原因" width="500px" :before-close="handleClose">
-      <el-form v-if="visible" :model="form">
+      <el-form v-if="visible" :model="state.form">
         <el-row>
           <el-col :span="24">
             <el-form-item>
-              <el-input v-model="reason" type="textarea" :rows="4"></el-input>
+              <el-input v-model="state.form.reason" type="textarea" :rows="4"></el-input>
             </el-form-item>
           </el-col>
         </el-row>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { ref, toRefs } from 'vue'
+import { reactive, toRefs } from 'vue'
 import { ElMessage } from 'element-plus'
 
 const props = defineProps({
@@ -33,19 +33,22 @@ const props = defineProps({
 })
 const { visible } = toRefs(props)
 
-const reason = ref('')
+const state = reactive({
+  form: {}
+})
 
 const emit = defineEmits(['handleClose', 'handleSubmit'])
 
 const handleClose = () => {
+  state.form.reason = ''
   emit('handleClose')
 }
 const handleSubmit = () => {
-  if (!reason.value) {
-    ElMessage({ message: '请填写驳回原因', type: 'error' })
+  if (!state.form.reason) {
+    ElMessage({ message: '请填写驳回原因', type: 'warning' })
     return
   }
-  emit('handleSubmit', reason.value)
+  emit('handleSubmit', state.form.reason)
 }
 </script>
 
