@@ -117,10 +117,7 @@ const handleSearch = () => {
  */
 const state = reactive({
   list: {},
-  tableColumn: [
-    // { label: '编号', prop: 'id', minWidth: '260px' },
-    { label: '用户名', prop: 'username', width: '120px' }
-  ],
+  tableColumn: [{ label: '用户名', prop: 'username', width: '120px' }],
   listLoading: false
 })
 
