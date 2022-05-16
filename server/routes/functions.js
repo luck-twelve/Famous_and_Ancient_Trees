@@ -38,7 +38,7 @@ const actions = {
             sql += ' OR isShow=2'
         }
         let noLimit = sql
-        sql += ' LIMIT ?,?'
+        sql += ' ORDER BY create_time DESC LIMIT ?,?'
         let params = []
         let pageStart = ((data.pageNum - 1) * data.pageSize) || 0
         let pageEnd = parseInt(data.pageSize) || 10
