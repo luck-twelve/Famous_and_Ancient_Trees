@@ -24,7 +24,11 @@
         </el-form-item>
         <el-form-item label="经纬度:">({{ formData.longitude }}, {{ formData.latitude }})</el-form-item>
       </el-form>
-      <template #footer></template>
+      <template #footer>
+        <el-link :underline="false" type="danger" @click="state.sendMesVisible = true">
+          有异常？点击这里快速上报
+        </el-link>
+      </template>
     </el-dialog>
   </div>
   <el-button class="ab-btn" @click="handleStac">数据统计</el-button>
@@ -55,6 +59,7 @@
       <LSDV v-if="drawer"></LSDV>
     </el-drawer>
   </div>
+  <dialog-send :visible="state.sendMesVisible" @before-close="beforeClose" />
 </template>
 
 <script setup>
@@ -75,6 +80,7 @@ import { ref, onMounted, reactive, toRefs, provide, getCurrentInstance } from 'v
 import { ElMessage } from 'element-plus'
 import dayjs from 'dayjs'
 import LSDV from './LSDV/index.vue'
+import DialogSend from './dialog.vue'
 let { proxy } = getCurrentInstance()
 
 const drawer = ref(false)
@@ -84,11 +90,15 @@ const maps = reactive({
 
 const state = reactive({
   dialogVisible: false,
+  sendMesVisible: false,
   formData: {},
   nowTime: '',
   weather: {}
 })
 let { dialogVisible, formData, nowTime, weather } = toRefs(state)
+
+const beforeClose = () => [(state.sendMesVisible = false)]
+
 const weekEnum = {
   Mo: ' 星期一',
   Tu: ' 星期二',

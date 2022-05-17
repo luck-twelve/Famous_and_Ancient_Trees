@@ -28,7 +28,7 @@
             <el-button type="text" :icon="MoreFilled" style="color: #606266"></el-button>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item v-if="(sysRoles.includes('admin') || sysRoles.includes('worker')) && !row.status">
+                <el-dropdown-item v-if="sysRoles.includes('admin') && !row.status">
                   <el-button type="text" :icon="Finished" style="color: #e6a23c" @click="handleControll(row)">
                     处理
                   </el-button>

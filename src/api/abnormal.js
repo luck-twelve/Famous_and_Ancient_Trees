@@ -11,6 +11,12 @@ export function getAbnormalListReq(data) {
         method: 'post',
     })
 }
+export function getAbnormalCountReq() {
+    return request({
+        url: '/abnormal/getAbnormalCount',
+        method: 'get',
+    })
+}
 export function updateAbnormalReq(data) {
     let url = '/abnormal/updateAbnormal'
     let method = 'put'

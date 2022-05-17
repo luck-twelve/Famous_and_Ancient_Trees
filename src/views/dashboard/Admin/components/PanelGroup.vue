@@ -40,7 +40,7 @@
 import { reactive, onBeforeMount, getCurrentInstance } from 'vue'
 import { getUserListReq } from '@/api/user'
 import { getArchivesCountReq } from '@/api/archives'
-import { getAbnormalListReq } from '@/api/abnormal'
+import { getAbnormalCountReq } from '@/api/abnormal'
 import { computed } from 'vue'
 import { useStore } from 'vuex'
 const store = useStore()
@@ -74,8 +74,8 @@ const getCounts = () => {
   getArchivesCountReq().then(({ data }) => {
     state.datasource.archiveCount = data.data
   })
-  getAbnormalListReq().then(({ data }) => {
-    state.datasource.abnormalCount = data.total
+  getAbnormalCountReq().then(({ data }) => {
+    state.datasource.abnormalCount = data.data
   })
 }
 

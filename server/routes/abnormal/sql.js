@@ -5,6 +5,7 @@ var abnormalSqls = {
     deleteAbnormal: 'UPDATE abnormal_info SET isShow=99 WHERE id=?',
     getAbnormalListEM: `SELECT date_format(create_time, '%m-%d') as day, count(*) as count FROM abnormal_info WHERE isShow!=99 AND TO_DAYS(NOW()) - TO_DAYS(create_time) <= 30  GROUP BY day`,
 
+    getAbnormalCount: `SELECT count(*) AS count FROM abnormal_info WHERE status!='reject' AND status!='finish' AND isShow!=99`,
     getAbnormalNumberTM: `SELECT count(*) AS count FROM abnormal_info WHERE DATE_FORMAT(create_time, '%Y%m') = DATE_FORMAT(CURDATE( ), '%Y%m')`,
     getAbnormalNumberLM: `SELECT count(*) AS count FROM abnormal_info WHERE PERIOD_DIFF(date_format(now( ), '%Y%m'), DATE_FORMAT(create_time, '%Y%m')) = 1`,
 

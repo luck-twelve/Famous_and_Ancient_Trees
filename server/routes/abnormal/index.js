@@ -15,6 +15,11 @@ const abnormalApi = (router) => {
     router.post('/abnormal/getAbnormalList', function (req, res, next) {
         abnormalControll.getAbnormalList(req, res, next)
     })
+
+    router.get('/abnormal/getAbnormalCount', function (req, res, next) {
+        abnormalControll.getAbnormalCount(req, res, next)
+    })
+
     /**
      * @api {post} /api/abnormal/addAbnormal
      * @apiDescription 新增异常信息

@@ -46,6 +46,18 @@ var abnormalControll = {
             })
         })
     },
+    getAbnormalCount: async function (req, res, next) {
+        pool.getConnection(function (err, connection) {
+            query(connection, sql.getAbnormalCount, 'getAbnormalCount', [], function (result) {
+                return res.json({
+                    code: 200,
+                    msg: '查询成功',
+                    data: result[0].count,
+                    flag: true
+                })
+            })
+        })
+    },
     addAbnormal: async function (req, res, next) {
         let token_roles = await getUserRoles(req)
         if (!(token_roles === 'admin' || token_roles === 'worker')) {
