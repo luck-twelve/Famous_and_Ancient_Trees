@@ -73,7 +73,7 @@ var abnormalControll = {
         let { reqsql, insertData } = sqlAdd(req, res, 'abnormal_info')
         pool.getConnection(function (err, connection) {
             query(connection, reqsql, 'addAbnormal', [], result => {
-                connection.query(sql.setMarkerAb, [insertData.tree_id])
+                // connection.query(sql.setMarkerAb, [insertData.tree_id])
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: insertData,

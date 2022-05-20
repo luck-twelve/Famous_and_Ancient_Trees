@@ -59,7 +59,12 @@
       <LSDV v-if="drawer"></LSDV>
     </el-drawer>
   </div>
-  <dialog-send :visible="state.sendMesVisible" @before-close="beforeClose" />
+  <dialog-send
+    :visible="state.sendMesVisible"
+    :tree-info="state.formData"
+    @submit="submit"
+    @before-close="beforeClose"
+  />
 </template>
 
 <script setup>
@@ -97,6 +102,11 @@ const state = reactive({
 })
 let { dialogVisible, formData, nowTime, weather } = toRefs(state)
 
+const submit = () => {
+  state.dialogVisible = false
+  getMap()
+  beforeClose()
+}
 const beforeClose = () => [(state.sendMesVisible = false)]
 
 const weekEnum = {
@@ -116,7 +126,19 @@ setInterval(() => {
 const close = () => {
   drawer.value = false
 }
-onMounted(async () => {
+onMounted(() => {
+  getMap()
+  // 初始化天气
+  fetch('https://www.yiketianqi.com/free/day?appid=79875459&appsecret=jy5xrNDW&vue=1')
+    .then((res) => {
+      return res.json()
+    })
+    .then((res) => {
+      state.weather = res
+    })
+})
+
+const getMap = async () => {
   const map = new BMapGL.Map('container') // 创建地图实例
   let point = new BMapGL.Point(109.451, 34.956)
   map.centerAndZoom(point, 5) // 初始化地图，设置中心点坐标和地图级别
@@ -149,16 +171,7 @@ onMounted(async () => {
       map.addOverlay(marker)
     })
   }
-
-  // 初始化天气
-  fetch('https://www.yiketianqi.com/free/day?appid=79875459&appsecret=jy5xrNDW&vue=1')
-    .then((res) => {
-      return res.json()
-    })
-    .then((res) => {
-      state.weather = res
-    })
-})
+}
 
 provide('maps', maps)
 
