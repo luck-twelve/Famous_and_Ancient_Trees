@@ -214,7 +214,6 @@ const abSubmit = (val) => {
 
 // 提交处理后触发
 const ctrSubmit = () => {
-  beforeCtrClose()
   handleSearch()
 }
 

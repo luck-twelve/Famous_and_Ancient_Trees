@@ -98,9 +98,7 @@ const state = reactive({
 const emit = defineEmits(['beforeClose', 'submit'])
 const handleClose = () => {
   state.radio = ''
-  state.formData.resolve_user = ''
-  state.formData.expect_finish_time = ''
-  state.formData.reject_reason = ''
+  state.formData = {}
   emit('beforeClose')
 }
 // 提交
@@ -119,7 +117,7 @@ const handleCommit = () => {
       status: state.radio
     })
   ).then(({ data }) => {
-    console.log(data)
+    handleClose()
     emit('submit')
   })
 }

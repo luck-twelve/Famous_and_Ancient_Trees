@@ -59,15 +59,15 @@ var abnormalControll = {
         })
     },
     addAbnormal: async function (req, res, next) {
-        let token_roles = await getUserRoles(req)
-        if (!(token_roles === 'admin' || token_roles === 'worker')) {
-            return res.json({
-                code: -200,
-                msg: '操作失败，你没有此权限',
-                flag: false,
-                showFlag: true
-            })
-        }
+        // let token_roles = await getUserRoles(req)
+        // if (!(token_roles === 'admin' || token_roles === 'worker')) {
+        //     return res.json({
+        //         code: -200,
+        //         msg: '操作失败，你没有此权限',
+        //         flag: false,
+        //         showFlag: true
+        //     })
+        // }
         let token_name = await getUsername(req)
         req.body['create_user'] = token_name
         let { reqsql, insertData } = sqlAdd(req, res, 'abnormal_info')
@@ -77,7 +77,7 @@ var abnormalControll = {
                 return res.json({
                     code: result?.affectedRows > 0 ? 200 : -200,
                     data: insertData,
-                    msg: result?.affectedRows > 0 ? "操作成功" : '操作失败',
+                    msg: result?.affectedRows > 0 ? "反馈成功" : '反馈失败',
                     flag: result?.affectedRows > 0,
                     showFlag: true
                 })

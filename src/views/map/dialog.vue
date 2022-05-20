@@ -5,7 +5,7 @@
         <el-form-item label="异常情况" prop="ab_condition" :rules="formRulesMixin.isNotNull">
           <el-input v-model="state.formData.ab_condition" :rows="2" type="textarea" />
         </el-form-item>
-        <el-form-item label="造成原因" prop="reason">
+        <el-form-item label="可能原因" prop="reason">
           <el-input v-model="state.formData.reason" :rows="2" type="textarea" />
         </el-form-item>
         <el-form-item label="期望解决" prop="resolve">
