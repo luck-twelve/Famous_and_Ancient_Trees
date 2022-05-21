@@ -42,7 +42,7 @@ var getToken = function (token) {
             // }else{
             //     return false
             // }
-            console.log(info)
+            // console.log(info)
             resolve(info);  //解析返回的值（sign 传入的值）
         }
     })

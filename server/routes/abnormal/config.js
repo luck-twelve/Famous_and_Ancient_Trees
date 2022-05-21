@@ -142,6 +142,9 @@ var abnormalControll = {
         let reqsql = statusOptions[req.body.status].sql
         let params = statusOptions[req.body.status].params
         pool.getConnection(function (err, connection) {
+            if (req.body.status == 'resolve') {
+                connection.query(sql.setMarkerAb, [req.body.tree_id])
+            }
             if (req.body.status == 'reject' || req.body.status == 'finish') {
                 connection.query(sql.setMarker, [req.body.tree_id])
             }

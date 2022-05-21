@@ -48,7 +48,9 @@
                 <el-dropdown-item v-if="sysUserName === row.create_user && !row.status">
                   <el-button type="text" :icon="Edit" @click="handleEdit(row)">编辑</el-button>
                 </el-dropdown-item>
-                <el-dropdown-item v-if="sysUserName === row.create_user">
+                <el-dropdown-item
+                  v-if="(sysUserName === row.create_user || sysRoles.includes('admin')) && row.status != 'resolve'"
+                >
                   <el-button type="text" :icon="Delete" style="color: red" @click="handleDelete(row)">删除</el-button>
                 </el-dropdown-item>
               </el-dropdown-menu>
