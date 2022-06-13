@@ -165,7 +165,6 @@ const actions = {
         localTime = (new Date(inputTime - offset * 60000)).toISOString();
         localTime = localTime.substr(0, localTime.lastIndexOf('.'));
         localTime = localTime.replace('T', ' ');
-
         return localTime;
     },
     // 30天前的今天
